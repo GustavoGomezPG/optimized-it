@@ -170,13 +170,13 @@ $show_newsletter_strip = $show_newsletter && (!empty($newsletter_heading) || !em
         </div>
 
         <nav class="oit-footer__menus" aria-label="Footer navigation">
-          <div class="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-5 gap-x-6 gap-y-8 lg:gap-x-12">
+          <div class="flex flex-wrap items-start gap-6">
             <?php foreach ($menu_tree as $entry):
                 $item     = $entry['item'];
                 $children = $entry['children'];
             ?>
-              <div class="flex flex-col gap-2.5">
-                <h3 class="oit-font-grotesk font-medium text-[16px] leading-[1.4] uppercase text-white m-0">
+              <div class="flex flex-col gap-2.5 shrink-0">
+                <h3 class="oit-font-grotesk font-medium text-[16px] leading-[1.4] uppercase text-white whitespace-nowrap m-0">
                   <?php if (!empty($item->url) && $item->url !== '#'): ?>
                     <a href="<?php echo esc_url($item->url); ?>" class="no-underline text-white hover:text-[#D1001D] transition-colors">
                       <?php echo esc_html($item->title); ?>
@@ -190,7 +190,7 @@ $show_newsletter_strip = $show_newsletter && (!empty($newsletter_heading) || !em
                     <?php foreach ($children as $child): ?>
                       <li>
                         <a href="<?php echo esc_url($child->url ?? '#'); ?>"
-                          class="oit-footer__link no-underline oit-font-dm font-medium text-[16px] leading-[1.5] text-white hover:text-[#D1001D] transition-colors">
+                          class="oit-footer__link no-underline oit-font-dm font-medium text-[16px] leading-[1.5] text-white whitespace-nowrap hover:text-[#D1001D] transition-colors">
                           <?php echo esc_html($child->title); ?>
                         </a>
                       </li>
