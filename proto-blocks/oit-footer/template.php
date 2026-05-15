@@ -129,19 +129,21 @@ $show_newsletter_strip = $show_newsletter && (!empty($newsletter_heading) || !em
 
       <div class="grid grid-cols-1 lg:grid-cols-[max-content_1fr] gap-12 lg:gap-[80px]">
         <div class="flex flex-col gap-6 lg:max-w-[329px]">
-          <a href="<?php echo esc_url(home_url('/')); ?>" class="no-underline self-start" aria-label="<?php echo esc_attr(get_bloginfo('name')); ?>">
-            <?php if (!empty($logo['url'])): ?>
-              <img data-proto-field="logo" src="<?php echo esc_url($logo['url']); ?>" alt="<?php echo esc_attr($logo['alt'] ?? get_bloginfo('name')); ?>" class="h-[73px] w-auto" />
-            <?php else: ?>
-              <img data-proto-field="logo" src="" alt="Logo" class="h-[73px] w-auto" />
-            <?php endif; ?>
-          </a>
+          <div class="flex flex-col gap-2">
+            <a href="<?php echo esc_url(home_url('/')); ?>" class="no-underline self-start" aria-label="<?php echo esc_attr(get_bloginfo('name')); ?>">
+              <?php if (!empty($logo['url'])): ?>
+                <img data-proto-field="logo" src="<?php echo esc_url($logo['url']); ?>" alt="<?php echo esc_attr($logo['alt'] ?? get_bloginfo('name')); ?>" class="h-[73px] w-auto" />
+              <?php else: ?>
+                <img data-proto-field="logo" src="" alt="Logo" class="h-[73px] w-auto" />
+              <?php endif; ?>
+            </a>
 
-          <?php if (!empty($tagline)): ?>
-            <p class="oit-font-dm font-medium text-[14px] leading-[1.5] m-0">
-              <?php echo esc_html($tagline); ?>
-            </p>
-          <?php endif; ?>
+            <?php if (!empty($tagline)): ?>
+              <p class="oit-font-dm font-medium text-[14px] leading-[1.5] m-0">
+                <?php echo esc_html($tagline); ?>
+              </p>
+            <?php endif; ?>
+          </div>
 
           <a href="<?php echo esc_url($cta_button['url'] ?? '#'); ?>"
             <?php echo !empty($cta_button['target']) ? 'target="' . esc_attr($cta_button['target']) . '"' : ''; ?>
