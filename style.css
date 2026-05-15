@@ -14,7 +14,7 @@ Text Domain: optimizedit
 Tags:
 */
 
-@import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500&family=Space+Grotesk:wght@500&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500&family=Space+Grotesk:wght@500&display=swap");
 
 /* Brand fonts:
    - Space Grotesk -- nav, buttons, link-style text (used via .oit-font-grotesk).
@@ -24,12 +24,22 @@ Tags:
                        of the browser's serif fallback. */
 html,
 body {
-  font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+  font-family: "DM Sans", ui-sans-serif, system-ui, sans-serif;
 }
 
-.oit-font-grotesk { font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif; }
-.oit-font-dm      { font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif; }
-</content>
-</invoke>
-<invoke name="mcp__claude-in-chrome__browser_batch">
-<parameter name="actions">[{"name": "navigate", "input": {"url": "http://optimizedit.local/?nocache=22", "tabId": 1416824659}}, {"name": "javascript_tool", "input": {"action": "javascript_exec", "tabId": 1416824659, "text": "const navA = document.querySelector('.oit-nav__link'); const outsideA = document.querySelector('p.wp-block-post-terms a, .wp-block-post-date a'); ({navInsideBlock: navA && getComputedStyle(navA).textDecorationLine, outsideBlock: outsideA && getComputedStyle(outsideA).textDecorationLine});"}}, {"name": "computer", "input": {"action": "screenshot", "tabId": 1416824659}}]
+.oit-font-grotesk {
+  font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+}
+.oit-font-dm {
+  font-family: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Newsletter Plugin (Stefano Lissa) form layout overrides. */
+div.tnp-subscription,
+form.tnp-subscription,
+form.tnp-profile {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  gap: 1rem;
+}
