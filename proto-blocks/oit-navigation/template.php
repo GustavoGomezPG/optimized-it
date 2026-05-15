@@ -7,10 +7,16 @@
  * @var WP_Block|null $block
  */
 
-$logo = $attributes['logo'] ?? [];
-$cta_button = $attributes['ctaButton'] ?? ['url' => '#', 'text' => 'SCHEDULE A CONSULTATION'];
+$logo         = $attributes['logo'] ?? [];
+$cta_button   = $attributes['ctaButton'] ?? ['url' => '#', 'text' => 'SCHEDULE A CONSULTATION'];
 $phone_number = $attributes['phoneNumber'] ?? '';
-$social_links = $attributes['socialLinks'] ?? [];
+
+$social_links = array_values(array_filter([
+    ['platform' => 'linkedin', 'url' => $attributes['linkedinUrl'] ?? ''],
+    ['platform' => 'facebook', 'url' => $attributes['facebookUrl'] ?? ''],
+    ['platform' => 'youtube',  'url' => $attributes['youtubeUrl']  ?? ''],
+    ['platform' => 'x',        'url' => $attributes['xUrl']        ?? ''],
+], fn($s) => !empty($s['url'])));
 
 $menu_location = $attributes['menuLocation'] ?? 'primary';
 $show_cta = $attributes['showCta'] ?? true;
@@ -246,19 +252,19 @@ if (!function_exists('oit_nav_social_icon')) {
                 <path
                   d="M16.1 12.4v2.1c0 1-.8 1.8-1.8 1.7-3.6-.4-7-1.7-9.8-3.9-2.6-2-4.7-4.8-6-7.8-.6-1.4-.6-3 .1-4.4.3-.6.9-1 1.6-1H2c.8 0 1.5.6 1.6 1.4.1.7.3 1.4.6 2 .3.7.1 1.5-.4 2L2.8 5.6c1.4 2.6 3.5 4.7 6.1 6.1l1-1c.5-.5 1.3-.7 2-.4.6.3 1.3.5 2 .6.8.1 1.4.8 1.4 1.6Z" />
               </svg>
-              <span data-proto-field="phoneNumber"><?php echo esc_html($phone_number); ?></span>
+              <span><?php echo esc_html($phone_number); ?></span>
             </a>
             <?php endif; ?>
 
             <?php if ($show_social && !empty($social_links)): ?>
-            <div class="flex items-center gap-3" data-proto-repeater="socialLinks">
+            <div class="flex items-center gap-3">
               <?php foreach ($social_links as $social):
                     $platform = $social['platform'] ?? '';
                     $url = $social['url'] ?? '#';
                     ?>
               <a href="<?php echo esc_url($url); ?>" target="_blank" rel="noopener noreferrer"
                 class="no-underline text-white hover:text-[#E00523] transition-colors"
-                aria-label="<?php echo esc_attr(ucfirst($platform)); ?>" data-proto-repeater-item>
+                aria-label="<?php echo esc_attr(ucfirst($platform)); ?>">
                 <?php echo oit_nav_social_icon($platform); ?>
               </a>
               <?php endforeach; ?>

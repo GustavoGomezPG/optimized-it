@@ -28,29 +28,6 @@
         "type": "link",
         "label": "CTA Button",
         "tagName": "a"
-      },
-      "phoneNumber": {
-        "type": "text",
-        "label": "Phone Number",
-        "tagName": "span"
-      },
-      "socialLinks": {
-        "type": "repeater",
-        "label": "Social Links",
-        "min": 0,
-        "max": 6,
-        "itemLabel": "platform",
-        "collapsible": true,
-        "fields": {
-          "platform": {
-            "type": "text",
-            "label": "Platform (linkedin, facebook, youtube, x)"
-          },
-          "url": {
-            "type": "text",
-            "label": "URL"
-          }
-        }
       }
     },
     "controls": {
@@ -71,10 +48,31 @@
         "default": false,
         "help": "Adds a \"View All\" link at the bottom of each dropdown that points to the parent menu item's URL."
       },
+      "phoneNumber": {
+        "type": "text",
+        "label": "Phone Number",
+        "help": "Displayed in the mobile menu. Example: 888.308.6689"
+      },
       "showPhone": {
         "type": "toggle",
         "label": "Show Phone in Mobile Menu",
         "default": true
+      },
+      "linkedinUrl": {
+        "type": "text",
+        "label": "LinkedIn URL"
+      },
+      "facebookUrl": {
+        "type": "text",
+        "label": "Facebook URL"
+      },
+      "youtubeUrl": {
+        "type": "text",
+        "label": "YouTube URL"
+      },
+      "xUrl": {
+        "type": "text",
+        "label": "X / Twitter URL"
       },
       "showSocial": {
         "type": "toggle",
