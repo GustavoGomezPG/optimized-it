@@ -1,0 +1,40 @@
+/* Newsletter form shortcode output: try to look at home inside the slate
+   pill regardless of which plugin renders it. The plugin's own stylesheet
+   still wins on specificity, this just normalizes the obvious offenders. */
+
+.oit-footer__newsletter-form form {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 12px;
+  margin: 0;
+}
+
+.oit-footer__newsletter-form input[type="text"],
+.oit-footer__newsletter-form input[type="email"] {
+  flex: 1 1 180px;
+  min-width: 0;
+  padding: 10px 20px;
+  border-radius: 90px;
+  border: 0;
+  background: #FFFFFF;
+  color: #1A0303;
+  font: inherit;
+}
+
+.oit-footer__newsletter-form button,
+.oit-footer__newsletter-form input[type="submit"] {
+  padding: 10px 20px;
+  border-radius: 90px;
+  border: 0;
+  background: #E00523;
+  color: #FFFFFF;
+  font: inherit;
+  text-transform: uppercase;
+  cursor: pointer;
+}
+
+.oit-footer__newsletter-form button:hover,
+.oit-footer__newsletter-form input[type="submit"]:hover {
+  background: #B8001D;
+}

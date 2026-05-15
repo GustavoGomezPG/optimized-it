@@ -1,0 +1,77 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-footer",
+  "version": "1.0.0",
+  "title": "OIT Footer",
+  "category": "optimizedit",
+  "icon": "menu-alt3",
+  "description": "Site footer: newsletter signup, brand column, WP menu columns, socials and copyright.",
+  "keywords": ["footer", "site", "menu", "oit", "newsletter"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true,
+    "align": ["wide", "full"]
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {
+      "logo": {
+        "type": "image",
+        "label": "Logo",
+        "sizes": ["medium", "full"]
+      },
+      "ctaButton": {
+        "type": "link",
+        "label": "CTA Button",
+        "tagName": "a"
+      }
+    },
+    "controls": {
+      "menuLocation": {
+        "type": "text",
+        "label": "WP Footer Menu Location",
+        "default": "footer",
+        "help": "Theme-registered nav menu location slug. Each top-level menu item becomes a column title, each child becomes a row."
+      },
+      "showNewsletter": {
+        "type": "toggle",
+        "label": "Show Newsletter Strip",
+        "default": true
+      },
+      "newsletterHeading": {
+        "type": "text",
+        "label": "Newsletter Heading",
+        "default": "STAY CONNECTED WITH US"
+      },
+      "newsletterShortcode": {
+        "type": "textarea",
+        "label": "Newsletter Form Shortcode",
+        "help": "Paste the shortcode from your newsletter plugin (e.g. [newsletter_form] for The Newsletter Plugin, or [mc4wp_form id=\"123\"] for Mailchimp for WP)."
+      },
+      "tagline": {
+        "type": "textarea",
+        "label": "Tagline",
+        "default": "Optimized IT is a part of the Modern Office Methods family of companies."
+      },
+      "phoneNumber": {
+        "type": "text",
+        "label": "Phone Number",
+        "help": "Example: 888.308.6689"
+      },
+      "linkedinUrl": { "type": "text", "label": "LinkedIn URL" },
+      "facebookUrl": { "type": "text", "label": "Facebook URL" },
+      "youtubeUrl": { "type": "text", "label": "YouTube URL" },
+      "instagramUrl": { "type": "text", "label": "Instagram URL" },
+      "xUrl": { "type": "text", "label": "X / Twitter URL" },
+      "copyrightText": {
+        "type": "textarea",
+        "label": "Bottom Line",
+        "default": "Copyright info here, privacy policy, sitemap links"
+      }
+    }
+  }
+}

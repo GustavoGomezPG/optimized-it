@@ -12,10 +12,11 @@ $cta_button   = $attributes['ctaButton'] ?? ['url' => '#', 'text' => 'SCHEDULE A
 $phone_number = $attributes['phoneNumber'] ?? '';
 
 $social_links = array_values(array_filter([
-    ['platform' => 'linkedin', 'url' => $attributes['linkedinUrl'] ?? ''],
-    ['platform' => 'facebook', 'url' => $attributes['facebookUrl'] ?? ''],
-    ['platform' => 'youtube',  'url' => $attributes['youtubeUrl']  ?? ''],
-    ['platform' => 'x',        'url' => $attributes['xUrl']        ?? ''],
+    ['platform' => 'linkedin',  'url' => $attributes['linkedinUrl']  ?? ''],
+    ['platform' => 'facebook',  'url' => $attributes['facebookUrl']  ?? ''],
+    ['platform' => 'youtube',   'url' => $attributes['youtubeUrl']   ?? ''],
+    ['platform' => 'instagram', 'url' => $attributes['instagramUrl'] ?? ''],
+    ['platform' => 'x',         'url' => $attributes['xUrl']         ?? ''],
 ], fn($s) => !empty($s['url'])));
 
 $menu_location = $attributes['menuLocation'] ?? 'primary';
@@ -85,25 +86,8 @@ $chevron_down = '<svg class="oit-chevron w-[14px] h-[9px] transition-transform" 
 $chevron_right = '<svg class="w-[8px] h-[14px]" viewBox="0 0 11 18" fill="none" aria-hidden="true"><path d="M1 1L9 9L1 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 $cta_arrow = '<svg class="w-[10px] h-[10px]" viewBox="0 0 12 13" fill="none" aria-hidden="true"><path d="M1 6.5H11M11 6.5L6 1.5M11 6.5L6 11.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 
-if (!function_exists('oit_nav_social_icon')) {
-  function oit_nav_social_icon($platform)
-  {
-    $platform = strtolower(trim((string) $platform));
-    switch ($platform) {
-      case 'linkedin':
-        return '<svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.45 20.45h-3.55v-5.57c0-1.33-.03-3.04-1.86-3.04-1.86 0-2.14 1.45-2.14 2.95v5.66H9.35V9h3.41v1.56h.05a3.74 3.74 0 0 1 3.37-1.85c3.6 0 4.27 2.37 4.27 5.45v6.29ZM5.34 7.43a2.06 2.06 0 1 1 0-4.11 2.06 2.06 0 0 1 0 4.11Zm1.78 13.02H3.56V9h3.56v11.45ZM22.22 0H1.77C.79 0 0 .77 0 1.72v20.56C0 23.23.79 24 1.77 24h20.45c.98 0 1.78-.77 1.78-1.72V1.72C24 .77 23.2 0 22.22 0Z"/></svg>';
-      case 'facebook':
-        return '<svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M24 12a12 12 0 1 0-13.88 11.85v-8.39H7.08V12h3.04V9.36c0-3 1.79-4.67 4.53-4.67 1.31 0 2.69.24 2.69.24v2.96h-1.52c-1.49 0-1.96.93-1.96 1.88V12h3.33l-.53 3.47h-2.8v8.39A12 12 0 0 0 24 12Z"/></svg>';
-      case 'youtube':
-        return '<svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M23.5 6.2a3 3 0 0 0-2.12-2.13C19.5 3.55 12 3.55 12 3.55s-7.5 0-9.38.52A3 3 0 0 0 .5 6.2 31.4 31.4 0 0 0 0 12a31.4 31.4 0 0 0 .5 5.8 3 3 0 0 0 2.12 2.13C4.5 20.45 12 20.45 12 20.45s7.5 0 9.38-.52a3 3 0 0 0 2.12-2.13A31.4 31.4 0 0 0 24 12a31.4 31.4 0 0 0-.5-5.8ZM9.55 15.57V8.43L15.82 12l-6.27 3.57Z"/></svg>';
-      case 'x':
-      case 'twitter':
-        return '<svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 1.16h3.68l-8.03 9.17L24 22.85h-7.4l-5.79-7.57-6.63 7.57H.5l8.59-9.81L0 1.16h7.58l5.23 6.92 6.09-6.92Zm-1.29 19.5h2.04L6.49 3.24H4.3L17.6 20.65Z"/></svg>';
-      default:
-        return '<svg class="w-5 h-5" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><circle cx="12" cy="12" r="10"/></svg>';
-    }
-  }
-}
+// Social icon SVGs are provided by the theme-global helper oit_social_icon()
+// declared in functions.php (also includes Instagram, shared with the footer).
 ?>
 
 <div <?php echo $wrapper_attributes; ?>>
@@ -265,7 +249,7 @@ if (!function_exists('oit_nav_social_icon')) {
               <a href="<?php echo esc_url($url); ?>" target="_blank" rel="noopener noreferrer"
                 class="no-underline text-white hover:text-[#E00523] transition-colors"
                 aria-label="<?php echo esc_attr(ucfirst($platform)); ?>">
-                <?php echo oit_nav_social_icon($platform); ?>
+                <?php echo oit_social_icon($platform); ?>
               </a>
               <?php endforeach; ?>
             </div>

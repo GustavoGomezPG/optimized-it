@@ -70,6 +70,10 @@
         "type": "text",
         "label": "YouTube URL"
       },
+      "instagramUrl": {
+        "type": "text",
+        "label": "Instagram URL"
+      },
       "xUrl": {
         "type": "text",
         "label": "X / Twitter URL"
