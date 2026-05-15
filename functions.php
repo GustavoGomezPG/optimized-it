@@ -50,9 +50,11 @@ add_action('enqueue_block_assets', function () {
  * (versions pinned, no CDN dependency at runtime). They expose globals on
  * window so block-level `view.js` files can use them directly:
  *
- *   GSAP   -> window.gsap
- *   Lottie -> window.lottie
- *   Lenis  -> window.Lenis (constructor)
+ *   GSAP      -> window.gsap
+ *   SplitText -> window.SplitText  (call gsap.registerPlugin(SplitText) once
+ *                                   in your code before using it)
+ *   Lottie    -> window.lottie
+ *   Lenis     -> window.Lenis      (constructor)
  *
  * Refresh the version pin by re-downloading the file and bumping the
  * constant -- the cache buster uses filemtime() so any local change
@@ -64,9 +66,10 @@ add_action('wp_enqueue_scripts', function () {
     $scripts_url = get_stylesheet_directory_uri() . '/scripts';
 
     $libs = [
-        'gsap'   => ['file' => 'gsap.min.js',   'version' => '3.12.7'],
-        'lottie' => ['file' => 'lottie.min.js', 'version' => '5.12.2'],
-        'lenis'  => ['file' => 'lenis.min.js',  'version' => '1.1.13'],
+        'gsap'       => ['file' => 'gsap.min.js',      'version' => '3.15.0', 'deps' => []],
+        'split-text' => ['file' => 'SplitText.min.js', 'version' => '3.15.0', 'deps' => ['optimizedit-gsap']],
+        'lottie'     => ['file' => 'lottie.min.js',    'version' => '5.12.2', 'deps' => []],
+        'lenis'      => ['file' => 'lenis.min.js',     'version' => '1.1.13', 'deps' => []],
     ];
 
     foreach ($libs as $handle => $lib) {
@@ -77,7 +80,7 @@ add_action('wp_enqueue_scripts', function () {
         wp_enqueue_script(
             'optimizedit-' . $handle,
             $scripts_url . '/' . $lib['file'],
-            [],
+            $lib['deps'],
             $lib['version'] . '.' . filemtime($path),
             true  // load in footer
         );
