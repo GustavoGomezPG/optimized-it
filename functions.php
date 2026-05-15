@@ -70,6 +70,9 @@ add_action('wp_enqueue_scripts', function () {
         'split-text' => ['file' => 'SplitText.min.js', 'version' => '3.15.0', 'deps' => ['optimizedit-gsap']],
         'lottie'     => ['file' => 'lottie.min.js',    'version' => '5.12.2', 'deps' => []],
         'lenis'      => ['file' => 'lenis.min.js',     'version' => '1.1.13', 'deps' => []],
+        // Theme-owned setup + features (no pinned version -- filemtime alone busts cache).
+        'init'       => ['file' => 'oit-init.js',      'version' => '1.0.0',  'deps' => ['optimizedit-lenis']],
+        'intro'      => ['file' => 'oit-intro.js',     'version' => '1.0.0',  'deps' => ['optimizedit-init', 'optimizedit-lottie']],
     ];
 
     foreach ($libs as $handle => $lib) {
@@ -85,6 +88,63 @@ add_action('wp_enqueue_scripts', function () {
             true  // load in footer
         );
     }
+});
+
+/**
+ * Once-per-session intro screen ("preloader").
+ *
+ * Three pieces:
+ *
+ * 1. An early inline <script> in <head> that synchronously checks
+ *    sessionStorage('introShown'). If the user has already seen the
+ *    intro this session it adds an `oit-intro-skip` class to <html>.
+ *    The matching CSS rule sets `.oit-intro-skip .oit-intro { display:none }`
+ *    so the overlay never paints on repeat navigations.
+ *
+ * 2. A <div class="oit-intro"> markup block injected at wp_body_open
+ *    (the very top of <body>). It references the theme's Lottie file at
+ *    assets/lottie/intro.json via a data attribute -- if the file is
+ *    missing the data attribute is omitted and oit-intro.js falls back
+ *    to a short timed fade.
+ *
+ * 3. <noscript> fallback that hides the overlay if JS is disabled, so
+ *    the page is still usable without animation.
+ *
+ * The actual play / fade-out / Lenis stop+start logic lives in
+ * scripts/oit-intro.js.
+ */
+add_action('wp_head', function () {
+    if (is_admin()) {
+        return;
+    }
+    ?>
+    <script>
+    (function () {
+        try {
+            if (sessionStorage.getItem('introShown') === 'true') {
+                document.documentElement.classList.add('oit-intro-skip');
+            }
+        } catch (e) {}
+    })();
+    </script>
+    <noscript><style>.oit-intro{display:none !important;}</style></noscript>
+    <?php
+}, 1);
+
+add_action('wp_body_open', function () {
+    if (is_admin()) {
+        return;
+    }
+    $lottie_path = get_stylesheet_directory() . '/assets/lottie/intro.json';
+    $lottie_url  = get_stylesheet_directory_uri() . '/assets/lottie/intro.json';
+    $data_attr   = file_exists($lottie_path)
+        ? ' data-lottie-url="' . esc_url($lottie_url) . '"'
+        : '';
+    ?>
+    <div class="oit-intro"<?php echo $data_attr; ?> aria-hidden="true" role="presentation">
+        <div class="oit-intro__lottie"></div>
+    </div>
+    <?php
 });
 
 /**

@@ -37,3 +37,43 @@ form.tnp-profile {
   max-width: 100% !important;
   gap: 1rem;
 }
+
+/* Intro screen overlay (preloader, once per session) ----------------------
+   Rendered by wp_body_open in functions.php. The matching JS lives in
+   scripts/oit-intro.js. The early inline script in <head> sets the
+   .oit-intro-skip class on <html> when sessionStorage('introShown') is
+   already 'true', which lets us hide the overlay before its first paint
+   on repeat navigations -- no flash. */
+
+.oit-intro {
+  position: fixed;
+  inset: 0;
+  z-index: 9999;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: var(--color-black, #1a0303);
+  opacity: 1;
+  transition: opacity 600ms ease-out;
+  will-change: opacity;
+}
+
+.oit-intro.is-fading {
+  opacity: 0;
+  pointer-events: none;
+}
+
+.oit-intro__lottie {
+  width: 320px;
+  height: 320px;
+  max-width: 60vw;
+  max-height: 60vh;
+}
+
+html.oit-intro-active body {
+  overflow: hidden;
+}
+
+html.oit-intro-skip .oit-intro {
+  display: none !important;
+}
