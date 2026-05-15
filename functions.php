@@ -73,6 +73,7 @@ add_action('wp_enqueue_scripts', function () {
         // Theme-owned setup + features (no pinned version -- filemtime alone busts cache).
         'init'       => ['file' => 'oit-init.js',      'version' => '1.0.0',  'deps' => ['optimizedit-lenis']],
         'intro'      => ['file' => 'oit-intro.js',     'version' => '1.0.0',  'deps' => ['optimizedit-init', 'optimizedit-lottie']],
+        'nav-anim'   => ['file' => 'oit-nav-animation.js', 'version' => '1.0.0', 'deps' => ['optimizedit-gsap', 'optimizedit-init']],
     ];
 
     foreach ($libs as $handle => $lib) {
@@ -123,6 +124,8 @@ add_action('wp_head', function () {
         try {
             if (sessionStorage.getItem('introShown') === 'true') {
                 document.documentElement.classList.add('oit-intro-skip');
+            } else {
+                document.documentElement.classList.add('oit-intro-pending');
             }
         } catch (e) {}
     })();

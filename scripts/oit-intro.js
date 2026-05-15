@@ -40,6 +40,10 @@
 
     intro.classList.add('is-fading');
 
+    // Notify the rest of the site (eg. nav reveal) the moment the intro
+    // hands control back. Fired exactly once per fresh session.
+    document.dispatchEvent(new CustomEvent('oit:intro-complete', { bubbles: true }));
+
     window.setTimeout(function () {
       intro.parentNode && intro.parentNode.removeChild(intro);
       html.classList.remove('oit-intro-active');

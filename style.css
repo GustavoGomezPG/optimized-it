@@ -78,3 +78,11 @@ html.oit-intro-active body {
 html.oit-intro-skip .oit-intro {
   display: none !important;
 }
+
+/* While the intro is still pending its first play this session, keep the
+   nav shell hidden so it doesn't paint a flicker before GSAP runs the
+   reveal timeline. scripts/oit-nav-animation.js strips this class when
+   it picks up the `oit:intro-complete` event. */
+html.oit-intro-pending .oit-nav__shell {
+  opacity: 0;
+}
