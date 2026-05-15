@@ -21,6 +21,7 @@
    * --------------------------------------------------------- */
 
   --color-brand-red: #D1001D;     /* Primary brand red                          */
+  --color-brand-red-700: #A0001A; /* Brand red hover / pressed                  */
   --color-cta-red:   #E00523;     /* Slightly hotter red used on CTAs / glow    */
   --color-cta-red-700: #B8001D;   /* CTA hover / pressed                        */
 

@@ -27,13 +27,6 @@ body {
   font-family: "DM Sans", ui-sans-serif, system-ui, sans-serif;
 }
 
-.oit-font-grotesk {
-  font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
-}
-.oit-font-dm {
-  font-family: "DM Sans", ui-sans-serif, system-ui, sans-serif;
-}
-
 /* Newsletter Plugin (Stefano Lissa) form layout overrides. */
 div.tnp-subscription,
 form.tnp-subscription,

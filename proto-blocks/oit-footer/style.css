@@ -17,8 +17,8 @@
   padding: 10px 20px;
   border-radius: 90px;
   border: 0;
-  background: #FFFFFF;
-  color: #1A0303;
+  background: var(--color-white, #FFFFFF);
+  color: var(--color-black, #1A0303);
   font: inherit;
 }
 
@@ -37,8 +37,8 @@
 
   border: 0 !important;
   border-radius: 90px !important;
-  background-color: #E00523 !important;
-  color: #FFFFFF !important;
+  background-color: var(--color-cta-red, #E00523) !important;
+  color: var(--color-white, #FFFFFF) !important;
   cursor: pointer;
   transition: background-color 220ms ease;
 
@@ -66,5 +66,5 @@
 .oit-footer__newsletter-form button:focus-visible,
 .oit-footer__newsletter-form input[type="submit"]:focus-visible,
 .oit-footer__newsletter-form .tnp-submit:focus-visible {
-  background-color: #B8001D !important;
+  background-color: var(--color-cta-red-700, #B8001D) !important;
 }

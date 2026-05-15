@@ -92,7 +92,7 @@ $cta_arrow = '<svg class="w-[10px] h-[10px]" viewBox="0 0 12 13" fill="none" ari
 
 <div <?php echo $wrapper_attributes; ?>>
   <div
-    class="oit-nav__shell bg-[#1A0303] text-white rounded-[24px] max-w-[1360px] mx-auto shadow-[0_38px_41.5px_rgba(224,5,35,0.10),0_151px_75.5px_rgba(224,5,35,0.09),0_341px_102px_rgba(224,5,35,0.05),0_605px_121px_rgba(224,5,35,0.01)]">
+    class="oit-nav__shell bg-black text-white rounded-[24px] max-w-[1360px] mx-auto shadow-red-glow">
     <nav id="<?php echo esc_attr($nav_id); ?>" class="oit-nav flex items-center justify-between gap-6 px-6 py-4 lg:py-5"
       aria-label="Main navigation">
 
@@ -114,7 +114,7 @@ $cta_arrow = '<svg class="w-[10px] h-[10px]" viewBox="0 0 12 13" fill="none" ari
           ?>
         <li class="oit-nav__item group/item relative<?php echo $has_children ? ' has-submenu' : ''; ?>">
           <a href="<?php echo esc_url($item->url ?? '#'); ?>"
-            class="oit-nav__link group/link no-underline flex items-center gap-2 text-white oit-font-grotesk font-medium text-[16px] leading-[1.3] uppercase hover:text-[#E00523] transition-colors py-2"
+            class="oit-nav__link group/link no-underline flex items-center gap-2 text-white font-grotesk font-medium text-[16px] leading-[1.3] uppercase hover:text-cta-red transition-colors py-2"
             <?php echo $has_children ? 'aria-haspopup="true" aria-expanded="false"' : ''; ?>>
             <span><?php echo esc_html($item->title); ?></span>
             <?php if ($has_children): ?>
@@ -124,16 +124,16 @@ $cta_arrow = '<svg class="w-[10px] h-[10px]" viewBox="0 0 12 13" fill="none" ari
           <?php if ($has_children): ?>
           <div class="oit-nav__submenu-wrap absolute top-full left-0 pt-2 hidden group-hover/item:block focus-within:block">
             <div
-              class="oit-nav__submenu bg-[#1A0303] rounded-[16px] py-5 px-6 flex flex-col gap-4 min-w-[220px] shadow-[0_38px_42px_-10px_rgba(224,5,35,0.15)]">
+              class="oit-nav__submenu bg-black rounded-[16px] py-5 px-6 flex flex-col gap-4 min-w-[220px] shadow-[0_38px_42px_-10px_rgba(224,5,35,0.15)]">
               <?php foreach ($children as $child): ?>
               <a href="<?php echo esc_url($child->url ?? '#'); ?>"
-                class="oit-nav__sublink relative self-start no-underline text-white oit-font-dm font-medium text-[16px] leading-[1.5] whitespace-nowrap">
+                class="oit-nav__sublink relative self-start no-underline text-white font-dm font-medium text-[16px] leading-[1.5] whitespace-nowrap">
                 <?php echo esc_html($child->title); ?>
               </a>
               <?php endforeach; ?>
               <?php if ($show_view_all): ?>
               <a href="<?php echo esc_url($item->url ?? '#'); ?>"
-                class="oit-nav__view-all no-underline mt-1 inline-flex items-center gap-2 text-white oit-font-dm font-medium text-[16px] leading-[1.5] border-b-2 border-[#D1001D] pb-1 self-start hover:text-[#E00523] transition-colors">
+                class="oit-nav__view-all no-underline mt-1 inline-flex items-center gap-2 text-white font-dm font-medium text-[16px] leading-[1.5] border-b-2 border-brand-red pb-1 self-start hover:text-cta-red transition-colors">
                 <span>View All</span>
                 <?php echo $chevron_right; ?>
               </a>
@@ -150,14 +150,14 @@ $cta_arrow = '<svg class="w-[10px] h-[10px]" viewBox="0 0 12 13" fill="none" ari
         <a href="<?php echo esc_url($cta_button['url'] ?? '#'); ?>"
           <?php echo !empty($cta_button['target']) ? 'target="' . esc_attr($cta_button['target']) . '"' : ''; ?>
           <?php echo !empty($cta_button['rel']) ? 'rel="' . esc_attr($cta_button['rel']) . '"' : ''; ?>
-          class="oit-nav__cta no-underline hidden sm:inline-flex items-center gap-3 bg-[#E00523] hover:bg-[#B8001D] text-white oit-font-grotesk font-medium text-[16px] leading-[1.3] uppercase px-5 py-2.5 rounded-full transition-colors whitespace-nowrap"
+          class="oit-nav__cta no-underline hidden sm:inline-flex items-center gap-3 bg-cta-red hover:bg-cta-red-700 text-white font-grotesk font-medium text-[16px] leading-[1.3] uppercase px-5 py-2.5 rounded-full transition-colors whitespace-nowrap"
           data-proto-field="ctaButton"><?php echo esc_html($cta_button['text'] ?? 'SCHEDULE A CONSULTATION'); ?></a>
         <?php endif; ?>
 
         <button type="button" class="oit-nav__toggle group lg:hidden flex items-center gap-2.5 text-white"
           aria-label="Toggle menu" aria-expanded="false" aria-controls="<?php echo esc_attr($nav_id); ?>-panel">
-          <span class="oit-font-grotesk font-medium text-[16px] leading-[1.3] uppercase group-aria-expanded:hidden">MENU</span>
-          <span class="oit-font-grotesk font-medium text-[16px] leading-[1.3] uppercase hidden group-aria-expanded:inline">CLOSE</span>
+          <span class="font-grotesk font-medium text-[16px] leading-[1.3] uppercase group-aria-expanded:hidden">MENU</span>
+          <span class="font-grotesk font-medium text-[16px] leading-[1.3] uppercase hidden group-aria-expanded:inline">CLOSE</span>
           <svg class="w-[18px] h-[12px] group-aria-expanded:hidden" viewBox="0 0 18 12" fill="none" aria-hidden="true">
             <path d="M1 1H17M1 6H17M1 11H17" stroke="currentColor" stroke-width="2" stroke-linecap="round" />
           </svg>
@@ -181,7 +181,7 @@ $cta_arrow = '<svg class="w-[10px] h-[10px]" viewBox="0 0 12 13" fill="none" ari
             <li class="oit-nav__panel-item">
               <?php if ($has_children): ?>
               <button type="button"
-                class="oit-nav__panel-trigger group w-full flex items-center justify-between text-white oit-font-grotesk font-medium text-[16px] leading-[1.3] uppercase bg-transparent border-0 p-0 cursor-pointer"
+                class="oit-nav__panel-trigger group w-full flex items-center justify-between text-white font-grotesk font-medium text-[16px] leading-[1.3] uppercase bg-transparent border-0 p-0 cursor-pointer"
                 aria-expanded="false" aria-controls="<?php echo esc_attr($sub_id); ?>">
                 <span><?php echo esc_html($item->title); ?></span>
                 <svg class="w-[8px] h-[14px] transition-transform group-aria-expanded:rotate-90" viewBox="0 0 11 18" fill="none" aria-hidden="true"><path d="M1 1L9 9L1 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -193,7 +193,7 @@ $cta_arrow = '<svg class="w-[10px] h-[10px]" viewBox="0 0 12 13" fill="none" ari
                     <?php foreach ($children as $child): ?>
                     <li>
                       <a href="<?php echo esc_url($child->url ?? '#'); ?>"
-                        class="oit-nav__panel-sublink relative self-start no-underline py-2 inline-block text-white oit-font-dm font-medium text-[14px] leading-[1.5]">
+                        class="oit-nav__panel-sublink relative self-start no-underline py-2 inline-block text-white font-dm font-medium text-[14px] leading-[1.5]">
                         <?php echo esc_html($child->title); ?>
                       </a>
                     </li>
@@ -201,7 +201,7 @@ $cta_arrow = '<svg class="w-[10px] h-[10px]" viewBox="0 0 12 13" fill="none" ari
                     <?php if ($show_view_all): ?>
                     <li>
                       <a href="<?php echo esc_url($item->url ?? '#'); ?>"
-                        class="oit-nav__panel-sublink oit-nav__panel-view-all no-underline inline-flex items-center gap-2 text-white oit-font-dm font-medium text-[14px] leading-[1.5] border-b-2 border-[#D1001D] pb-1 self-start mt-1">
+                        class="oit-nav__panel-sublink oit-nav__panel-view-all no-underline inline-flex items-center gap-2 text-white font-dm font-medium text-[14px] leading-[1.5] border-b-2 border-brand-red pb-1 self-start mt-1">
                         <span>View All</span>
                         <?php echo $chevron_right; ?>
                       </a>
@@ -212,7 +212,7 @@ $cta_arrow = '<svg class="w-[10px] h-[10px]" viewBox="0 0 12 13" fill="none" ari
               </div>
               <?php else: ?>
               <a href="<?php echo esc_url($item->url ?? '#'); ?>"
-                class="oit-nav__panel-link no-underline flex items-center justify-between text-white oit-font-grotesk font-medium text-[16px] leading-[1.3] uppercase">
+                class="oit-nav__panel-link no-underline flex items-center justify-between text-white font-grotesk font-medium text-[16px] leading-[1.3] uppercase">
                 <span><?php echo esc_html($item->title); ?></span>
                 <svg class="w-[8px] h-[14px]" viewBox="0 0 11 18" fill="none" aria-hidden="true"><path d="M1 1L9 9L1 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </a>
@@ -224,15 +224,15 @@ $cta_arrow = '<svg class="w-[10px] h-[10px]" viewBox="0 0 12 13" fill="none" ari
           <?php if ($show_cta): ?>
           <a href="<?php echo esc_url($cta_button['url'] ?? '#'); ?>"
             <?php echo !empty($cta_button['target']) ? 'target="' . esc_attr($cta_button['target']) . '"' : ''; ?>
-            class="oit-nav__cta no-underline self-start inline-flex items-center gap-3 bg-[#E00523] hover:bg-[#B8001D] text-white oit-font-grotesk font-medium text-[16px] leading-[1.3] uppercase px-5 py-2.5 rounded-full transition-colors"><?php echo esc_html($cta_button['text'] ?? 'SCHEDULE A CONSULTATION'); ?></a>
+            class="oit-nav__cta no-underline self-start inline-flex items-center gap-3 bg-cta-red hover:bg-cta-red-700 text-white font-grotesk font-medium text-[16px] leading-[1.3] uppercase px-5 py-2.5 rounded-full transition-colors"><?php echo esc_html($cta_button['text'] ?? 'SCHEDULE A CONSULTATION'); ?></a>
           <?php endif; ?>
 
           <?php if (($show_phone && !empty($phone_number)) || ($show_social && !empty($social_links))): ?>
           <div class="flex flex-col gap-4 pt-2">
             <?php if ($show_phone && !empty($phone_number)): ?>
             <a href="tel:<?php echo esc_attr(preg_replace('/[^0-9+]/', '', $phone_number)); ?>"
-              class="oit-nav__panel-phone no-underline flex items-center gap-2 text-white oit-font-dm font-medium text-[14px]">
-              <svg class="w-[18px] h-[17px] text-[#D1001D]" viewBox="0 0 18 17" fill="currentColor" aria-hidden="true">
+              class="oit-nav__panel-phone no-underline flex items-center gap-2 text-white font-dm font-medium text-[14px]">
+              <svg class="w-[18px] h-[17px] text-brand-red" viewBox="0 0 18 17" fill="currentColor" aria-hidden="true">
                 <path
                   d="M16.1 12.4v2.1c0 1-.8 1.8-1.8 1.7-3.6-.4-7-1.7-9.8-3.9-2.6-2-4.7-4.8-6-7.8-.6-1.4-.6-3 .1-4.4.3-.6.9-1 1.6-1H2c.8 0 1.5.6 1.6 1.4.1.7.3 1.4.6 2 .3.7.1 1.5-.4 2L2.8 5.6c1.4 2.6 3.5 4.7 6.1 6.1l1-1c.5-.5 1.3-.7 2-.4.6.3 1.3.5 2 .6.8.1 1.4.8 1.4 1.6Z" />
               </svg>
@@ -247,7 +247,7 @@ $cta_arrow = '<svg class="w-[10px] h-[10px]" viewBox="0 0 12 13" fill="none" ari
                     $url = $social['url'] ?? '#';
                     ?>
               <a href="<?php echo esc_url($url); ?>" target="_blank" rel="noopener noreferrer"
-                class="no-underline text-white hover:text-[#E00523] transition-colors"
+                class="no-underline text-white hover:text-cta-red transition-colors"
                 aria-label="<?php echo esc_attr(ucfirst($platform)); ?>">
                 <?php echo oit_social_icon($platform); ?>
               </a>
