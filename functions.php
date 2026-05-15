@@ -44,6 +44,47 @@ add_action('enqueue_block_assets', function () {
 });
 
 /**
+ * Front-end animation libraries.
+ *
+ * Self-hosted minified bundles live under `themes/optimizedit/scripts/`
+ * (versions pinned, no CDN dependency at runtime). They expose globals on
+ * window so block-level `view.js` files can use them directly:
+ *
+ *   GSAP   -> window.gsap
+ *   Lottie -> window.lottie
+ *   Lenis  -> window.Lenis (constructor)
+ *
+ * Refresh the version pin by re-downloading the file and bumping the
+ * constant -- the cache buster uses filemtime() so any local change
+ * already invalidates browsers, but the explicit version helps when
+ * grepping for upgrades later.
+ */
+add_action('wp_enqueue_scripts', function () {
+    $scripts_dir = get_stylesheet_directory() . '/scripts';
+    $scripts_url = get_stylesheet_directory_uri() . '/scripts';
+
+    $libs = [
+        'gsap'   => ['file' => 'gsap.min.js',   'version' => '3.12.7'],
+        'lottie' => ['file' => 'lottie.min.js', 'version' => '5.12.2'],
+        'lenis'  => ['file' => 'lenis.min.js',  'version' => '1.1.13'],
+    ];
+
+    foreach ($libs as $handle => $lib) {
+        $path = $scripts_dir . '/' . $lib['file'];
+        if (!file_exists($path)) {
+            continue;
+        }
+        wp_enqueue_script(
+            'optimizedit-' . $handle,
+            $scripts_url . '/' . $lib['file'],
+            [],
+            $lib['version'] . '.' . filemtime($path),
+            true  // load in footer
+        );
+    }
+});
+
+/**
  * Inline SVG for a brand social icon. Used by oit-navigation and oit-footer.
  * Returns a stroke/fill currentColor SVG so the rendering element controls
  * the icon color through Tailwind text utilities.
