@@ -1,0 +1,91 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-navigation",
+  "version": "1.0.0",
+  "title": "OIT Main Navigation",
+  "category": "optimizedit",
+  "icon": "menu",
+  "description": "Main site navigation: logo, WP nav menu with dropdowns, CTA, mobile drawer with phone and social links.",
+  "keywords": ["header", "navigation", "menu", "navbar", "oit"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true,
+    "align": ["wide", "full"]
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {
+      "logo": {
+        "type": "image",
+        "label": "Logo",
+        "sizes": ["medium", "full"]
+      },
+      "ctaButton": {
+        "type": "link",
+        "label": "CTA Button",
+        "tagName": "a"
+      },
+      "phoneNumber": {
+        "type": "text",
+        "label": "Phone Number",
+        "tagName": "span"
+      },
+      "socialLinks": {
+        "type": "repeater",
+        "label": "Social Links",
+        "min": 0,
+        "max": 6,
+        "itemLabel": "platform",
+        "collapsible": true,
+        "fields": {
+          "platform": {
+            "type": "text",
+            "label": "Platform (linkedin, facebook, youtube, x)"
+          },
+          "url": {
+            "type": "text",
+            "label": "URL"
+          }
+        }
+      }
+    },
+    "controls": {
+      "menuLocation": {
+        "type": "text",
+        "label": "WP Menu Location",
+        "default": "primary",
+        "help": "Theme-registered nav menu location slug. Register with register_nav_menus() in the theme."
+      },
+      "showCta": {
+        "type": "toggle",
+        "label": "Show CTA Button",
+        "default": true
+      },
+      "showViewAll": {
+        "type": "toggle",
+        "label": "Show \"View All\" link in dropdowns",
+        "default": false,
+        "help": "Adds a \"View All\" link at the bottom of each dropdown that points to the parent menu item's URL."
+      },
+      "showPhone": {
+        "type": "toggle",
+        "label": "Show Phone in Mobile Menu",
+        "default": true
+      },
+      "showSocial": {
+        "type": "toggle",
+        "label": "Show Social Icons in Mobile Menu",
+        "default": true
+      },
+      "sticky": {
+        "type": "toggle",
+        "label": "Sticky Header",
+        "default": false
+      }
+    }
+  }
+}
