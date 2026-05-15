@@ -16,6 +16,17 @@ Tags:
 
 @import url('https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500&family=Space+Grotesk:wght@500&display=swap');
 
+/* Brand fonts:
+   - Space Grotesk -- nav, buttons, link-style text (used via .oit-font-grotesk).
+   - DM Sans       -- default body / paragraph text. Set globally so anything
+                       inheriting font-family (eg. <button>, <input>, Proto-Blocks
+                       preflighted elements) picks up the brand body font instead
+                       of the browser's serif fallback. */
+html,
+body {
+  font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif;
+}
+
 .oit-font-grotesk { font-family: 'Space Grotesk', ui-sans-serif, system-ui, sans-serif; }
 .oit-font-dm      { font-family: 'DM Sans', ui-sans-serif, system-ui, sans-serif; }
 </content>
