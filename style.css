@@ -52,7 +52,7 @@ form.tnp-profile {
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: var(--color-black, #1a0303);
+  background-color: #000000;
   opacity: 1;
   transition: opacity 600ms ease-out;
   will-change: opacity;
@@ -64,10 +64,11 @@ form.tnp-profile {
 }
 
 .oit-intro__lottie {
-  width: 320px;
-  height: 320px;
-  max-width: 60vw;
-  max-height: 60vh;
+  /* Sized to fit the 1180x360 OIT logo animation -- aspect-ratio keeps
+     the SVG proportional regardless of viewport, the clamps keep it
+     readable on phones and reasonable on big screens. */
+  width: clamp(224px, 48vw, 576px);
+  aspect-ratio: 1180 / 360;
 }
 
 html.oit-intro-active body {
