@@ -15,7 +15,6 @@ $newsletter_heading   = $attributes['newsletterHeading'] ?? 'STAY CONNECTED WITH
 $newsletter_shortcode = trim($attributes['newsletterShortcode'] ?? '');
 $tagline              = $attributes['tagline'] ?? '';
 $phone_number         = $attributes['phoneNumber'] ?? '';
-$address_label        = $attributes['addressLabel'] ?? '';
 $address_lines        = $attributes['addressLines'] ?? '';
 $copyright_text       = $attributes['copyrightText'] ?? '';
 
@@ -150,29 +149,21 @@ $show_newsletter_strip = $show_newsletter && (!empty($newsletter_heading) || !em
             class="oit-nav__cta no-underline self-start inline-flex items-center gap-3 bg-[#D1001D] hover:bg-[#A0001A] text-white oit-font-grotesk font-medium text-[16px] leading-[1.3] uppercase px-5 py-2.5 rounded-full transition-colors whitespace-nowrap"
             data-proto-field="ctaButton"><?php echo esc_html($cta_button['text'] ?? 'SCHEDULE A CONSULTATION'); ?></a>
 
-          <?php if (!empty($phone_number)): ?>
-            <a href="tel:<?php echo esc_attr(preg_replace('/[^0-9+]/', '', $phone_number)); ?>"
-              class="oit-footer__phone no-underline inline-flex items-center gap-2 self-start border-b-2 border-[#D1001D] pt-1 pb-2 text-white oit-font-dm font-medium text-[16px] leading-[1.5]">
-              <svg class="w-[18px] h-[17px] text-[#D1001D]" viewBox="0 0 18 17" fill="currentColor" aria-hidden="true">
-                <path d="M16.1 12.4v2.1c0 1-.8 1.8-1.8 1.7-3.6-.4-7-1.7-9.8-3.9-2.6-2-4.7-4.8-6-7.8-.6-1.4-.6-3 .1-4.4.3-.6.9-1 1.6-1H2c.8 0 1.5.6 1.6 1.4.1.7.3 1.4.6 2 .3.7.1 1.5-.4 2L2.8 5.6c1.4 2.6 3.5 4.7 6.1 6.1l1-1c.5-.5 1.3-.7 2-.4.6.3 1.3.5 2 .6.8.1 1.4.8 1.4 1.6Z"/>
-              </svg>
-              <span><?php echo esc_html($phone_number); ?></span>
-            </a>
-          <?php endif; ?>
-
-          <?php if (!empty($address_label) || !empty($address_lines)): ?>
-            <address class="oit-footer__address not-italic flex flex-col gap-1 text-white">
-              <?php if (!empty($address_label)): ?>
-                <p class="oit-font-grotesk font-medium text-[16px] leading-[1.4] m-0">
-                  <?php echo esc_html($address_label); ?>
-                </p>
+          <?php if (!empty($phone_number) || !empty($address_lines)): ?>
+            <div class="oit-footer__contact flex flex-col gap-2">
+              <?php if (!empty($phone_number)): ?>
+                <a href="tel:<?php echo esc_attr(preg_replace('/[^0-9+]/', '', $phone_number)); ?>"
+                  class="oit-footer__phone no-underline inline-flex items-center gap-2 self-start border-b-2 border-[#D1001D] pt-1 pb-2 text-white oit-font-dm font-medium text-[16px] leading-[1.5]">
+                  <svg width="18" height="17" viewBox="0 0 18 17" fill="currentColor" aria-hidden="true" class="text-[#D1001D]">
+                    <path d="M16.1 12.4v2.1c0 1-.8 1.8-1.8 1.7-3.6-.4-7-1.7-9.8-3.9-2.6-2-4.7-4.8-6-7.8-.6-1.4-.6-3 .1-4.4.3-.6.9-1 1.6-1H2c.8 0 1.5.6 1.6 1.4.1.7.3 1.4.6 2 .3.7.1 1.5-.4 2L2.8 5.6c1.4 2.6 3.5 4.7 6.1 6.1l1-1c.5-.5 1.3-.7 2-.4.6.3 1.3.5 2 .6.8.1 1.4.8 1.4 1.6Z"/>
+                  </svg>
+                  <span><?php echo esc_html($phone_number); ?></span>
+                </a>
               <?php endif; ?>
               <?php if (!empty($address_lines)): ?>
-                <p class="oit-font-dm font-medium text-[16px] leading-[1.5] m-0 whitespace-pre-line">
-                  <?php echo esc_html($address_lines); ?>
-                </p>
+                <address class="oit-footer__address not-italic m-0 text-white oit-font-dm font-medium text-[16px] leading-[1.5] whitespace-pre-line"><?php echo esc_html($address_lines); ?></address>
               <?php endif; ?>
-            </address>
+            </div>
           <?php endif; ?>
         </div>
 

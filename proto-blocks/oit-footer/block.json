@@ -62,16 +62,11 @@
         "label": "Phone Number",
         "help": "Example: 888.308.6689"
       },
-      "addressLabel": {
-        "type": "text",
-        "label": "Address Heading",
-        "default": "Corporate Headquarters"
-      },
       "addressLines": {
         "type": "textarea",
         "label": "Address",
-        "default": "4747 Lake Forest Drive, Suite 100\nCincinnati, OH 45242",
-        "help": "One line per row. Line breaks are preserved on the front end."
+        "default": "Corporate Headquarters\n4747 Lake Forest Drive, Suite 100\nCincinnati, OH 45242",
+        "help": "One line per row -- line breaks are preserved on the front end. Include your label/heading on the first line if you want one."
       },
       "linkedinUrl": { "type": "text", "label": "LinkedIn URL" },
       "facebookUrl": { "type": "text", "label": "Facebook URL" },
