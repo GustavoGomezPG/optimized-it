@@ -1,0 +1,71 @@
+/*
+ * Tailwind v4 design tokens for the OptimizedIT site.
+ *
+ * Proto-Blocks looks up this file via the active theme path:
+ *   wp-content/themes/<active>/tailwind-theme.css
+ * and inlines its contents into the generated input.css. Tailwind's CLI
+ * then expands each --color-*, --font-*, --shadow-* variable into a
+ * matching utility class (bg-brand-red, text-cta-red, font-display, etc.).
+ *
+ * Editing this file checks in via git -- no DB-backed admin panel.
+ * Recompile happens automatically on the next page load (or `wp eval` of
+ * ProtoBlocks\Core\Plugin::getInstance()->getTailwindManager()->compile()).
+ *
+ * Source: Figma "Optimized IT - Website Designs" -> "Option 1 Sandbox"
+ * (node 42:1457) and the variable defs surfaced there.
+ */
+
+@theme {
+  /* -----------------------------------------------------------
+   * Brand colors
+   * --------------------------------------------------------- */
+
+  --color-brand-red: #D1001D;     /* Primary brand red                          */
+  --color-cta-red:   #E00523;     /* Slightly hotter red used on CTAs / glow    */
+  --color-cta-red-700: #B8001D;   /* CTA hover / pressed                        */
+
+  --color-black:     #1A0303;     /* Brand near-black -- nav bg, body text      */
+  --color-charcoal:  #3B3B40;     /* Dark surfaces (full-bleed sections)        */
+  --color-slate:     #353333;     /* Slate surfaces (newsletter strip)          */
+  --color-grey:      #6B6B73;     /* Mid grey                                   */
+  --color-light-grey: #E6E6E8;    /* Light grey card backgrounds                */
+  --color-white:     #FFFFFF;
+
+  /* -----------------------------------------------------------
+   * Typography
+   *
+   * The active theme's main stylesheet @imports these from Google Fonts.
+   * --------------------------------------------------------- */
+
+  --font-display:  "Manrope", ui-sans-serif, system-ui, sans-serif;
+  --font-body:     "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-grotesk:  "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-dm:       "DM Sans", ui-sans-serif, system-ui, sans-serif;
+
+  /* Headline scale (Manrope) -- generates text-h1 ... text-h6 utilities */
+  --text-h1: 72px;
+  --text-h2: 62px;
+  --text-h3: 48px;
+  --text-h4: 40px;
+  --text-h5: 32px;
+  --text-h6: 24px;
+
+  /* Body scale (Inter) -- generates text-body-* utilities */
+  --text-body-lg: 24px;
+  --text-body-md: 20px;
+  --text-body-sm: 16px;
+  --text-body-xs: 14px;
+
+  /* -----------------------------------------------------------
+   * Effects
+   * --------------------------------------------------------- */
+
+  /* Layered red-glow used under the nav bar + footer card.
+     Apply via the `shadow-red-glow` utility. */
+  --shadow-red-glow:
+    0 38px 41.5px rgba(224, 5, 35, 0.10),
+    0 151px 75.5px rgba(224, 5, 35, 0.09),
+    0 341px 102px rgba(224, 5, 35, 0.05),
+    0 605px 121px rgba(224, 5, 35, 0.01),
+    0 946px 125px rgba(224, 5, 35, 0);
+}

@@ -14,7 +14,7 @@ Text Domain: optimizedit
 Tags:
 */
 
-@import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500&family=Space+Grotesk:wght@500&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,500&family=Inter:wght@400;500;600;700&family=Manrope:wght@400;500;600;700;800&family=Space+Grotesk:wght@500&display=swap");
 
 /* Brand fonts:
    - Space Grotesk -- nav, buttons, link-style text (used via .oit-font-grotesk).
@@ -40,6 +40,7 @@ form.tnp-subscription,
 form.tnp-profile {
   display: flex;
   flex-direction: column;
-  width: 100%;
+  width: fit-content !important;
+  max-width: 100% !important;
   gap: 1rem;
 }
