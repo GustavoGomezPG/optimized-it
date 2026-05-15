@@ -15,6 +15,8 @@ $newsletter_heading   = $attributes['newsletterHeading'] ?? 'STAY CONNECTED WITH
 $newsletter_shortcode = trim($attributes['newsletterShortcode'] ?? '');
 $tagline              = $attributes['tagline'] ?? '';
 $phone_number         = $attributes['phoneNumber'] ?? '';
+$address_label        = $attributes['addressLabel'] ?? '';
+$address_lines        = $attributes['addressLines'] ?? '';
 $copyright_text       = $attributes['copyrightText'] ?? '';
 
 $social_links = array_values(array_filter([
@@ -156,6 +158,21 @@ $show_newsletter_strip = $show_newsletter && (!empty($newsletter_heading) || !em
               </svg>
               <span><?php echo esc_html($phone_number); ?></span>
             </a>
+          <?php endif; ?>
+
+          <?php if (!empty($address_label) || !empty($address_lines)): ?>
+            <address class="oit-footer__address not-italic flex flex-col gap-1 text-white">
+              <?php if (!empty($address_label)): ?>
+                <p class="oit-font-grotesk font-medium text-[16px] leading-[1.4] m-0">
+                  <?php echo esc_html($address_label); ?>
+                </p>
+              <?php endif; ?>
+              <?php if (!empty($address_lines)): ?>
+                <p class="oit-font-dm font-medium text-[16px] leading-[1.5] m-0 whitespace-pre-line">
+                  <?php echo esc_html($address_lines); ?>
+                </p>
+              <?php endif; ?>
+            </address>
           <?php endif; ?>
         </div>
 
