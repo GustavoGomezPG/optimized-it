@@ -1,0 +1,41 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-testimonial",
+  "version": "1.0.0",
+  "title": "OIT Single Testimonial",
+  "category": "optimizedit",
+  "icon": "format-quote",
+  "description": "Centered testimonial card on a black section, framed by mirrored circuit decorations on both sides and capped with a red quote bubble.",
+  "keywords": ["testimonial", "quote", "review", "oit"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true,
+    "align": ["wide", "full"]
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {
+      "quote": {
+        "type": "wysiwyg",
+        "label": "Quote"
+      },
+      "attribution": {
+        "type": "text",
+        "label": "Attribution",
+        "tagName": "p"
+      }
+    },
+    "controls": {
+      "showCircuit": {
+        "type": "toggle",
+        "label": "Show Circuit Decorations",
+        "default": true,
+        "help": "Mirrored circuit patterns on the left and right of the section."
+      }
+    }
+  }
+}

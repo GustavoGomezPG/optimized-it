@@ -1,0 +1,59 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-featured-section",
+  "version": "1.0.0",
+  "title": "OIT Featured Section",
+  "category": "optimizedit",
+  "icon": "align-pull-left",
+  "description": "Rounded card with a red gradient background, image on the left, and a numbered step list + CTA on the right. Sits on the brand red-glow shadow.",
+  "keywords": ["featured", "callout", "steps", "process", "oit"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true,
+    "align": ["wide", "full"]
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {
+      "image": {
+        "type": "image",
+        "label": "Image",
+        "sizes": ["medium", "large", "full"]
+      },
+      "headline": {
+        "type": "wysiwyg",
+        "label": "Headline"
+      },
+      "steps": {
+        "type": "repeater",
+        "label": "Steps",
+        "min": 1,
+        "max": 10,
+        "itemLabel": "text",
+        "collapsible": true,
+        "fields": {
+          "text": {
+            "type": "text",
+            "label": "Step Text"
+          }
+        }
+      },
+      "cta": {
+        "type": "link",
+        "label": "CTA Button",
+        "tagName": "a"
+      }
+    },
+    "controls": {
+      "showImage": {
+        "type": "toggle",
+        "label": "Show Image",
+        "default": true
+      }
+    }
+  }
+}

@@ -61,12 +61,13 @@
    * Effects
    * --------------------------------------------------------- */
 
-  /* Layered red-glow used under the nav bar + footer card.
-     Apply via the `shadow-red-glow` utility. */
+  /* "Red Glow Subtle" -- the brand drop shadow for floating cards
+     (featured section, nav bar, highlighted card variants, etc.).
+     Five-layer offset stack from the Figma design system. */
   --shadow-red-glow:
-    0 38px 41.5px rgba(224, 5, 35, 0.10),
-    0 151px 75.5px rgba(224, 5, 35, 0.09),
-    0 341px 102px rgba(224, 5, 35, 0.05),
-    0 605px 121px rgba(224, 5, 35, 0.01),
-    0 946px 125px rgba(224, 5, 35, 0);
+    120px 143px 52px 0 rgba(224, 5, 35, 0.00),
+    77px 91px 48px 0 rgba(224, 5, 35, 0.01),
+    43px 51px 40px 0 rgba(224, 5, 35, 0.04),
+    19px 23px 30px 0 rgba(224, 5, 35, 0.07),
+    5px 6px 16px 0 rgba(224, 5, 35, 0.08);
 }

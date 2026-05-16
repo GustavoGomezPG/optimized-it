@@ -32,6 +32,32 @@
   window.oitLenis = lenis;
 
   /**
+   * Bridge Lenis to GSAP ScrollTrigger.
+   *
+   * Lenis hijacks the native scroll, so ScrollTrigger's default scrollTop
+   * reads would lag behind reality. Forwarding every Lenis `scroll` event
+   * into ScrollTrigger.update() keeps trigger positions accurate frame-
+   * by-frame.
+   *
+   * ScrollTrigger may load after this file (Proto-Blocks block view.js
+   * scripts have no declared deps), so we retry once on DOMContentLoaded
+   * if it's not ready yet.
+   */
+  function bridgeScrollTrigger() {
+    if (lenis._oitStBridged) return true;
+    if (!window.gsap || !window.ScrollTrigger) return false;
+
+    window.gsap.registerPlugin(window.ScrollTrigger);
+    lenis.on('scroll', window.ScrollTrigger.update);
+    lenis._oitStBridged = true;
+    return true;
+  }
+
+  if (!bridgeScrollTrigger()) {
+    document.addEventListener('DOMContentLoaded', bridgeScrollTrigger);
+  }
+
+  /**
    * Delegated anchor-link handler.
    *
    * When Lenis is driving the page scroll, the browser's native "jump to

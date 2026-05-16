@@ -1,0 +1,29 @@
+/*
+ * OIT Mini Cards Grid -- residual styles
+ *
+ * Two multi-layer shadows that wouldn't compile as inline Tailwind:
+ *
+ *   .__card--default   :  soft black drop shadow (default cards)
+ *   .__card--highlight :  same offsets in brand red (one flagged card)
+ */
+
+.oit-mini-cards-grid__card--default,
+.oit-mini-cards-grid__card--highlight {
+  transition: box-shadow 300ms ease-out;
+}
+
+.oit-mini-cards-grid__card--default {
+  box-shadow:
+    19px 23px 30px 0 rgba(0, 0, 0, 0.07),
+    5px 6px 16px 0 rgba(0, 0, 0, 0.08);
+}
+
+/* Hover on a default card adopts the same red drop shadow as the
+   permanently-highlighted card, so the hover state matches the locked
+   highlight state visually. */
+.oit-mini-cards-grid__card--default:hover,
+.oit-mini-cards-grid__card--highlight {
+  box-shadow:
+    19px 23px 30px 0 rgba(224, 5, 35, 0.07),
+    5px 6px 16px 0 rgba(224, 5, 35, 0.08);
+}

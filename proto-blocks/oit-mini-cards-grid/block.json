@@ -1,0 +1,53 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-mini-cards-grid",
+  "version": "1.0.0",
+  "title": "OIT Mini Cards Grid",
+  "category": "optimizedit",
+  "icon": "screenoptions",
+  "description": "Compact grid of clickable industry / category pill-cards. Each card is icon + bold title + chevron, on a soft drop shadow. One card can be flagged as the red highlight variant.",
+  "keywords": ["cards", "grid", "industries", "links", "oit"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true,
+    "align": ["wide", "full"]
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {
+      "cards": {
+        "type": "repeater",
+        "label": "Cards",
+        "min": 1,
+        "max": 16,
+        "itemLabel": "link",
+        "collapsible": true,
+        "fields": {
+          "icon": {
+            "type": "image",
+            "label": "Icon",
+            "sizes": ["thumbnail", "medium"]
+          },
+          "link": {
+            "type": "link",
+            "label": "Link"
+          }
+        }
+      }
+    },
+    "controls": {
+      "highlightedIndex": {
+        "type": "number",
+        "label": "Highlighted Card Index",
+        "min": 0,
+        "max": 16,
+        "default": 8,
+        "help": "1-based index of the card to render with the red highlight variant. 0 = no card highlighted (and every card adopts the red look on hover)."
+      }
+    }
+  }
+}

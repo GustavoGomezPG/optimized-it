@@ -38,6 +38,12 @@ form.tnp-profile {
   gap: 1rem;
 }
 
+div.tnp-field {
+  @media (max-width: 769px) {
+    width: 100%;400px;
+  }
+}
+
 /* Intro screen overlay (preloader, once per session) ----------------------
    Rendered by wp_body_open in functions.php. The matching JS lives in
    scripts/oit-intro.js. The early inline script in <head> sets the
@@ -85,4 +91,53 @@ html.oit-intro-skip .oit-intro {
    it picks up the `oit:intro-complete` event. */
 html.oit-intro-pending .oit-nav__shell {
   opacity: 0;
+}
+
+header.wp-block-template-part {
+  position: absolute;
+  z-index: 999999999;
+  width: 100vw;
+  max-width: 100%;
+}
+
+/* ------------------------------------------------------------------------
+   Proto-Blocks flow margin reset.
+
+   WordPress 6.x ships a default block-spacing rule:
+
+     :root :where(.is-layout-flow) > * {
+       margin-block-start: 24px;
+       margin-block-end:   0;
+     }
+
+   That 24px gutter is right for inline blocks (paragraphs, headings) but
+   wrong for our OIT proto-blocks, which are full sections that own their
+   own internal padding and shouldn't have a forced gap.
+
+   WordPress emits its rule from theme.json as inline CSS in <head>, which
+   loads AFTER this stylesheet. Both selectors use :where() so they tie on
+   specificity (0,0,0) and source order decides -- WP wins. To beat that
+   we drop the :where() wrapper here, giving the selectors real specificity.
+
+   Two cases covered:
+     1. Block-to-block flow: a proto-block sitting next to siblings under a
+        flow-layout parent (eg. the page's <main>).
+     2. Per-section flow: blocks inside a proto-block whose template happens
+        to use a flow container itself. */
+[class*="wp-block-proto-blocks-"],
+[class*="wp-block-proto-blocks-"] .is-layout-flow > * {
+  margin-block-start: 0 !important;
+  margin-block-end: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+}
+
+/* If a flow / flex / grid container is sitting right above a row of
+   proto-blocks and is supplying gap via the `gap` property (instead of
+   child margins), kill that too. Scoped via :has() to layouts whose
+   direct children include at least one proto-block, so we don't strip
+   gap from unrelated containers. */
+:where(.wp-block-group, .wp-block-post-content, main):has(> [class*="wp-block-proto-blocks-"]) {
+  gap: 0 !important;
+  row-gap: 0 !important;
 }

@@ -1,0 +1,60 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-text-list",
+  "version": "1.0.0",
+  "title": "OIT Text and List",
+  "category": "optimizedit",
+  "icon": "editor-ul",
+  "description": "Intro headline + body paragraph, then a labeled grid of short capability items, each terminated with a red dot.",
+  "keywords": ["text", "list", "rtb", "reasons", "capabilities", "oit"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true,
+    "align": ["wide", "full"]
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {
+      "headline": {
+        "type": "text",
+        "label": "Headline",
+        "tagName": "h2"
+      },
+      "body": {
+        "type": "wysiwyg",
+        "label": "Body"
+      },
+      "listLabel": {
+        "type": "text",
+        "label": "List Label",
+        "tagName": "h3"
+      },
+      "items": {
+        "type": "repeater",
+        "label": "List Items",
+        "min": 1,
+        "max": 12,
+        "itemLabel": "title",
+        "collapsible": true,
+        "fields": {
+          "title": {
+            "type": "text",
+            "label": "Title"
+          }
+        }
+      }
+    },
+    "controls": {
+      "showGradient": {
+        "type": "toggle",
+        "label": "Show Gradient Background",
+        "default": true,
+        "help": "Off uses solid white."
+      }
+    }
+  }
+}

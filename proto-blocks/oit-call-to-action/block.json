@@ -1,0 +1,45 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-call-to-action",
+  "version": "1.0.0",
+  "title": "OIT Call to Action",
+  "category": "optimizedit",
+  "icon": "megaphone",
+  "description": "Headline + body intro paragraph paired with an outline CTA button. Anchors a section before content (cards, grids, etc.) or stands alone as a callout.",
+  "keywords": ["cta", "intro", "callout", "headline", "oit"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true,
+    "align": ["wide", "full"]
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {
+      "headline": {
+        "type": "text",
+        "label": "Headline",
+        "tagName": "h2"
+      },
+      "body": {
+        "type": "wysiwyg",
+        "label": "Body"
+      },
+      "cta": {
+        "type": "link",
+        "label": "CTA Button",
+        "tagName": "a"
+      }
+    },
+    "controls": {
+      "showCta": {
+        "type": "toggle",
+        "label": "Show CTA Button",
+        "default": true
+      }
+    }
+  }
+}

@@ -1,0 +1,30 @@
+/*
+ * OIT Featured Section -- residual styles
+ *
+ * Only the 17-stop linear gradient lives here. Everything else is inline
+ * Tailwind. The gradient angle is 146deg per the Figma -- light brand red
+ * at the top-left rolling down to near-black at the bottom-right.
+ */
+.oit-featured-section__card--gradient {
+  background-color: #1A0303;
+  background-image: linear-gradient(
+    146deg,
+    #E00523 0%,
+    #C8051F 6%,
+    #B2051C 12%,
+    #9D0418 18%,
+    #890415 24%,
+    #780412 30%,
+    #670410 36%,
+    #59040D 42%,
+    #4C040B 48%,
+    #400309 54%,
+    #360308 60%,
+    #2D0306 66%,
+    #260305 72%,
+    #210304 78%,
+    #1D0304 84%,
+    #1B0303 92%,
+    #1A0303 100%
+  );
+}

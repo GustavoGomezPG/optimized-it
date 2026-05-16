@@ -1,0 +1,57 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-hero",
+  "version": "1.0.0",
+  "title": "OIT Hero",
+  "category": "optimizedit",
+  "icon": "format-image",
+  "description": "Home page hero: eyebrow, headline, CTA and portrait image over a red radial gradient. Animation orchestrated by GSAP, triggered after the intro screen completes (or immediately on repeat visits).",
+  "keywords": ["hero", "banner", "header", "oit"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true,
+    "align": ["wide", "full"]
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {
+      "eyebrow": {
+        "type": "text",
+        "label": "Eyebrow",
+        "tagName": "p"
+      },
+      "heading": {
+        "type": "wysiwyg",
+        "label": "Heading"
+      },
+      "cta": {
+        "type": "link",
+        "label": "CTA Button",
+        "tagName": "a"
+      },
+      "image": {
+        "type": "image",
+        "label": "Hero Image",
+        "sizes": ["medium", "large", "full"]
+      }
+    },
+    "controls": {
+      "showGradient": {
+        "type": "toggle",
+        "label": "Show Red Gradient Background",
+        "default": true,
+        "help": "Off uses solid brand black."
+      },
+      "showDecoration": {
+        "type": "toggle",
+        "label": "Show Decorative Circuit Lines",
+        "default": true,
+        "help": "Faint red circuit pattern behind the hero image (desktop only)."
+      }
+    }
+  }
+}

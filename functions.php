@@ -66,14 +66,15 @@ add_action('wp_enqueue_scripts', function () {
     $scripts_url = get_stylesheet_directory_uri() . '/scripts';
 
     $libs = [
-        'gsap'       => ['file' => 'gsap.min.js',      'version' => '3.15.0', 'deps' => []],
-        'split-text' => ['file' => 'SplitText.min.js', 'version' => '3.15.0', 'deps' => ['optimizedit-gsap']],
-        'lottie'     => ['file' => 'lottie.min.js',    'version' => '5.12.2', 'deps' => []],
-        'lenis'      => ['file' => 'lenis.min.js',     'version' => '1.1.13', 'deps' => []],
+        'gsap'           => ['file' => 'gsap.min.js',          'version' => '3.15.0', 'deps' => []],
+        'split-text'     => ['file' => 'SplitText.min.js',     'version' => '3.15.0', 'deps' => ['optimizedit-gsap']],
+        'scroll-trigger' => ['file' => 'ScrollTrigger.min.js', 'version' => '3.15.0', 'deps' => ['optimizedit-gsap']],
+        'lottie'         => ['file' => 'lottie.min.js',        'version' => '5.12.2', 'deps' => []],
+        'lenis'          => ['file' => 'lenis.min.js',         'version' => '1.1.13', 'deps' => []],
         // Theme-owned setup + features (no pinned version -- filemtime alone busts cache).
-        'init'       => ['file' => 'oit-init.js',      'version' => '1.0.0',  'deps' => ['optimizedit-lenis']],
-        'intro'      => ['file' => 'oit-intro.js',     'version' => '1.0.0',  'deps' => ['optimizedit-init', 'optimizedit-lottie']],
-        'nav-anim'   => ['file' => 'oit-nav-animation.js', 'version' => '1.0.0', 'deps' => ['optimizedit-gsap', 'optimizedit-init']],
+        'init'           => ['file' => 'oit-init.js',          'version' => '1.0.0',  'deps' => ['optimizedit-lenis']],
+        'intro'          => ['file' => 'oit-intro.js',         'version' => '1.0.0',  'deps' => ['optimizedit-init', 'optimizedit-lottie']],
+        'nav-anim'       => ['file' => 'oit-nav-animation.js', 'version' => '1.0.0',  'deps' => ['optimizedit-gsap', 'optimizedit-init']],
     ];
 
     foreach ($libs as $handle => $lib) {

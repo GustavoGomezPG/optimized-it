@@ -1,0 +1,61 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-featured-cards",
+  "version": "1.0.0",
+  "title": "OIT Featured Cards",
+  "category": "optimizedit",
+  "icon": "grid-view",
+  "description": "Responsive grid of bordered cards. One card can be flagged as the red highlight variant via the highlightedIndex control. Pair with oit-call-to-action above for the intro + CTA.",
+  "keywords": ["cards", "grid", "features", "solutions", "oit"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true,
+    "align": ["wide", "full"]
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {
+      "cards": {
+        "type": "repeater",
+        "label": "Cards",
+        "min": 1,
+        "max": 12,
+        "itemLabel": "title",
+        "collapsible": true,
+        "fields": {
+          "icon": {
+            "type": "image",
+            "label": "Icon",
+            "sizes": ["thumbnail", "medium"]
+          },
+          "title": {
+            "type": "text",
+            "label": "Title"
+          },
+          "description": {
+            "type": "text",
+            "label": "Description"
+          },
+          "link": {
+            "type": "link",
+            "label": "Link"
+          }
+        }
+      }
+    },
+    "controls": {
+      "highlightedIndex": {
+        "type": "number",
+        "label": "Highlighted Card Index",
+        "min": 0,
+        "max": 12,
+        "default": 6,
+        "help": "1-based index of the card to render with the red highlight variant. 0 = no card highlighted (and every card adopts the red look on hover)."
+      }
+    }
+  }
+}

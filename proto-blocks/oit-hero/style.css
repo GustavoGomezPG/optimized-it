@@ -1,0 +1,74 @@
+/*
+ * OIT Hero -- residual styles
+ *
+ * Layout, typography, image fit, decoration positioning and CTA styling
+ * have all moved to inline Tailwind utilities on the markup. What stays
+ * here is what doesn't translate cleanly to a single utility:
+ *
+ *   1. The 17-stop linear gradient (no inline equivalent).
+ *   2. The data-animate="pending" pre-state that view.js / GSAP rely on
+ *      to fade the hero in once the intro screen completes (or once the
+ *      oit-intro-skip class signals a repeat-session immediate play).
+ *   3. The prefers-reduced-motion override for that pre-state.
+ *
+ * Reveal choreography lives in view.js.
+ */
+
+/* ---------------------------------------------------------------
+ * Gradient variant background
+ *
+ * 350deg = nearly straight up with a slight lean toward bottom-right,
+ * so the bright #E00523 hotspot pools low-right and the darkness covers
+ * the top three-quarters of the hero.
+ * ------------------------------------------------------------- */
+.oit-hero--gradient {
+  background-color: #1A0303;
+  background-image: linear-gradient(
+    350deg,
+    #E00523 0%,
+    #C8051F 4%,
+    #B2051C 8%,
+    #9D0418 12%,
+    #890415 16%,
+    #780412 20%,
+    #670410 25%,
+    #59040D 30%,
+    #4C040B 35%,
+    #400309 40%,
+    #360308 45%,
+    #2D0306 50%,
+    #260305 55%,
+    #210304 60%,
+    #1D0304 65%,
+    #1B0303 70%,
+    #1A0303 75%
+  );
+}
+
+/* ---------------------------------------------------------------
+ * Animation pre-state
+ *
+ * Anything that animates in starts hidden so there's no FOUC before
+ * GSAP runs. view.js flips data-animate to "done" once it plays the
+ * timeline (or strips the attribute on no-GSAP / reduced-motion paths).
+ *
+ * Editor previews never set this attribute (see template.php), so the
+ * block always renders fully visible inside the editor canvas.
+ * ------------------------------------------------------------- */
+.oit-hero[data-animate="pending"] .oit-hero__eyebrow,
+.oit-hero[data-animate="pending"] .oit-hero__heading,
+.oit-hero[data-animate="pending"] .oit-hero__cta,
+.oit-hero[data-animate="pending"] .oit-hero__media,
+.oit-hero[data-animate="pending"] .oit-hero__decoration {
+  opacity: 0;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .oit-hero[data-animate="pending"] .oit-hero__eyebrow,
+  .oit-hero[data-animate="pending"] .oit-hero__heading,
+  .oit-hero[data-animate="pending"] .oit-hero__cta,
+  .oit-hero[data-animate="pending"] .oit-hero__media,
+  .oit-hero[data-animate="pending"] .oit-hero__decoration {
+    opacity: 1;
+  }
+}

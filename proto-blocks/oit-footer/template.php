@@ -188,9 +188,7 @@ $show_newsletter_strip = $show_newsletter && (!empty($newsletter_heading) || !em
             </a>
             <?php endif; ?>
             <?php if (!empty($address_lines)): ?>
-            <address
-              class="oit-footer__address not-italic m-0 text-white font-dm font-medium text-[16px] leading-[1.5] whitespace-pre-line">
-              <?php echo esc_html($address_lines); ?></address>
+            <address class="oit-footer__address not-italic m-0 text-white font-dm font-medium text-[16px] leading-[1.5] whitespace-pre-line"><?php echo esc_html($address_lines); ?></address>
             <?php endif; ?>
           </div>
           <?php endif; ?>
