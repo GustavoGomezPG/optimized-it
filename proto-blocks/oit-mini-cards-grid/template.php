@@ -19,6 +19,10 @@ $cards = $attributes['cards'] ?? [];
 // 1-based: 0 = no highlight, 1+ = card index (we compare against $i + 1).
 $highlighted_index = isset($attributes['highlightedIndex']) ? (int) $attributes['highlightedIndex'] : 8;
 
+$show_bottom_text = !empty($attributes['showBottomText']);
+$bottom_heading   = !empty($attributes['bottomHeading']) ? $attributes['bottomHeading'] : 'Don\'t see your industry?';
+$bottom_body      = !empty($attributes['bottomBody'])    ? $attributes['bottomBody']    : '<p>Optimized IT services businesses and industries across the board. Get in touch with our team, we\'ll learn more about your business and industry and work together to craft a solution that works.</p>';
+
 if (empty($cards)) {
   $cards = [
     ['icon' => null, 'link' => ['url' => '#', 'text' => 'Manufacturing']],
@@ -43,7 +47,7 @@ $chevron = '<svg class="oit-mini-cards-grid__card-chevron w-3 h-3 shrink-0" view
   <div class="oit-mini-cards-grid__inner max-w-[1440px] mx-auto px-6 pb-12 lg:px-20 lg:pb-20">
 
     <ul data-proto-repeater="cards"
-        class="oit-mini-cards-grid__grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-9 m-0 p-0 list-none">
+        class="oit-mini-cards-grid__grid grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-9 m-0 p-0 list-none mb-12 lg:mb-16 last:mb-0">
       <?php foreach ($cards as $i => $card):
         $is_highlight = ($highlighted_index > 0 && ($i + 1) === $highlighted_index);
         $link = $card['link'] ?? ['url' => '#', 'text' => ''];
@@ -86,6 +90,21 @@ $chevron = '<svg class="oit-mini-cards-grid__card-chevron w-3 h-3 shrink-0" view
       </li>
       <?php endforeach; ?>
     </ul>
+
+    <?php if ($show_bottom_text): ?>
+    <div class="oit-mini-cards-grid__bottom flex flex-col gap-4 max-w-[900px]">
+      <h3
+        data-proto-field="bottomHeading"
+        class="oit-mini-cards-grid__bottom-heading m-0 font-grotesk font-medium text-[20px] leading-[1.4] text-brand-red lg:text-[24px]">
+        <?php echo esc_html(wp_strip_all_tags($bottom_heading)); ?>
+      </h3>
+      <div
+        data-proto-field="bottomBody"
+        class="oit-mini-cards-grid__bottom-body font-dm font-medium text-body-sm leading-[1.5] text-black [&_p]:m-0 [&_p+p]:mt-3">
+        <?php echo wp_kses_post(wpautop($bottom_body)); ?>
+      </div>
+    </div>
+    <?php endif; ?>
 
   </div>
 </section>

@@ -37,6 +37,15 @@
             "label": "Link"
           }
         }
+      },
+      "bottomHeading": {
+        "type": "text",
+        "label": "Bottom heading",
+        "tagName": "h3"
+      },
+      "bottomBody": {
+        "type": "wysiwyg",
+        "label": "Bottom body"
       }
     },
     "controls": {
@@ -47,6 +56,12 @@
         "max": 16,
         "default": 8,
         "help": "1-based index of the card to render with the red highlight variant. 0 = no card highlighted (and every card adopts the red look on hover)."
+      },
+      "showBottomText": {
+        "type": "toggle",
+        "label": "Show bottom heading + body",
+        "default": false,
+        "help": "Adds a red heading and supporting paragraph below the card grid (e.g. \"Don't see your industry?\")."
       }
     }
   }

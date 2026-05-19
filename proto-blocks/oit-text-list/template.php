@@ -60,25 +60,20 @@ $wrapper_attributes = get_block_wrapper_attributes([
 
     <ul
       data-proto-repeater="items"
-      class="oit-text-list__items grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-9 m-0 p-0 list-none">
+      class="oit-text-list__items flex flex-wrap gap-9 m-0 p-0 list-none">
       <?php foreach ($items as $item): ?>
       <li
         data-proto-repeater-item
-        class="oit-text-list__item flex flex-col justify-between gap-3 min-h-[71px] list-none">
+        class="oit-text-list__item grow basis-[160px] min-w-0 flex flex-col justify-between gap-3 min-h-[71px] list-none">
         <p
           data-proto-field="title"
           class="oit-text-list__item-title m-0 font-grotesk font-bold text-body-md leading-[1.4] text-black">
           <?php echo esc_html($item['title'] ?? ''); ?>
         </p>
-        <svg
-          class="oit-text-list__item-rule block w-full max-w-[186px] h-[6px]"
-          viewBox="0 0 186 6"
-          preserveAspectRatio="xMidYMid meet"
-          aria-hidden="true"
-          fill="none">
-          <line x1="0" y1="3" x2="180" y2="3" stroke="#6B6B73" stroke-width="2" />
-          <circle cx="180" cy="3" r="3" fill="#6B6B73" />
-        </svg>
+        <div class="oit-text-list__item-rule relative w-full h-1.5" aria-hidden="true">
+          <span class="absolute inset-x-0 top-1/2 -translate-y-1/2 h-0.5 bg-grey"></span>
+          <span class="absolute right-0 top-1/2 -translate-y-1/2 w-1.5 h-1.5 rounded-full bg-grey"></span>
+        </div>
       </li>
       <?php endforeach; ?>
     </ul>
