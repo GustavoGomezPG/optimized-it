@@ -1,0 +1,87 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-container",
+  "version": "1.0.0",
+  "title": "OIT Container",
+  "category": "optimizedit",
+  "icon": "align-center",
+  "description": "Layout wrapper for nesting other OIT (or core) blocks. Uses WP's native Dimensions panel for padding / margin / sides and the native Color panel for solid + gradient backgrounds. Includes an optional override for padding top/bottom at tablet and desktop breakpoints.",
+  "keywords": ["container", "wrapper", "layout", "section", "oit"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true,
+    "align": ["wide", "full"],
+    "layout": {
+      "default": { "type": "constrained" },
+      "allowSwitching": false,
+      "allowEditing": true,
+      "allowInheriting": true
+    },
+    "spacing": {
+      "padding": true,
+      "margin": true,
+      "blockGap": true
+    },
+    "color": {
+      "background": true,
+      "gradients": true,
+      "text": false,
+      "link": false
+    }
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {
+      "content": {
+        "type": "inner-blocks",
+        "template": [
+          ["core/paragraph", { "placeholder": "Drop blocks here." }]
+        ]
+      }
+    },
+    "controls": {
+      "useResponsivePadding": {
+        "type": "toggle",
+        "label": "Override padding top/bottom per breakpoint",
+        "default": false,
+        "help": "When on, the four values below replace the Dimensions panel's padding top/bottom at tablet (≥1024px would already be desktop — tablet here means ≥768px) and desktop (≥1024px). Padding L/R and margin stay on the Dimensions panel."
+      },
+      "paddingTopTablet": {
+        "type": "number",
+        "label": "Padding top — tablet (px)",
+        "min": 0,
+        "max": 400,
+        "default": 64,
+        "conditions": { "visible": { "useResponsivePadding": [true] } }
+      },
+      "paddingBottomTablet": {
+        "type": "number",
+        "label": "Padding bottom — tablet (px)",
+        "min": 0,
+        "max": 400,
+        "default": 64,
+        "conditions": { "visible": { "useResponsivePadding": [true] } }
+      },
+      "paddingTopDesktop": {
+        "type": "number",
+        "label": "Padding top — desktop (px)",
+        "min": 0,
+        "max": 400,
+        "default": 80,
+        "conditions": { "visible": { "useResponsivePadding": [true] } }
+      },
+      "paddingBottomDesktop": {
+        "type": "number",
+        "label": "Padding bottom — desktop (px)",
+        "min": 0,
+        "max": 400,
+        "default": 80,
+        "conditions": { "visible": { "useResponsivePadding": [true] } }
+      }
+    }
+  }
+}

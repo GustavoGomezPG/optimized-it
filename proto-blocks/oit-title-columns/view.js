@@ -1,0 +1,71 @@
+/**
+ * OIT Title + 3 Columns -- scroll-triggered reveal.
+ *
+ * Title slides in from the left, columns then stagger up from below.
+ *
+ *   0.00s  Title    opacity 0->1, x -16->0     0.55s
+ *   0.15s  Columns  opacity 0->1, y +24->0     0.5s (stagger 0.12s)
+ *
+ * Total runtime ~1.0s. Triggered the first time the section's top
+ * crosses 80% of the viewport.
+ *
+ * Bails on prefers-reduced-motion / missing GSAP / missing ScrollTrigger.
+ */
+(function () {
+  'use strict';
+
+  function init(section) {
+    if (section.dataset.oitTcolInit === '1') return;
+    section.dataset.oitTcolInit = '1';
+
+    var reduce = window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    function reveal() {
+      section.setAttribute('data-animate', 'done');
+    }
+
+    var title = section.querySelector('.oit-title-columns__title');
+    var cols  = section.querySelectorAll('.oit-title-columns__col');
+
+    if (!window.gsap || !window.ScrollTrigger || reduce) {
+      reveal();
+      return;
+    }
+
+    window.gsap.registerPlugin(window.ScrollTrigger);
+
+    // Set both transforms AND opacity inline so the GSAP tween can fade
+    // smoothly when reveal() removes the data-animate="pending" CSS
+    // pre-state. Without inline opacity 0, the elements jump to 1 the
+    // moment data-animate flips, leaving nothing for the timeline to
+    // fade.
+    if (title)     window.gsap.set(title, { x: -16, opacity: 0 });
+    if (cols.length) window.gsap.set(cols, { y: 24, opacity: 0 });
+
+    var tl = window.gsap.timeline({
+      defaults: { ease: 'power3.out' },
+      scrollTrigger: {
+        trigger: section,
+        start: 'top 80%',
+        toggleActions: 'play none none none',
+        invalidateOnRefresh: true,
+        once: true,
+        onEnter: reveal,
+      },
+    });
+
+    if (title)     tl.to(title, { opacity: 1, x: 0, duration: 0.55 }, 0);
+    if (cols.length) tl.to(cols, { opacity: 1, y: 0, duration: 0.5, stagger: 0.12 }, 0.15);
+  }
+
+  function boot() {
+    document.querySelectorAll('.oit-title-columns').forEach(init);
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', boot);
+  } else {
+    boot();
+  }
+})();

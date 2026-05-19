@@ -1,0 +1,244 @@
+<?php
+/**
+ * OIT Page Header
+ *
+ * Reusable section-page header card matching the Figma variants for
+ * Solutions, Managed IT, Industries, Careers, etc. One block covers the
+ * whole family via three toggles:
+ *
+ *   isLight       -> white card + dark text (vs. default black card + white)
+ *   showCircuit   -> render the circuit-board Lottie behind/right of the card
+ *   showIconBadge -> render a 160x160 red-gradient icon badge instead
+ *                    (badge wins over circuit when both are on, matching
+ *                    the Managed IT variant where the icon replaces the
+ *                    circuit graphic)
+ *
+ * The giant uppercase wordmark behind the card sits at the section level
+ * (not inside the card) so it spills below the card edge -- the visual
+ * signature of every section header in the Figma file.
+ *
+ * Decoration / Lottie loading mirrors oit-hero: a static SVG fallback is
+ * rendered server-side, and view.js swaps it for the Lottie player on the
+ * front end. Editor preview, no-JS, and prefers-reduced-motion all keep
+ * the static SVG.
+ *
+ * @var array         $attributes
+ * @var string        $content
+ * @var WP_Block|null $block
+ */
+
+// Proto-Blocks initializes declared fields/controls to '' in the editor
+// so inline edit hooks have something to bind to. ?? only handles null,
+// so we use empty() to treat '' and unset the same and fall back to
+// placeholder copy. The wysiwyg fields keep their <p>/<br> markup, so
+// title and subtitle are rendered with wp_kses_post.
+$title    = !empty($attributes['title'])    ? $attributes['title']    : '<p>Section title<span class="oit-page-header__accent text-brand-red">.</span></p>';
+$subtitle = !empty($attributes['subtitle']) ? $attributes['subtitle'] : 'Short supporting line that explains what this page covers.';
+$wordmark = !empty($attributes['wordmark']) ? $attributes['wordmark'] : '';
+$icon     = $attributes['icon'] ?? null;
+$ctas     = $attributes['ctas'] ?? [];
+
+$is_light       = !empty($attributes['isLight']);
+$show_circuit   = $attributes['showCircuit']   ?? true;
+$show_icon      = !empty($attributes['showIconBadge']);
+$highlight_word = trim((string) ($attributes['highlightWord'] ?? ''));
+
+// Highlight pass -- when the editor sets a highlightWord control, find
+// the first case-insensitive occurrence in the title and wrap it in a
+// brand-red span. Operates on the raw title string (rather than a DOM
+// walker) for speed; case is preserved by substring-extracting from the
+// original. The wrapping span carries .oit-page-header__accent so the
+// period auto-wrap walker in view.js knows to skip already-wrapped
+// content if the highlight happens to end with a "." too.
+if ($highlight_word !== '') {
+  $pos = stripos($title, $highlight_word);
+  if ($pos !== false) {
+    $matched = substr($title, $pos, strlen($highlight_word));
+    $title   = substr($title, 0, $pos)
+      . '<span class="oit-page-header__accent text-brand-red">' . $matched . '</span>'
+      . substr($title, $pos + strlen($highlight_word));
+  }
+}
+
+// Breadcrumb is derived from the current page's ancestor chain -- Home,
+// then each parent page from the top down, then the current page (no
+// link, painted brand red). Not editor-configurable: the trail follows
+// the WP page hierarchy so it stays correct as pages get reorganized.
+//
+// Fallbacks:
+//   - No current post (template preview / unsaved insertion) -> a
+//     single "Home -> Current" stub so the block doesn't render empty.
+//   - Page has no ancestors -> just "Home -> <Title>".
+$breadcrumb = [
+  ['label' => 'Home', 'url' => home_url('/')],
+];
+
+$current_id = get_the_ID();
+if ($current_id) {
+  $ancestor_ids = array_reverse(get_post_ancestors($current_id));
+  foreach ($ancestor_ids as $ancestor_id) {
+    $breadcrumb[] = [
+      'label' => get_the_title($ancestor_id),
+      'url'   => get_permalink($ancestor_id),
+    ];
+  }
+  $breadcrumb[] = [
+    'label' => get_the_title($current_id) ?: 'Current',
+    'url'   => '',
+  ];
+} else {
+  $breadcrumb[] = ['label' => 'Current', 'url' => ''];
+}
+
+// In the editor preview $block is null. The data-animate="pending" pre-
+// state would leave everything invisible there because view.js doesn't
+// run; only apply it on the front end.
+$is_preview = !isset($block) || $block === null;
+
+// Theme-driven swap: light = white card / black text / black breadcrumb
+// trail; dark = black card / white text / white breadcrumb trail. The
+// current (last) breadcrumb crumb is always brand red.
+$card_classes      = $is_light ? 'bg-white text-black' : 'bg-black text-white';
+$crumb_idle_color  = $is_light ? 'text-black' : 'text-white';
+$cta_secondary     = $is_light
+  ? 'bg-transparent text-black border-2 border-brand-red hover:bg-brand-red hover:text-white'
+  : 'bg-transparent text-white border-2 border-brand-red hover:bg-brand-red';
+
+$circuit_url        = get_stylesheet_directory_uri() . '/assets/img/circuit.svg';
+$circuit_lottie_url = get_stylesheet_directory_uri() . '/assets/lottie/circuit.json';
+
+$wrapper_args = ['class' => 'oit-page-header relative'];
+if (!$is_preview) {
+  $wrapper_args['data-animate'] = 'pending';
+}
+$wrapper_attributes = get_block_wrapper_attributes($wrapper_args);
+
+// Double-chevron separator used inside the breadcrumb trail and as the
+// trailing arrow on CTA buttons. Fill is currentColor so it inherits the
+// containing element's text color (white on dark theme, black on light,
+// brand red for the current breadcrumb crumb).
+$chevron = '<svg class="w-[13px] h-3 shrink-0" viewBox="0 0 13 12" fill="currentColor" aria-hidden="true"><path d="M0 1.41L1.36689 0L7.18345 6L1.36689 12L0 10.59L4.43997 6L0 1.41ZM5.81656 1.41L7.18345 0L13 6L7.18345 12L5.81656 10.59L10.2565 6L5.81656 1.41Z"/></svg>';
+?>
+
+<section <?php echo $wrapper_attributes; ?>>
+  <div class="oit-page-header__inner relative max-w-[1440px] mx-auto px-6 lg:px-20 pt-10 pb-0">
+
+    <article class="oit-page-header__card relative z-10 <?php echo esc_attr($card_classes); ?> rounded-3xl <?php echo $show_icon ? '' : 'overflow-clip'; ?> shadow-red-glow">
+      <div class="oit-page-header__pad relative p-6 lg:p-10 lg:pr-[260px] min-h-[234px]">
+
+        <div class="oit-page-header__content relative z-10 flex flex-col gap-5 lg:gap-6 max-w-[900px]">
+
+          <?php if (!empty($breadcrumb)): ?>
+          <nav
+            class="oit-page-header__breadcrumb flex flex-wrap items-center gap-2 font-grotesk font-medium text-body-sm leading-[1.3]"
+            aria-label="Breadcrumb">
+            <?php foreach ($breadcrumb as $i => $crumb):
+              $is_last = ($i === count($breadcrumb) - 1);
+              $label   = $crumb['label'] ?? '';
+              $url     = $crumb['url'] ?? '';
+              $color   = $is_last ? 'text-brand-red' : $crumb_idle_color;
+            ?>
+            <span class="oit-page-header__crumb inline-flex items-center gap-2">
+              <?php if ($url && !$is_last): ?>
+              <a href="<?php echo esc_url($url); ?>"
+                 class="oit-page-header__crumb-link <?php echo esc_attr($color); ?> no-underline hover:text-brand-red transition-colors">
+                <?php echo esc_html($label); ?>
+              </a>
+              <?php else: ?>
+              <span class="<?php echo esc_attr($color); ?>"><?php echo esc_html($label); ?></span>
+              <?php endif; ?>
+              <?php if (!$is_last): ?>
+                <span class="oit-page-header__crumb-sep <?php echo esc_attr($crumb_idle_color); ?>"><?php echo $chevron; ?></span>
+              <?php endif; ?>
+            </span>
+            <?php endforeach; ?>
+          </nav>
+          <?php endif; ?>
+
+          <div
+            data-proto-field="title"
+            class="oit-page-header__title m-0 font-grotesk font-bold text-[32px] leading-[1.2] lg:text-[56px] [&_p]:m-0 break-words">
+            <?php echo wp_kses_post($title); ?>
+          </div>
+
+          <div
+            data-proto-field="subtitle"
+            class="oit-page-header__subtitle m-0 font-dm font-medium text-body-sm lg:text-body-md leading-[1.5] max-w-[820px] [&_p]:m-0 [&_p+p]:mt-1">
+            <?php echo wp_kses_post(wpautop($subtitle)); ?>
+          </div>
+
+          <?php if (!empty($ctas)): ?>
+          <div data-proto-repeater="ctas" class="oit-page-header__ctas flex flex-wrap gap-4 mt-2">
+            <?php foreach ($ctas as $cta):
+              $cta_style   = strtolower($cta['style'] ?? 'primary');
+              $is_primary  = $cta_style !== 'secondary';
+              $cta_base    = 'oit-page-header__cta inline-flex items-center gap-3 px-5 py-2.5 rounded-full font-grotesk font-medium text-body-sm leading-[1.3] uppercase whitespace-nowrap no-underline transition-colors';
+              $cta_skin    = $is_primary
+                ? 'bg-cta-red hover:bg-cta-red-700 text-white border border-brand-red'
+                : $cta_secondary;
+            ?>
+            <a data-proto-repeater-item
+               href="<?php echo esc_url($cta['url'] ?? '#'); ?>"
+               class="<?php echo esc_attr($cta_base . ' ' . $cta_skin); ?>">
+              <span data-proto-field="text"><?php echo esc_html($cta['text'] ?? ''); ?></span>
+              <?php echo $chevron; ?>
+            </a>
+            <?php endforeach; ?>
+          </div>
+          <?php endif; ?>
+
+        </div>
+
+        <?php if ($show_icon): ?>
+        <div class="oit-page-header__icon-badge oit-page-header__icon-badge--gradient hidden lg:flex absolute right-0 top-1/2 translate-x-[10%] -translate-y-1/2 w-[160px] h-[160px] rounded-3xl overflow-clip items-center justify-center shadow-red-glow z-10">
+          <?php if ($icon && !empty($icon['url'])): ?>
+          <img
+            data-proto-field="icon"
+            src="<?php echo esc_url($icon['url']); ?>"
+            alt="<?php echo esc_attr($icon['alt'] ?? ''); ?>"
+            class="oit-page-header__icon w-[82px] h-[91px] object-contain" />
+          <?php else: ?>
+          <div data-proto-field="icon" class="oit-page-header__icon w-[82px] h-[91px] flex items-center justify-center text-white/70 text-center text-body-xs font-grotesk px-2">
+            <span>Pick icon</span>
+          </div>
+          <?php endif; ?>
+        </div>
+        <?php elseif ($show_circuit): ?>
+        <?php
+          // Light theme variant: shifted further right (so more of the
+          // graphic is clipped by the card's overflow-clip) and a
+          // brightness(0) CSS filter turns the red lines into a dark
+          // silhouette that reads well on the white card. Dark theme
+          // keeps the original red-on-black positioning.
+          $deco_position_classes = $is_light
+            ? 'right-[-14%] w-[700px] max-w-[65%] opacity-10'
+            : 'right-0 w-[614px] max-w-[55%] opacity-60';
+          $deco_variant_class    = $is_light ? 'oit-page-header__decoration--light' : '';
+        ?>
+        <div
+          class="oit-page-header__decoration <?php echo esc_attr($deco_variant_class); ?> hidden lg:block absolute top-0 <?php echo esc_attr($deco_position_classes); ?> aspect-[614/518] pointer-events-none z-0 select-none"
+          data-lottie-url="<?php echo esc_url($circuit_lottie_url); ?>"
+          aria-hidden="true">
+          <img
+            src="<?php echo esc_url($circuit_url); ?>"
+            alt=""
+            class="block w-full h-full object-contain"
+            loading="lazy" />
+        </div>
+        <?php endif; ?>
+
+      </div>
+    </article>
+
+    <?php if ($wordmark): ?>
+    <div
+      class="oit-page-header__wordmark pointer-events-none select-none relative z-0 text-right"
+      aria-hidden="true">
+      <span class="oit-page-header__wordmark-text relative inline-block font-grotesk font-bold uppercase whitespace-nowrap leading-[1] text-[#F5D6DA] opacity-40 right-[-3%] lg:right-[-7%]">
+        <?php echo esc_html(strtoupper($wordmark)); ?>
+      </span>
+    </div>
+    <?php endif; ?>
+
+  </div>
+</section>

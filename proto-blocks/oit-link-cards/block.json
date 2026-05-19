@@ -1,0 +1,44 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-link-cards",
+  "version": "1.0.0",
+  "title": "OIT Link Cards",
+  "category": "optimizedit",
+  "icon": "external",
+  "description": "Row of clickable white cards on a dark background. Each card has a red eyebrow label, a bold heading, and a trailing double-chevron that flows inline at the end of the heading text. Scroll-triggered staggered reveal.",
+  "keywords": ["cards", "links", "callouts", "shortcuts", "oit"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true,
+    "align": ["wide", "full"]
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {
+      "cards": {
+        "type": "repeater",
+        "label": "Cards",
+        "min": 1,
+        "max": 6,
+        "itemLabel": "label",
+        "collapsible": true,
+        "fields": {
+          "label": {
+            "type": "text",
+            "label": "Eyebrow Label (auto-uppercased)",
+            "tagName": "span"
+          },
+          "link": {
+            "type": "link",
+            "label": "Heading + Link"
+          }
+        }
+      }
+    },
+    "controls": {}
+  }
+}

@@ -1,0 +1,79 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-page-header",
+  "version": "1.0.0",
+  "title": "OIT Page Header",
+  "category": "optimizedit",
+  "icon": "heading",
+  "description": "Section-page header card with breadcrumb, headline, subtitle, optional CTAs, a giant background wordmark, and a scroll-triggered reveal. Dark or light theme, with circuit Lottie or icon-badge decoration on the right.",
+  "keywords": ["page header", "breadcrumb", "section header", "hero", "oit"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true,
+    "align": ["wide", "full"]
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {
+      "title": {
+        "type": "wysiwyg",
+        "label": "Title"
+      },
+      "subtitle": {
+        "type": "wysiwyg",
+        "label": "Subtitle"
+      },
+      "icon": {
+        "type": "image",
+        "label": "Icon (used when icon-badge decoration is on)",
+        "sizes": ["thumbnail", "medium"]
+      },
+      "ctas": {
+        "type": "repeater",
+        "label": "CTA Buttons",
+        "min": 0,
+        "max": 2,
+        "itemLabel": "text",
+        "collapsible": true,
+        "fields": {
+          "text":  { "type": "text", "label": "Text" },
+          "url":   { "type": "text", "label": "URL" },
+          "style": { "type": "text", "label": "Style: primary or secondary" }
+        }
+      }
+    },
+    "controls": {
+      "wordmark": {
+        "type": "text",
+        "label": "Background Wordmark",
+        "default": "",
+        "help": "Giant uppercase word that sits behind the card. Leave empty to hide."
+      },
+      "highlightWord": {
+        "type": "text",
+        "label": "Highlight word/phrase in title",
+        "default": "",
+        "help": "First occurrence of this word or phrase in the title gets wrapped in a red span. Case-insensitive. Leave empty for no highlight."
+      },
+      "isLight": {
+        "type": "toggle",
+        "label": "Light theme (white card, dark text)",
+        "default": false
+      },
+      "showCircuit": {
+        "type": "toggle",
+        "label": "Show circuit decoration",
+        "default": true
+      },
+      "showIconBadge": {
+        "type": "toggle",
+        "label": "Show icon badge instead of circuit",
+        "default": false
+      }
+    }
+  }
+}

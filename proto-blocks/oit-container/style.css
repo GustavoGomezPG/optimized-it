@@ -1,0 +1,38 @@
+/*
+ * OIT Container — minimal stylesheet.
+ *
+ * WordPress writes padding / margin / background straight onto the
+ * section as inline styles via the Dimensions and Color panels, so the
+ * common case needs no CSS here at all.
+ *
+ * The only rules below are the per-breakpoint padding-top / -bottom
+ * overrides, gated by the .oit-container--responsive modifier class
+ * (only applied when the editor turns on the "Override padding
+ * top/bottom per breakpoint" control).
+ *
+ * !important is required because WP's native spacing values are
+ * emitted as INLINE styles, which beat any non-important class rule
+ * on specificity. The rules only run inside @media blocks, so they
+ * only affect the targeted breakpoint.
+ */
+
+@media (min-width: 768px) {
+  .oit-container--responsive {
+    padding-top:    var(--oit-pt-tablet) !important;
+    padding-bottom: var(--oit-pb-tablet) !important;
+  }
+}
+
+@media (min-width: 1024px) {
+  .oit-container--responsive {
+    padding-top:    var(--oit-pt-desktop) !important;
+    padding-bottom: var(--oit-pb-desktop) !important;
+  }
+}
+
+/* Give the empty drop zone a clickable height in the editor so the
+   inserter has a target before any inner blocks are added. The front
+   end keeps its native padding around the empty inner. */
+.oit-container__inner:empty {
+  min-height: 60px;
+}

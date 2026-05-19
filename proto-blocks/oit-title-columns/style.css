@@ -1,0 +1,49 @@
+/*
+ * OIT Title + 3 Columns — grid layout + pre-animation state.
+ *
+ * Layout is two nested CSS grids defined here in plain CSS rather than
+ * inline Tailwind classes, because:
+ *   - The Proto-Blocks editor wraps repeater items in extra UI shells
+ *     that defeat `display: contents` and can interfere with utility
+ *     scanning, so layout-critical rules live in the stylesheet.
+ *   - Plain CSS for grid-template-columns is more reliable than the
+ *     arbitrary-value Tailwind syntax for non-uniform tracks.
+ *
+ * Mobile: single column, everything stacks (title, then each column).
+ * Desktop (>=1024px): outer track is `1fr 3fr` (title takes a quarter,
+ * the columns container takes the rest); inner repeater is a 3-column
+ * grid with the same gap, so each column ends up the same width as the
+ * title column visually.
+ */
+
+.oit-title-columns__grid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+
+.oit-title-columns__cols {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 2.5rem;
+}
+
+@media (min-width: 1024px) {
+  .oit-title-columns__grid {
+    grid-template-columns: 1fr 3fr;
+    gap: 60px;
+  }
+
+  .oit-title-columns__cols {
+    grid-template-columns: repeat(3, 1fr);
+    gap: 60px;
+  }
+}
+
+/* Pre-animation state — hide title + columns before GSAP takes over so
+   the fade-in doesn't flash the final state for one frame. data-animate
+   flips to "done" inside the ScrollTrigger onEnter callback. */
+.oit-title-columns[data-animate="pending"] .oit-title-columns__title,
+.oit-title-columns[data-animate="pending"] .oit-title-columns__col {
+  opacity: 0;
+}

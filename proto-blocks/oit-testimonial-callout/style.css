@@ -1,0 +1,49 @@
+/*
+ * OIT Testimonial Callout — residual styles.
+ *
+ * Two rules that don't translate cleanly to inline Tailwind:
+ *
+ *   1. The 17-stop linear gradient on the card (black top-left rolling
+ *      to brand red bottom-right at 165deg). Mirrors the format used by
+ *      oit-featured-section so the brand pair stays consistent, just
+ *      with the colors reversed end-to-end.
+ *
+ *   2. The data-animate="pending" pre-state. Targets are hidden before
+ *      GSAP takes over so the fromTo() reveal doesn't flash the final
+ *      state for one frame on slower devices.
+ */
+
+.oit-testimonial-callout__card--gradient {
+  background-color: #1A0303;
+  background-image: linear-gradient(
+    165deg,
+    #1A0303 0%,
+    #1B0303 6%,
+    #1D0304 12%,
+    #210304 18%,
+    #260305 24%,
+    #2D0306 30%,
+    #360308 36%,
+    #400309 42%,
+    #4C040B 48%,
+    #59040D 54%,
+    #670410 60%,
+    #780412 66%,
+    #890415 72%,
+    #9D0418 78%,
+    #B2051C 84%,
+    #C8051F 92%,
+    #E00523 100%
+  );
+}
+
+.oit-testimonial-callout[data-animate="pending"] .oit-testimonial-callout__card,
+.oit-testimonial-callout[data-animate="pending"] .oit-testimonial-callout__headline,
+.oit-testimonial-callout[data-animate="pending"] .oit-testimonial-callout__step,
+.oit-testimonial-callout[data-animate="pending"] .oit-testimonial-callout__cta,
+.oit-testimonial-callout[data-animate="pending"] .oit-testimonial-callout__quote-frame,
+.oit-testimonial-callout[data-animate="pending"] .oit-testimonial-callout__quote-mark,
+.oit-testimonial-callout[data-animate="pending"] .oit-testimonial-callout__quote,
+.oit-testimonial-callout[data-animate="pending"] .oit-testimonial-callout__attribution {
+  opacity: 0;
+}
