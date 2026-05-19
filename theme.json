@@ -35,6 +35,11 @@
 			"name": "page-full-width",
 			"title": "Full Width",
 			"postTypes": [ "page", "post" ]
+		},
+		{
+			"name": "page-builder",
+			"title": "Builder Canvas",
+			"postTypes": [ "page" ]
 		}
 	],
 	"version": 3

@@ -19,6 +19,29 @@ add_filter('proto_blocks_category_slug', fn() => 'optimizedit');
 add_filter('proto_blocks_category_title', fn() => __('OptimizedIT', 'optimizedit'));
 
 /**
+ * Site favicon -- prints a single <link rel="icon" type="image/svg+xml">
+ * tag in <head> pointing at the theme-owned SVG. Done at priority 1 so it
+ * lands before WordPress's own emoji/site-icon emissions.
+ *
+ * SVG only (no PNG fallback): every browser version still supported by
+ * WP 6.x handles image/svg+xml favicons. The file lives in the theme so
+ * it ships with the code and survives admin/Customizer changes.
+ */
+add_action('wp_head', function () {
+    $favicon_path = get_stylesheet_directory() . '/assets/img/favicon.svg';
+    if (!file_exists($favicon_path)) {
+        return;
+    }
+    $favicon_url = get_stylesheet_directory_uri() . '/assets/img/favicon.svg';
+    $version     = filemtime($favicon_path);
+    printf(
+        '<link rel="icon" type="image/svg+xml" href="%s?v=%s">' . "\n",
+        esc_url($favicon_url),
+        esc_attr($version)
+    );
+}, 1);
+
+/**
  * Enqueue the theme stylesheet for both the front end and the block-editor
  * canvas iframe.
  *
@@ -41,6 +64,55 @@ add_action('enqueue_block_assets', function () {
         [],
         file_exists($style) ? filemtime($style) : false
     );
+});
+
+/**
+ * Builder Canvas editor assets.
+ *
+ * Hides WP's default post-title field from the block editor canvas
+ * when the page is using the "Builder Canvas" template (slug:
+ * page-builder), and adds a Page Title panel to the document settings
+ * sidebar so the title can still be edited. See:
+ *
+ *   - assets/editor/builder-canvas.css
+ *   - assets/editor/builder-canvas.js
+ *   - templates/page-builder.html
+ *
+ * Loads only in the block editor admin context.
+ */
+add_action('enqueue_block_editor_assets', function () {
+    $base_dir = get_stylesheet_directory() . '/assets/editor';
+    $base_url = get_stylesheet_directory_uri() . '/assets/editor';
+
+    $css_path = $base_dir . '/builder-canvas.css';
+    $js_path  = $base_dir . '/builder-canvas.js';
+
+    if (file_exists($css_path)) {
+        wp_enqueue_style(
+            'optimizedit-builder-canvas',
+            $base_url . '/builder-canvas.css',
+            [],
+            filemtime($css_path)
+        );
+    }
+
+    if (file_exists($js_path)) {
+        wp_enqueue_script(
+            'optimizedit-builder-canvas',
+            $base_url . '/builder-canvas.js',
+            [
+                'wp-plugins',
+                'wp-edit-post',
+                'wp-editor',
+                'wp-components',
+                'wp-data',
+                'wp-element',
+                'wp-i18n',
+            ],
+            filemtime($js_path),
+            true
+        );
+    }
 });
 
 /**
