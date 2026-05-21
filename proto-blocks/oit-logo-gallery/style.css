@@ -1,0 +1,41 @@
+/*
+ * OIT Logo Gallery -- grid layout + animation pre-state.
+ *
+ * The grid uses CSS Grid `repeat(auto-fit, minmax(120px, 1fr))` so the
+ * column count adapts to viewport width without per-breakpoint rules
+ * (mobile naturally settles around 2 cells per row, desktop fits 8-9).
+ * Each cell's height is driven by the `--oit-logo-cell-h` custom
+ * property set inline on the grid element by template.php from the
+ * `cellHeight` control. Cells are flex-centered so a logo of any aspect
+ * ratio sits on the same baseline as its neighbors.
+ *
+ * Grid plumbing lives here rather than as Tailwind utilities because
+ * `repeat(auto-fit, minmax(...))` doesn't have a clean utility form;
+ * the rest of the block's styling (padding, typography, spacing) stays
+ * inline as Tailwind classes on the template.
+ */
+
+.oit-logo-gallery__grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  gap: 24px;
+}
+
+.oit-logo-gallery__cell {
+  height: var(--oit-logo-cell-h, 84px);
+}
+
+@media (min-width: 1024px) {
+  .oit-logo-gallery__grid {
+    gap: 40px;
+  }
+}
+
+/* Animation pre-state -- only applied while GSAP is going to take
+   over. data-animate flips to "done" inside the ScrollTrigger onEnter
+   callback in view.js. */
+.oit-logo-gallery[data-animate="pending"] .oit-logo-gallery__title,
+.oit-logo-gallery[data-animate="pending"] .oit-logo-gallery__intro,
+.oit-logo-gallery[data-animate="pending"] .oit-logo-gallery__cell {
+  opacity: 0;
+}

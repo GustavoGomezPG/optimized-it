@@ -1,0 +1,66 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-logo-gallery",
+  "version": "1.0.0",
+  "title": "OIT Logo Gallery",
+  "category": "optimizedit",
+  "icon": "images-alt2",
+  "description": "Partner / technology logo wall. Section headline + supporting paragraph, followed by a responsive grid of logo cells. Each cell uses object-contain so logos with different aspect ratios sit on a shared baseline. Each logo can optionally link out.",
+  "keywords": ["logos", "partners", "trusted", "gallery", "oit"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true,
+    "align": ["wide", "full"]
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {
+      "title": {
+        "type": "text",
+        "label": "Title",
+        "tagName": "h2"
+      },
+      "intro": {
+        "type": "wysiwyg",
+        "label": "Intro paragraph"
+      },
+      "logos": {
+        "type": "repeater",
+        "label": "Logos",
+        "min": 1,
+        "max": 30,
+        "itemLabel": "alt",
+        "collapsible": true,
+        "fields": {
+          "image": {
+            "type": "image",
+            "label": "Logo image",
+            "sizes": ["thumbnail", "medium"]
+          },
+          "alt": {
+            "type": "text",
+            "label": "Accessible label"
+          },
+          "link": {
+            "type": "link",
+            "label": "Optional link"
+          }
+        }
+      }
+    },
+    "controls": {
+      "cellHeight": {
+        "type": "number",
+        "label": "Logo cell height (px)",
+        "min": 40,
+        "max": 160,
+        "default": 84,
+        "help": "Each logo sits in a cell of this height with object-contain. Larger = taller logos; smaller = more compact wall."
+      }
+    }
+  }
+}
