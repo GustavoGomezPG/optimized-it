@@ -2,9 +2,20 @@
 /**
  * OIT Featured Cards
  *
- * Responsive grid of bordered cards. One card index can be flagged via
- * the `highlightedIndex` control to render in the red variant (filled
- * brand-red bg, white text, white action button, red glow).
+ * Responsive grid of cards with two visual variants:
+ *
+ *   Default: bordered white cards with a 48px icon, title, description
+ *            and a corner CTA arrow button. One card index can be
+ *            flagged via the `highlightedIndex` control to render in the
+ *            red variant (filled brand-red bg, white text, white action
+ *            button, red glow).
+ *
+ *   Logo:    enabled by the `logoVariant` toggle. Cards paint the brand
+ *            near-black surface with white text and host a larger logo
+ *            image at the top instead of a 48px icon. The whole card is
+ *            wrapped in a stretched <a> so the entire surface is the
+ *            link. The corner CTA button is omitted in this mode, and
+ *            highlightedIndex is ignored (the Figma uses uniform cards).
  *
  * Pair with oit-call-to-action above for the intro headline + body + CTA.
  *
@@ -16,6 +27,12 @@
 $cards = $attributes['cards'] ?? [];
 // 1-based: 0 = no highlight, 1+ = card index (we compare against $i + 1).
 $highlighted_index = isset($attributes['highlightedIndex']) ? (int) $attributes['highlightedIndex'] : 6;
+$logo_variant      = !empty($attributes['logoVariant']);
+
+// Logo variant overrides the highlight concept -- every card is uniform.
+if ($logo_variant) {
+  $highlighted_index = 0;
+}
 
 if (empty($cards)) {
   $cards = [
@@ -40,11 +57,57 @@ $wrapper_attributes = get_block_wrapper_attributes([
         class="oit-featured-cards__grid grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-9 m-0 p-0 list-none">
       <?php foreach ($cards as $i => $card):
         $is_highlight = ($highlighted_index > 0 && ($i + 1) === $highlighted_index);
-        $card_link = $card['link'] ?? ['url' => '#'];
-        $card_url  = $card_link['url'] ?? '#';
-        $card_title = $card['title'] ?? '';
+        $card_link    = $card['link'] ?? ['url' => '#'];
+        $card_url     = $card_link['url'] ?? '';
+        $card_title   = $card['title'] ?? '';
+        $card_desc    = $card['description'] ?? '';
+        $card_target  = !empty($card_link['target']) ? ' target="' . esc_attr($card_link['target']) . '"' : '';
+        $card_rel     = !empty($card_link['rel'])    ? ' rel="'    . esc_attr($card_link['rel'])    . '"' : '';
         $action_label = $card_title ? sprintf('Learn more about %s', $card_title) : 'Learn more';
+      ?>
 
+      <?php if ($logo_variant):
+        // ---- Logo variant -------------------------------------------------
+        // Brand-black surface, white text, large logo at top, no corner
+        // CTA. When `link.url` is set, a stretched <a> covers the whole
+        // <li> so the entire card is clickable.
+      ?>
+      <li data-proto-repeater-item
+          class="oit-featured-cards__card oit-featured-cards__card--logo group relative flex flex-col gap-5 p-6 lg:p-7 rounded-3xl bg-black text-white list-none overflow-clip transition-shadow duration-300 hover:shadow-red-glow">
+
+        <?php if (!empty($card['icon']['url'])): ?>
+        <img data-proto-field="icon"
+             src="<?php echo esc_url($card['icon']['url']); ?>"
+             alt="<?php echo esc_attr($card['icon']['alt'] ?? ''); ?>"
+             class="oit-featured-cards__card-logo block h-20 w-auto max-w-full object-contain object-left" />
+        <?php else: ?>
+        <div data-proto-field="icon"
+             class="oit-featured-cards__card-logo h-20 w-32 rounded-md border border-dashed border-white/30 flex items-center justify-center text-body-xs text-white/40"
+             aria-hidden="true">Logo</div>
+        <?php endif; ?>
+
+        <div class="oit-featured-cards__card-content flex flex-col gap-2">
+          <p data-proto-field="title"
+             class="oit-featured-cards__card-title font-grotesk font-bold text-body-md leading-[1.4] m-0">
+            <?php echo esc_html($card_title); ?>
+          </p>
+          <p data-proto-field="description"
+             class="oit-featured-cards__card-description font-dm font-medium text-body-sm leading-[1.5] m-0">
+            <?php echo esc_html($card_desc); ?>
+          </p>
+        </div>
+
+        <?php if ($card_url): ?>
+        <a
+          href="<?php echo esc_url($card_url); ?>"<?php echo $card_target; echo $card_rel; ?>
+          aria-label="<?php echo esc_attr($action_label); ?>"
+          class="oit-featured-cards__card-link absolute inset-0 z-10 rounded-3xl"></a>
+        <?php endif; ?>
+
+      </li>
+
+      <?php else:
+        // ---- Default variant (existing behavior) --------------------------
         // Default cards adopt the red look on hover; the locked highlight
         // card just stays in the red state.
         $card_classes = $is_highlight
@@ -83,20 +146,20 @@ $wrapper_attributes = get_block_wrapper_attributes([
           </p>
           <p data-proto-field="description"
              class="oit-featured-cards__card-description font-dm font-medium text-body-xs leading-[1.5] m-0">
-            <?php echo esc_html($card['description'] ?? ''); ?>
+            <?php echo esc_html($card_desc); ?>
           </p>
         </div>
 
         <a
-          href="<?php echo esc_url($card_url); ?>"
-          <?php echo !empty($card_link['target']) ? 'target="' . esc_attr($card_link['target']) . '"' : ''; ?>
-          <?php echo !empty($card_link['rel']) ? 'rel="' . esc_attr($card_link['rel']) . '"' : ''; ?>
+          href="<?php echo esc_url($card_url ?: '#'); ?>"<?php echo $card_target; echo $card_rel; ?>
           aria-label="<?php echo esc_attr($action_label); ?>"
           class="oit-featured-cards__card-action absolute bottom-6 right-6 lg:bottom-7 lg:right-7 inline-flex items-center justify-center w-10 h-10 rounded-full no-underline transition-[colors,transform] duration-300 hover:scale-110 <?php echo $action_classes; ?>">
           <svg class="w-[14px] h-[16px] shrink-0" viewBox="0 0 14 16" fill="none" aria-hidden="true"><path d="M1 1L7 8L1 15M7 1L13 8L7 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
 
       </li>
+      <?php endif; ?>
+
       <?php endforeach; ?>
     </ul>
 

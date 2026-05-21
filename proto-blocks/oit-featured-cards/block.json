@@ -6,7 +6,7 @@
   "title": "OIT Featured Cards",
   "category": "optimizedit",
   "icon": "grid-view",
-  "description": "Responsive grid of bordered cards. One card can be flagged as the red highlight variant via the highlightedIndex control. Pair with oit-call-to-action above for the intro + CTA.",
+  "description": "Responsive grid of cards. Default: bordered white cards with a small icon, title, description and a corner CTA arrow; one card can be flagged as the red highlight via highlightedIndex. Logo variant: brand-black filled cards with a brand logo at the top and the entire card as the link. Pair with oit-call-to-action above for the intro + CTA.",
   "keywords": ["cards", "grid", "features", "solutions", "oit"],
   "supports": {
     "html": false,
@@ -54,7 +54,13 @@
         "min": 0,
         "max": 12,
         "default": 6,
-        "help": "1-based index of the card to render with the red highlight variant. 0 = no card highlighted (and every card adopts the red look on hover)."
+        "help": "1-based index of the card to render with the red highlight variant. 0 = no card highlighted (and every card adopts the red look on hover). Ignored when Logo variant is on."
+      },
+      "logoVariant": {
+        "type": "toggle",
+        "label": "Logo variant",
+        "default": false,
+        "help": "Off: bordered white cards with corner CTA arrow (default). On: brand-black filled cards with a logo at the top; the whole card becomes the link."
       }
     }
   }
