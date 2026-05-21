@@ -39,6 +39,12 @@
         "type": "toggle",
         "label": "Show CTA Button",
         "default": true
+      },
+      "solidButton": {
+        "type": "toggle",
+        "label": "Solid red button",
+        "default": false,
+        "help": "Off: outlined pill (black text, red border, fills on hover). On: filled red pill with white text."
       }
     }
   }
