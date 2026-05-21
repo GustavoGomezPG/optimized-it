@@ -80,41 +80,57 @@ add_action('enqueue_block_assets', function () {
  *   - assets/editor/builder-canvas.js
  *   - templates/page-builder.html
  *
- * Loads only in the block editor admin context.
+ * Two handles, two hooks:
+ *
+ *   - builder-canvas.css affects content INSIDE the FSE canvas iframe
+ *     (the post-title field selector lives there), so it has to be
+ *     enqueued via `enqueue_block_assets` -- that's the only hook that
+ *     reliably propagates a stylesheet into the iframe document. We
+ *     guard with is_admin() to keep it from leaking to the front end
+ *     where it would do nothing useful. Hooking it through
+ *     `enqueue_block_editor_assets` instead triggers the
+ *     "added to the iframe incorrectly" console warning under WP 6.9+.
+ *
+ *   - builder-canvas.js adds a Page Title panel to the document
+ *     sidebar, which is part of the editor's OUTER admin chrome (not
+ *     the iframe), so it stays on `enqueue_block_editor_assets`.
  */
+add_action('enqueue_block_assets', function () {
+    if (!is_admin()) {
+        return;
+    }
+    $css_path = get_stylesheet_directory() . '/assets/editor/builder-canvas.css';
+    if (!file_exists($css_path)) {
+        return;
+    }
+    wp_enqueue_style(
+        'optimizedit-builder-canvas',
+        get_stylesheet_directory_uri() . '/assets/editor/builder-canvas.css',
+        [],
+        filemtime($css_path)
+    );
+});
+
 add_action('enqueue_block_editor_assets', function () {
-    $base_dir = get_stylesheet_directory() . '/assets/editor';
-    $base_url = get_stylesheet_directory_uri() . '/assets/editor';
-
-    $css_path = $base_dir . '/builder-canvas.css';
-    $js_path  = $base_dir . '/builder-canvas.js';
-
-    if (file_exists($css_path)) {
-        wp_enqueue_style(
-            'optimizedit-builder-canvas',
-            $base_url . '/builder-canvas.css',
-            [],
-            filemtime($css_path)
-        );
+    $js_path = get_stylesheet_directory() . '/assets/editor/builder-canvas.js';
+    if (!file_exists($js_path)) {
+        return;
     }
-
-    if (file_exists($js_path)) {
-        wp_enqueue_script(
-            'optimizedit-builder-canvas',
-            $base_url . '/builder-canvas.js',
-            [
-                'wp-plugins',
-                'wp-edit-post',
-                'wp-editor',
-                'wp-components',
-                'wp-data',
-                'wp-element',
-                'wp-i18n',
-            ],
-            filemtime($js_path),
-            true
-        );
-    }
+    wp_enqueue_script(
+        'optimizedit-builder-canvas',
+        get_stylesheet_directory_uri() . '/assets/editor/builder-canvas.js',
+        [
+            'wp-plugins',
+            'wp-edit-post',
+            'wp-editor',
+            'wp-components',
+            'wp-data',
+            'wp-element',
+            'wp-i18n',
+        ],
+        filemtime($js_path),
+        true
+    );
 });
 
 /**
