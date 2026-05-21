@@ -114,3 +114,41 @@ if (!function_exists('oit_render_wordmark')) {
         <?php
     }
 }
+
+if (!function_exists('oit_render_wordmark_split')) {
+    /**
+     * Two-color variant of the giant background wordmark used by
+     * oit-about-hero. Renders two adjacent uppercase segments inside the
+     * same wrapper so they read as one continuous word; each segment
+     * paints in its own color via the --primary / --accent modifiers.
+     *
+     * If both strings are empty, nothing is printed. If only one is
+     * present, the wrapper still uses the split layout but the missing
+     * segment is omitted.
+     *
+     * Visual rules (font, fluid size, position, color, 0.4 opacity) live
+     * in the theme's main style.css under .oit-page-header__wordmark--split.
+     */
+    function oit_render_wordmark_split(string $primary, string $accent): void
+    {
+        $primary = trim($primary);
+        $accent  = trim($accent);
+        if ($primary === '' && $accent === '') {
+            return;
+        }
+        ?>
+        <div class="oit-page-header__wordmark oit-page-header__wordmark--split" aria-hidden="true">
+            <?php if ($primary !== ''): ?>
+            <span class="oit-page-header__wordmark-text oit-page-header__wordmark-text--primary">
+                <?php echo esc_html(strtoupper($primary)); ?>
+            </span>
+            <?php endif; ?>
+            <?php if ($accent !== ''): ?>
+            <span class="oit-page-header__wordmark-text oit-page-header__wordmark-text--accent">
+                <?php echo esc_html(strtoupper($accent)); ?>
+            </span>
+            <?php endif; ?>
+        </div>
+        <?php
+    }
+}

@@ -1,0 +1,63 @@
+/*
+ * OIT About Hero — non-utility styles.
+ *
+ * Visual styling lives inline as Tailwind utilities on the template.
+ * This file owns only the data-animate="pending" pre-state used by
+ * view.js: targets are hidden up-front so GSAP's fromTo() doesn't
+ * flash the final state for one frame before the timeline starts.
+ * The state flips to data-animate="done" the moment the scroll
+ * trigger fires.
+ *
+ * The wordmark and breadcrumb markup is produced by the shared
+ * partials in inc/oit-header-partials.php and inherits its own pre-
+ * state hooks below (same .oit-page-header__* class names as the
+ * other header blocks). Color rules for the two-color wordmark
+ * (--primary, --accent) live in the theme's main style.css.
+ */
+
+/* Animation pre-state -- only applied while GSAP is going to take over.
+ * The wrapper element is the .oit-about-hero section; descendants
+ * with these BEM-style hooks are the animation targets. */
+.oit-about-hero[data-animate="pending"] .oit-about-hero__grid,
+.oit-about-hero[data-animate="pending"] .oit-about-hero__title,
+.oit-about-hero[data-animate="pending"] .oit-about-hero__subtitle,
+.oit-about-hero[data-animate="pending"] .oit-about-hero__awards,
+.oit-about-hero[data-animate="pending"] .oit-about-hero__image-wrap,
+.oit-about-hero[data-animate="pending"] .oit-page-header__breadcrumb,
+.oit-about-hero[data-animate="pending"] .oit-page-header__wordmark {
+  opacity: 0;
+}
+
+/* Wordmark positioning override.
+ *
+ * The shared partial defaults to in-flow + negative margin-top, which
+ * works for oit-two-col-header (wordmark just overlaps the grid above
+ * it). About-hero wants the wordmark anchored to the section's
+ * bottom-right edge so it fills the empty space below the featured
+ * image (the left column runs longer than the image, leaving that
+ * gap) and trails off the right edge.
+ *
+ * The parent .oit-about-hero__inner is position: relative already
+ * (Tailwind `relative` utility on the template), so absolute
+ * positioning anchors here without needing extra wrapper changes.
+ * This avoids the magic `top: <pixels>px` offset and stays responsive. */
+.oit-about-hero .oit-page-header__wordmark {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  left: auto;
+  margin-top: 0;
+}
+
+@media (min-width: 1024px) {
+  /* Desktop only: overshoot the right edge by 2% so the trailing
+   * letter runs slightly off the section, and drop the wordmark down
+   * by 18% of __inner height so its bottom half sits below the image
+   * baseline -- matches the Figma intent. On mobile the wordmark
+   * stays inside the section bounds because horizontal real estate is
+   * tight and the overflow would push into the next block. */
+  .oit-about-hero .oit-page-header__wordmark {
+    right: -1%;
+    bottom: -4%;
+  }
+}

@@ -1,0 +1,80 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-about-hero",
+  "version": "1.0.0",
+  "title": "OIT About Hero",
+  "category": "optimizedit",
+  "icon": "id-alt",
+  "description": "About / company-overview page header. Auto-derived breadcrumb, headline, supporting paragraph, optional awards/cert logo row, large featured image on the right, two-color giant background wordmark. Light theme only.",
+  "keywords": ["about", "company", "page header", "two column", "oit"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true,
+    "align": ["wide", "full"]
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {
+      "title": {
+        "type": "wysiwyg",
+        "label": "Title"
+      },
+      "subtitle": {
+        "type": "wysiwyg",
+        "label": "Subtitle"
+      },
+      "awards": {
+        "type": "repeater",
+        "label": "Awards / References",
+        "min": 0,
+        "max": 12,
+        "itemLabel": "alt",
+        "collapsible": true,
+        "fields": {
+          "logo": {
+            "type": "image",
+            "label": "Logo",
+            "sizes": ["thumbnail", "medium"]
+          },
+          "alt": {
+            "type": "text",
+            "label": "Accessible label"
+          },
+          "link": {
+            "type": "link",
+            "label": "Optional link"
+          }
+        }
+      },
+      "featuredImage": {
+        "type": "image",
+        "label": "Featured Image",
+        "sizes": ["medium", "large", "full"]
+      }
+    },
+    "controls": {
+      "wordmarkPrimary": {
+        "type": "text",
+        "label": "Wordmark — Primary (light grey)",
+        "default": "",
+        "help": "Giant background wordmark, first segment. Paints in light-grey. Leave empty to hide this half."
+      },
+      "wordmarkAccent": {
+        "type": "text",
+        "label": "Wordmark — Accent (pink)",
+        "default": "",
+        "help": "Giant background wordmark, second segment. Paints in soft pink. Leave empty to hide this half."
+      },
+      "highlightWord": {
+        "type": "text",
+        "label": "Highlight word/phrase in title",
+        "default": "",
+        "help": "First case-insensitive occurrence in the title is wrapped in a red span."
+      }
+    }
+  }
+}

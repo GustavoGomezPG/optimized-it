@@ -184,6 +184,26 @@ div.tnp-field {
   left: 27%;
 }
 
+/* Two-color wordmark variant (oit-about-hero).
+   Two adjacent segments read as one continuous word. Both inherit the
+   fluid size, weight and 40% opacity from the base; only the color
+   differs. The wrapper itself keeps the same right-aligned + negative
+   top-margin positioning as the single-color version. */
+.oit-page-header__wordmark--split .oit-page-header__wordmark-text {
+  /* Reset the base left: 27% nudge -- segments are positioned by the
+     wrapper's text-align: right alone so they always hug the right edge
+     as a single block. */
+  left: 0;
+}
+
+.oit-page-header__wordmark-text--primary {
+  color: #E6E6E8; /* light-grey token */
+}
+
+.oit-page-header__wordmark-text--accent {
+  color: #F5D6DA; /* brand light-red tint */
+}
+
 /* Intro screen overlay (preloader, once per session) ----------------------
    Rendered by wp_body_open in functions.php. The matching JS lives in
    scripts/oit-intro.js. The early inline script in <head> sets the
