@@ -2,7 +2,7 @@
  * OIT Page Header — non-utility styles.
  *
  * Everything that survives Tailwind's scanner lives inline on the
- * template. This file owns the two things that don't translate cleanly:
+ * template. This file owns the things that don't translate cleanly:
  *
  *   1. The icon-badge 17-stop red->black gradient (too many comma-
  *      separated stops to round-trip through arbitrary-value Tailwind).
@@ -11,21 +11,12 @@
  *      are hidden up-front so GSAP's fromTo() doesn't flash the final
  *      state for one frame before the timeline starts. The state flips
  *      to data-animate="done" the moment the scroll trigger fires.
+ *
+ * Wordmark sizing (font-size clamp + negative top margin) used to live
+ * here too, but it's emitted by inc/oit-header-partials.php and shared
+ * with oit-two-col-header; those rules now live in the theme-wide
+ * style.css so they load regardless of which block is on the page.
  */
-
-/* 0. Wordmark fluid sizing — Tailwind's arbitrary-value parser doesn't
- *    reliably handle comma-separated clamp() args inside text-[...] /
- *    -mt-[...], so these two rules live as plain CSS. font-size scales
- *    smoothly with viewport between the min (small phones) and max
- *    (wide desktops); the negative top margin scales with it so the
- *    overlap with the card stays proportional. */
-.oit-page-header__wordmark-text {
-  font-size: clamp(56px, 13vw, 186px);
-}
-
-.oit-page-header__wordmark {
-  margin-top: calc(-1 * clamp(28px, 6vw, 96px));
-}
 
 /* Light-theme circuit decoration -- the source SVG/Lottie ships the
  * brand-red stroke, which gets lost on the white card. brightness(0)

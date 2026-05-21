@@ -3,6 +3,8 @@
  * OptimizedIT theme functions.
  */
 
+require_once get_stylesheet_directory() . '/inc/oit-header-partials.php';
+
 add_action('after_setup_theme', function () {
     register_nav_menus([
         'primary' => __('Primary Navigation', 'optimizedit'),

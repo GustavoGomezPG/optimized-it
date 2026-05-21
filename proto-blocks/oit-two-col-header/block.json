@@ -1,0 +1,56 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-two-col-header",
+  "version": "1.0.0",
+  "title": "OIT Two-Col Header",
+  "category": "optimizedit",
+  "icon": "align-left",
+  "description": "Industry / section page header. Auto-derived breadcrumb, industry icon above headline, supporting subtitle, large featured image on the right, giant background wordmark, and a scroll-triggered reveal. Light theme only.",
+  "keywords": ["industry header", "section header", "page header", "two column", "oit"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true,
+    "align": ["wide", "full"]
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {
+      "industryIcon": {
+        "type": "image",
+        "label": "Industry Icon",
+        "sizes": ["thumbnail", "medium"]
+      },
+      "title": {
+        "type": "wysiwyg",
+        "label": "Title"
+      },
+      "subtitle": {
+        "type": "wysiwyg",
+        "label": "Subtitle"
+      },
+      "featuredImage": {
+        "type": "image",
+        "label": "Featured Image",
+        "sizes": ["medium", "large", "full"]
+      }
+    },
+    "controls": {
+      "wordmark": {
+        "type": "text",
+        "label": "Background Wordmark",
+        "default": "",
+        "help": "Giant uppercase word that sits behind the layout. Leave empty to hide."
+      },
+      "highlightWord": {
+        "type": "text",
+        "label": "Highlight word/phrase in title",
+        "default": "",
+        "help": "First case-insensitive occurrence in the title is wrapped in a red span."
+      }
+    }
+  }
+}

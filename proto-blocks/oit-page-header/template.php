@@ -60,46 +60,22 @@ if ($highlight_word !== '') {
   }
 }
 
-// Breadcrumb is derived from the current page's ancestor chain -- Home,
-// then each parent page from the top down, then the current page (no
-// link, painted brand red). Not editor-configurable: the trail follows
-// the WP page hierarchy so it stays correct as pages get reorganized.
+// Breadcrumb rendering and the giant wordmark live in
+// inc/oit-header-partials.php so the new oit-two-col-header block can
+// share them. The partials emit the same markup and class names this
+// block has always produced, so style.css and view.js below keep
+// working without any selector changes.
 //
-// Fallbacks:
-//   - No current post (template preview / unsaved insertion) -> a
-//     single "Home -> Current" stub so the block doesn't render empty.
-//   - Page has no ancestors -> just "Home -> <Title>".
-$breadcrumb = [
-  ['label' => 'Home', 'url' => home_url('/')],
-];
-
-$current_id = get_the_ID();
-if ($current_id) {
-  $ancestor_ids = array_reverse(get_post_ancestors($current_id));
-  foreach ($ancestor_ids as $ancestor_id) {
-    $breadcrumb[] = [
-      'label' => get_the_title($ancestor_id),
-      'url'   => get_permalink($ancestor_id),
-    ];
-  }
-  $breadcrumb[] = [
-    'label' => get_the_title($current_id) ?: 'Current',
-    'url'   => '',
-  ];
-} else {
-  $breadcrumb[] = ['label' => 'Current', 'url' => ''];
-}
-
 // In the editor preview $block is null. The data-animate="pending" pre-
 // state would leave everything invisible there because view.js doesn't
 // run; only apply it on the front end.
 $is_preview = !isset($block) || $block === null;
 
-// Theme-driven swap: light = white card / black text / black breadcrumb
-// trail; dark = black card / white text / white breadcrumb trail. The
-// current (last) breadcrumb crumb is always brand red.
+// Theme-driven swap: light = white card / black text; dark = black
+// card / white text. The breadcrumb partial inherits text color from
+// the card surface via the cascade, so it picks up the right idle
+// color automatically.
 $card_classes      = $is_light ? 'bg-white text-black' : 'bg-black text-white';
-$crumb_idle_color  = $is_light ? 'text-black' : 'text-white';
 $cta_secondary     = $is_light
   ? 'bg-transparent text-black border-2 border-brand-red hover:bg-brand-red hover:text-white'
   : 'bg-transparent text-white border-2 border-brand-red hover:bg-brand-red';
@@ -113,10 +89,9 @@ if (!$is_preview) {
 }
 $wrapper_attributes = get_block_wrapper_attributes($wrapper_args);
 
-// Double-chevron separator used inside the breadcrumb trail and as the
-// trailing arrow on CTA buttons. Fill is currentColor so it inherits the
-// containing element's text color (white on dark theme, black on light,
-// brand red for the current breadcrumb crumb).
+// Double-chevron used as the trailing arrow on CTA buttons. (The
+// breadcrumb's chevron lives in inc/oit-header-partials.php.) Fill is
+// currentColor so it inherits the button's text color.
 $chevron = '<svg class="w-[13px] h-3 shrink-0" viewBox="0 0 13 12" fill="currentColor" aria-hidden="true"><path d="M0 1.41L1.36689 0L7.18345 6L1.36689 12L0 10.59L4.43997 6L0 1.41ZM5.81656 1.41L7.18345 0L13 6L7.18345 12L5.81656 10.59L10.2565 6L5.81656 1.41Z"/></svg>';
 ?>
 
@@ -128,32 +103,7 @@ $chevron = '<svg class="w-[13px] h-3 shrink-0" viewBox="0 0 13 12" fill="current
 
         <div class="oit-page-header__content relative z-10 flex flex-col gap-5 lg:gap-6 max-w-[900px]">
 
-          <?php if (!empty($breadcrumb)): ?>
-          <nav
-            class="oit-page-header__breadcrumb flex flex-wrap items-center gap-2 font-grotesk font-medium text-body-sm leading-[1.3]"
-            aria-label="Breadcrumb">
-            <?php foreach ($breadcrumb as $i => $crumb):
-              $is_last = ($i === count($breadcrumb) - 1);
-              $label   = $crumb['label'] ?? '';
-              $url     = $crumb['url'] ?? '';
-              $color   = $is_last ? 'text-brand-red' : $crumb_idle_color;
-            ?>
-            <span class="oit-page-header__crumb inline-flex items-center gap-2">
-              <?php if ($url && !$is_last): ?>
-              <a href="<?php echo esc_url($url); ?>"
-                 class="oit-page-header__crumb-link <?php echo esc_attr($color); ?> no-underline hover:text-brand-red transition-colors">
-                <?php echo esc_html($label); ?>
-              </a>
-              <?php else: ?>
-              <span class="<?php echo esc_attr($color); ?>"><?php echo esc_html($label); ?></span>
-              <?php endif; ?>
-              <?php if (!$is_last): ?>
-                <span class="oit-page-header__crumb-sep <?php echo esc_attr($crumb_idle_color); ?>"><?php echo $chevron; ?></span>
-              <?php endif; ?>
-            </span>
-            <?php endforeach; ?>
-          </nav>
-          <?php endif; ?>
+          <?php oit_render_breadcrumb(); ?>
 
           <div
             data-proto-field="title"
@@ -230,15 +180,7 @@ $chevron = '<svg class="w-[13px] h-3 shrink-0" viewBox="0 0 13 12" fill="current
       </div>
     </article>
 
-    <?php if ($wordmark): ?>
-    <div
-      class="oit-page-header__wordmark pointer-events-none select-none relative z-0 text-right"
-      aria-hidden="true">
-      <span class="oit-page-header__wordmark-text relative inline-block font-grotesk font-bold uppercase whitespace-nowrap leading-[1] text-[#F5D6DA] opacity-40 right-[-3%] lg:right-[-7%]">
-        <?php echo esc_html(strtoupper($wordmark)); ?>
-      </span>
-    </div>
-    <?php endif; ?>
+    <?php oit_render_wordmark($wordmark); ?>
 
   </div>
 </section>

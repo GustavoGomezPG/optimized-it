@@ -95,6 +95,95 @@ div.tnp-field {
   }
 }
 
+/* Shared header partials -------------------------------------------------
+   The breadcrumb and giant background wordmark used by oit-page-header
+   and oit-two-col-header are rendered by inc/oit-header-partials.php.
+   Proto-Blocks' Tailwind compiler only scans files under proto-blocks/<block>/,
+   so any utility classes baked into the partial markup would be dropped
+   from the compiled CSS. To avoid that, the partial emits BEM hook
+   class names only and all visual rules for those hooks live here in
+   plain CSS. This file ships via enqueue_block_assets, so it loads on
+   the front end AND inside the FSE canvas iframe regardless of which
+   block is on the page. */
+
+/* Breadcrumb -- non-current crumbs inherit text color from the parent
+   surface via the cascade (a dark card paints them white, a light
+   section paints them black). The current crumb and link-hover always
+   resolve to brand red. */
+.oit-page-header__breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 8px;
+  font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.3;
+  color: inherit;
+}
+
+.oit-page-header__crumb {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.oit-page-header__crumb-link {
+  color: inherit;
+  text-decoration: none;
+  transition: color 200ms ease-out;
+}
+
+.oit-page-header__crumb-link:hover,
+.oit-page-header__crumb-link:focus-visible {
+  color: #D1001D; /* brand-red */
+}
+
+.oit-page-header__crumb.is-current .oit-page-header__crumb-label {
+  color: #D1001D; /* brand-red */
+}
+
+.oit-page-header__crumb-sep {
+  color: inherit;
+  display: inline-flex;
+  align-items: center;
+}
+
+.oit-page-header__crumb-chevron {
+  width: 13px;
+  height: 12px;
+  flex-shrink: 0;
+  display: block;
+}
+
+/* Wordmark -- giant uppercase watermark behind the header content.
+   font-size scales fluidly with viewport; the negative top margin
+   pulls the wordmark up so it overlaps the card / grid above it,
+   matching the Figma layout. Color is the brand light-red tint at
+   40% opacity. */
+.oit-page-header__wordmark {
+  position: relative;
+  z-index: 0;
+  margin-top: calc(-1 * clamp(28px, 6vw, 96px));
+  text-align: right;
+  pointer-events: none;
+  user-select: none;
+}
+
+.oit-page-header__wordmark-text {
+  position: relative;
+  display: inline-block;
+  font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 700;
+  font-size: clamp(56px, 13vw, 186px);
+  line-height: 1;
+  text-transform: uppercase;
+  white-space: nowrap;
+  color: #F5D6DA; /* brand light-red tint */
+  opacity: 0.4;
+  left: 27%;
+}
+
 /* Intro screen overlay (preloader, once per session) ----------------------
    Rendered by wp_body_open in functions.php. The matching JS lives in
    scripts/oit-intro.js. The early inline script in <head> sets the

@@ -1,0 +1,28 @@
+/*
+ * OIT Two-Col Header — non-utility styles.
+ *
+ * Visual styling lives inline as Tailwind utilities on the template.
+ * This file owns only the data-animate="pending" pre-state used by
+ * view.js: targets are hidden up-front so GSAP's fromTo() doesn't
+ * flash the final state for one frame before the timeline starts.
+ * The state flips to data-animate="done" the moment the scroll
+ * trigger fires.
+ *
+ * The wordmark and breadcrumb markup is produced by the shared
+ * partials in inc/oit-header-partials.php and inherits its own pre-
+ * state hooks from proto-blocks/oit-page-header/style.css -- not
+ * duplicated here.
+ */
+
+/* Animation pre-state -- only applied while GSAP is going to take over.
+ * The wrapper element is the .oit-two-col-header section; descendants
+ * with these BEM-style hooks are the animation targets. */
+.oit-two-col-header[data-animate="pending"] .oit-two-col-header__grid,
+.oit-two-col-header[data-animate="pending"] .oit-two-col-header__icon,
+.oit-two-col-header[data-animate="pending"] .oit-two-col-header__title,
+.oit-two-col-header[data-animate="pending"] .oit-two-col-header__subtitle,
+.oit-two-col-header[data-animate="pending"] .oit-two-col-header__image-wrap,
+.oit-two-col-header[data-animate="pending"] .oit-page-header__breadcrumb,
+.oit-two-col-header[data-animate="pending"] .oit-page-header__wordmark {
+  opacity: 0;
+}
