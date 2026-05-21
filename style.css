@@ -91,7 +91,7 @@ form.tnp-profile {
 
 div.tnp-field {
   @media (max-width: 769px) {
-    width: 100%;400px;
+    width: 100%;
   }
 }
 
