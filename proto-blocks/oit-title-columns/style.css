@@ -38,12 +38,38 @@
     grid-template-columns: repeat(3, 1fr);
     gap: 60px;
   }
+
+  /* Stacked variant: outer grid collapses to a single column so the
+     title spans full width above the columns. The inner repeater grid
+     is unchanged -- columns still render 3-up on desktop. Mobile is
+     already a single-column stack so no override is needed there. */
+  .oit-title-columns--stacked .oit-title-columns__grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Stacked-only grid row-gap reset.
+ *
+ * The base grid uses a uniform `gap` between its items, but the
+ * stacked design calls for unequal gaps (title->intro vs intro->cols).
+ * Zero out the grid row-gap here so per-item Tailwind margin utilities
+ * applied in the template (mt-5 on intro, mt-10 on cols) control the
+ * spacing directly. Inline mode keeps its uniform grid gap untouched.
+ *
+ * This rule lives in plain CSS (not a Tailwind utility on the grid)
+ * because the surrounding layout rules for .__grid are already plain
+ * CSS -- the codebase pins layout to the stylesheet and uses Tailwind
+ * for everything else. Keeping the override in the same file means
+ * the grid behavior reads in one place. */
+.oit-title-columns--stacked .oit-title-columns__grid {
+  row-gap: 0;
 }
 
 /* Pre-animation state — hide title + columns before GSAP takes over so
    the fade-in doesn't flash the final state for one frame. data-animate
    flips to "done" inside the ScrollTrigger onEnter callback. */
 .oit-title-columns[data-animate="pending"] .oit-title-columns__title,
+.oit-title-columns[data-animate="pending"] .oit-title-columns__intro,
 .oit-title-columns[data-animate="pending"] .oit-title-columns__col {
   opacity: 0;
 }

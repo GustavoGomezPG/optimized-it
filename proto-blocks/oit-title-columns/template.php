@@ -25,9 +25,23 @@
  */
 
 $title         = !empty($attributes['title']) ? $attributes['title'] : 'The IT Partner For Your Business';
+$intro         = !empty($attributes['intro']) ? $attributes['intro'] : 'Short supporting paragraph that introduces the columns below.';
 $columns       = $attributes['columns'] ?? [];
 $show_gradient = $attributes['showGradient'] ?? true;
 $show_red_line = $attributes['showRedLine'] ?? true;
+$stack_layout  = !empty($attributes['stackLayout']);
+
+// Intro paragraph only renders alongside the stacked layout -- it's the
+// supporting line that sits between the title and the three columns.
+// In the inline layout the title occupies a narrow left column and there
+// is no room for a paragraph there, so the field is intentionally hidden.
+//
+// We render it unconditionally when stack_layout is on (even if the
+// author hasn't filled it in yet) so the Proto-Blocks editor has an
+// element to mount its inline WYSIWYG UI on. Until the author types
+// into it, the placeholder default above is shown -- same pattern
+// `title`/`subtitle` use in oit-two-col-header.
+$show_intro = $stack_layout;
 
 if (empty($columns)) {
   $columns = [
@@ -52,7 +66,11 @@ $bg_class = $show_gradient
   ? 'bg-gradient-to-b from-light-grey to-white'
   : 'bg-white';
 
-$wrapper_args = ['class' => 'oit-title-columns ' . $bg_class];
+$wrapper_classes = 'oit-title-columns ' . $bg_class;
+if ($stack_layout) {
+  $wrapper_classes .= ' oit-title-columns--stacked';
+}
+$wrapper_args = ['class' => $wrapper_classes];
 if (!$is_preview) {
   $wrapper_args['data-animate'] = 'pending';
 }
@@ -70,9 +88,17 @@ $wrapper_attributes = get_block_wrapper_attributes($wrapper_args);
         <?php echo esc_html(wp_strip_all_tags($title)); ?>
       </h2>
 
+      <?php if ($show_intro): ?>
+      <div
+        data-proto-field="intro"
+        class="oit-title-columns__intro mt-5 font-dm font-medium text-body-sm leading-[1.5] text-black max-w-[820px] [&_p]:m-0 [&_p+p]:mt-3">
+        <?php echo wp_kses_post(wpautop($intro)); ?>
+      </div>
+      <?php endif; ?>
+
       <ul
         data-proto-repeater="columns"
-        class="oit-title-columns__cols m-0 p-0 list-none">
+        class="oit-title-columns__cols m-0 p-0 list-none<?php echo $stack_layout ? ' mt-10' : ''; ?>">
         <?php foreach ($columns as $column):
           $subhead = wp_strip_all_tags($column['subhead'] ?? '');
           $body    = $column['body']    ?? '';

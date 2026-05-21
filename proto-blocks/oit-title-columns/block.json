@@ -24,6 +24,10 @@
         "label": "Title",
         "tagName": "h2"
       },
+      "intro": {
+        "type": "wysiwyg",
+        "label": "Intro paragraph (stacked layout only)"
+      },
       "columns": {
         "type": "repeater",
         "label": "Columns",
@@ -53,6 +57,12 @@
         "type": "toggle",
         "label": "Red separator line at bottom",
         "default": true
+      },
+      "stackLayout": {
+        "type": "toggle",
+        "label": "Stack title above columns",
+        "default": false,
+        "help": "Off: title sits to the left of the columns (inline). On: title spans full width above the columns; columns still render 3-up on desktop."
       }
     }
   }
