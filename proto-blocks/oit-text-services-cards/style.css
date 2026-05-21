@@ -1,0 +1,26 @@
+/*
+ * OIT Text + Services Cards — non-utility styles.
+ *
+ * Card hover behavior and animation pre-state. Everything else lives
+ * inline as Tailwind utilities on the template.
+ */
+
+/* Chevron slide on card hover/focus. The chevron itself carries
+ * `transition-transform duration-200 ease-out` on the template; this
+ * rule just supplies the target translate value via the parent's
+ * :hover / :focus-visible state. Group-hover would also work, but a
+ * descendant selector here keeps the template a hair simpler. */
+.oit-text-services-cards__card:hover .oit-text-services-cards__chevron,
+.oit-text-services-cards__card:focus-visible .oit-text-services-cards__chevron {
+  transform: translateX(4px);
+}
+
+/* Animation pre-state -- hidden up-front so GSAP's fromTo() doesn't
+ * flash the final state for one frame before the timeline starts.
+ * The state flips to data-animate="done" when ScrollTrigger fires. */
+.oit-text-services-cards[data-animate="pending"] .oit-text-services-cards__heading,
+.oit-text-services-cards[data-animate="pending"] .oit-text-services-cards__body,
+.oit-text-services-cards[data-animate="pending"] .oit-text-services-cards__subhead,
+.oit-text-services-cards[data-animate="pending"] .oit-text-services-cards__card {
+  opacity: 0;
+}

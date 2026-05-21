@@ -1,0 +1,79 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-text-services-cards",
+  "version": "1.0.0",
+  "title": "OIT Text + Services Cards",
+  "category": "optimizedit",
+  "icon": "screenoptions",
+  "description": "Industry-page intro section: heading + body + red subhead followed by a row of clickable service cards and an optional 'View All' CTA. Scroll-triggered reveal, gradient or white background.",
+  "keywords": ["services", "cards", "industry", "intro", "rtbs", "oit"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true,
+    "align": ["wide", "full"]
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {
+      "heading": {
+        "type": "wysiwyg",
+        "label": "Heading"
+      },
+      "body": {
+        "type": "wysiwyg",
+        "label": "Body Copy"
+      },
+      "subhead": {
+        "type": "wysiwyg",
+        "label": "Red Subhead"
+      },
+      "cards": {
+        "type": "repeater",
+        "label": "Service Cards",
+        "min": 1,
+        "itemLabel": "link",
+        "collapsible": true,
+        "fields": {
+          "icon": { "type": "image", "label": "Icon", "sizes": ["thumbnail", "medium"] },
+          "link": { "type": "link",  "label": "Card link", "tagName": "a" }
+        }
+      }
+    },
+    "controls": {
+      "showGradient": {
+        "type": "toggle",
+        "label": "Light-grey gradient background",
+        "default": true,
+        "help": "On = light-grey → white vertical gradient. Off = solid white."
+      },
+      "highlightWord": {
+        "type": "text",
+        "label": "Highlight word/phrase in heading",
+        "default": "",
+        "help": "First case-insensitive occurrence in the heading is wrapped in a red span."
+      },
+      "showViewAll": {
+        "type": "toggle",
+        "label": "Show \"View All\" card",
+        "default": true,
+        "help": "Appends the black CTA card after the last service card."
+      },
+      "viewAllUrl": {
+        "type": "text",
+        "label": "View All URL",
+        "default": "",
+        "help": "Destination for the View All card. Defaults to # if empty."
+      },
+      "viewAllLabel": {
+        "type": "text",
+        "label": "View All label",
+        "default": "View All Services",
+        "help": "Two-line label inside the black card. Use a line break inside the editor (Shift+Enter) is not supported; the template auto-splits on the first space."
+      }
+    }
+  }
+}
