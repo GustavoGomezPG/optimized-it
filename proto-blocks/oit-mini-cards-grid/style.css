@@ -27,20 +27,3 @@
     19px 23px 30px 0 rgba(224, 5, 35, 0.07),
     5px 6px 16px 0 rgba(224, 5, 35, 0.08);
 }
-
-/* Editor-only: the Proto-Blocks inline repeater UI defaults each
- * item's field stack to `flex-direction: column` (sensible for blocks
- * like oit-stats where icon sits on top of a number + label). Our
- * card layout on the front end is horizontal -- icon, title, chevron
- * all in a row inside a single <a> -- so the editor preview should
- * mirror that. Scope the override to this block's wrapper class so
- * other proto-blocks that share the column layout are untouched.
- *
- * Selectors don't exist on the front end (no .proto-blocks-repeater
- * markup there), so this rule is a no-op outside the editor. */
-.wp-block-proto-blocks-oit-mini-cards-grid .proto-blocks-repeater__item-preview {
-  flex-direction: row;
-  align-items: center;
-  text-align: left;
-  gap: 12px;
-}
