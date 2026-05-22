@@ -1,5 +1,5 @@
 /*
- * OIT Title + 3 Columns — grid layout + pre-animation state.
+ * OIT Title + Columns — grid layout + pre-animation state.
  *
  * Layout is two nested CSS grids defined here in plain CSS rather than
  * inline Tailwind classes, because:
@@ -11,9 +11,17 @@
  *
  * Mobile: single column, everything stacks (title, then each column).
  * Desktop (>=1024px): outer track is `1fr 3fr` (title takes a quarter,
- * the columns container takes the rest); inner repeater is a 3-column
- * grid with the same gap, so each column ends up the same width as the
- * title column visually.
+ * the columns container takes the rest); inner repeater is an N-column
+ * grid sized by the `--c1`/`--c2`/`--c3`/`--c4` modifier class the
+ * template applies based on item count (clamped 1-4).
+ *
+ * The track count is driven by a modifier class -- not a CSS custom
+ * property -- because Proto-Blocks' repeater editor strips inline
+ * `style` attributes when re-rendering the field but preserves
+ * `className`. Using a class keeps the editor preview in sync with the
+ * front-end layout. Each column ends up the same width as the title
+ * column visually when count = 3; counts of 1, 2, or 4 produce wider
+ * or narrower tracks accordingly.
  */
 
 .oit-title-columns__grid {
@@ -35,8 +43,24 @@
   }
 
   .oit-title-columns__cols {
+    /* Base rule -- the per-count modifiers below override the track
+       count. The default `repeat(3, 1fr)` keeps already-saved blocks
+       (rendered before the modifier class existed) looking the same. */
     grid-template-columns: repeat(3, 1fr);
     gap: 60px;
+  }
+
+  .oit-title-columns__cols.oit-title-columns__cols--c1 {
+    grid-template-columns: 1fr;
+  }
+  .oit-title-columns__cols.oit-title-columns__cols--c2 {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .oit-title-columns__cols.oit-title-columns__cols--c3 {
+    grid-template-columns: repeat(3, 1fr);
+  }
+  .oit-title-columns__cols.oit-title-columns__cols--c4 {
+    grid-template-columns: repeat(4, 1fr);
   }
 
   /* Stacked variant: outer grid collapses to a single column so the

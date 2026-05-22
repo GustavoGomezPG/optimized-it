@@ -3,10 +3,10 @@
   "apiVersion": 3,
   "name": "proto-blocks/oit-title-columns",
   "version": "1.0.0",
-  "title": "OIT Title + 3 Columns",
+  "title": "OIT Title + Columns",
   "category": "optimizedit",
   "icon": "columns",
-  "description": "Light-grey section with a big H2 title on the left and up to three subhead + body columns to its right. Title slides in, columns stagger in on scroll.",
+  "description": "Light-grey section with a big H2 title on the left and 1 to 4 subhead + body columns to its right. Title slides in, columns stagger in on scroll. The stackLayout toggle moves the title above the columns and unlocks the optional intro paragraph.",
   "keywords": ["title", "columns", "feature", "intro", "scannable", "oit"],
   "supports": {
     "html": false,
@@ -32,7 +32,7 @@
         "type": "repeater",
         "label": "Columns",
         "min": 1,
-        "max": 3,
+        "max": 4,
         "itemLabel": "subhead",
         "collapsible": true,
         "fields": {

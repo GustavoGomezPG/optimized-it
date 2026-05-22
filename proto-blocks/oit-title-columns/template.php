@@ -75,6 +75,15 @@ if (!$is_preview) {
   $wrapper_args['data-animate'] = 'pending';
 }
 $wrapper_attributes = get_block_wrapper_attributes($wrapper_args);
+
+// Desktop track count adapts to the number of items the author has
+// actually added (clamped 1-4 to match block.json). The grid track
+// count is driven by a `--cN` modifier class on the inner `__cols`
+// element so the editor's repeater render (which strips inline `style`
+// but preserves `className`) still picks up the right layout. Mobile
+// stays single column either way.
+$cols_count = max(1, min(4, count($columns)));
+$cols_count_class = 'oit-title-columns__cols--c' . $cols_count;
 ?>
 
 <section <?php echo $wrapper_attributes; ?>>
@@ -98,7 +107,7 @@ $wrapper_attributes = get_block_wrapper_attributes($wrapper_args);
 
       <ul
         data-proto-repeater="columns"
-        class="oit-title-columns__cols m-0 p-0 list-none<?php echo $stack_layout ? ' mt-10' : ''; ?>">
+        class="oit-title-columns__cols <?php echo esc_attr($cols_count_class); ?> m-0 p-0 list-none<?php echo $stack_layout ? ' mt-10' : ''; ?>">
         <?php foreach ($columns as $column):
           $subhead = wp_strip_all_tags($column['subhead'] ?? '');
           $body    = $column['body']    ?? '';
