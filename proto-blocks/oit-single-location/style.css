@@ -1,0 +1,81 @@
+/*
+ * OIT Single Location -- animation pre-state + Leaflet residual rules.
+ *
+ * Visual styling lives inline as Tailwind utilities on the template.
+ * This file owns two things:
+ *
+ *   1. The data-animate="pending" pre-state used by view.js so the
+ *      scroll reveal doesn't flash the final state for one frame
+ *      before the timeline starts. view.js flips the attribute to
+ *      "done" once ScrollTrigger fires.
+ *
+ *   2. A small set of overrides for Leaflet's auto-injected DOM that
+ *      Tailwind can't reach (Leaflet's CSS is loaded by view.js from
+ *      the unpkg CDN, so its classes don't show up in our compiled
+ *      utility CSS). Hiding the attribution + scaling the zoom
+ *      controls into the brand language stays here.
+ */
+
+/* Animation pre-state. */
+.oit-single-location[data-animate="pending"] .oit-single-location__grid,
+.oit-single-location[data-animate="pending"] .oit-single-location__title,
+.oit-single-location[data-animate="pending"] .oit-single-location__subtitle,
+.oit-single-location[data-animate="pending"] .oit-single-location__row,
+.oit-single-location[data-animate="pending"] .oit-single-location__map-wrap,
+.oit-single-location[data-animate="pending"] .oit-page-header__breadcrumb {
+  opacity: 0;
+}
+
+/* Leaflet residuals.
+ *
+ * The default attribution chip clashes with the brand-red glow on the
+ * map card. Move it to the bottom-right corner in a smaller font so
+ * the CARTO + OSM credit still surfaces (required by the tile license)
+ * but doesn't fight the map's visual weight. */
+.oit-single-location__map .leaflet-control-attribution {
+  background: rgba(255, 255, 255, 0.7);
+  font-family: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  font-size: 10px;
+  padding: 2px 6px;
+}
+
+/* Zoom buttons -- soften the default Leaflet chrome a touch so the
+ * controls feel like part of the design instead of pasted on top. */
+.oit-single-location__map .leaflet-bar a {
+  border-radius: 6px !important;
+  border-color: #E6E6E8 !important;
+  color: #1A0303 !important;
+}
+
+.oit-single-location__map .leaflet-bar a:hover {
+  background: #F5D6DA !important;
+  color: #D1001D !important;
+}
+
+/* Brand-red marker styling.
+ *
+ * view.js inserts a div with class .oit-single-location__marker as the
+ * icon, so we control its look entirely in CSS rather than shipping a
+ * sprite image. The pseudo-element pin tail is a CSS triangle. */
+.oit-single-location__marker {
+  position: relative;
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  background: #D1001D;
+  border: 3px solid #FFFFFF;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.25);
+}
+
+.oit-single-location__marker::after {
+  content: "";
+  position: absolute;
+  bottom: -10px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 0;
+  height: 0;
+  border-left: 6px solid transparent;
+  border-right: 6px solid transparent;
+  border-top: 10px solid #FFFFFF;
+}

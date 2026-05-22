@@ -1,0 +1,87 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-single-location",
+  "version": "1.0.0",
+  "title": "OIT Single Location",
+  "category": "optimizedit",
+  "icon": "location-alt",
+  "description": "Office / single-location page header. Auto-derived breadcrumb, headline with highlight, supporting paragraph, phone + email + address rows on the left, live Leaflet map (CARTO basemap, no API key) on the right.",
+  "keywords": ["location", "office", "contact", "map", "leaflet", "oit"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true,
+    "align": ["wide", "full"]
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {
+      "title": {
+        "type": "wysiwyg",
+        "label": "Title"
+      },
+      "subtitle": {
+        "type": "wysiwyg",
+        "label": "Subtitle"
+      },
+      "phone": {
+        "type": "link",
+        "label": "Phone (use tel: URL)",
+        "tagName": "a"
+      },
+      "email": {
+        "type": "link",
+        "label": "Email (use mailto: URL)",
+        "tagName": "a"
+      },
+      "address": {
+        "type": "wysiwyg",
+        "label": "Address"
+      }
+    },
+    "controls": {
+      "highlightWord": {
+        "type": "text",
+        "label": "Highlight word/phrase in title",
+        "default": "",
+        "help": "First case-insensitive occurrence in the title is wrapped in a brand-red span."
+      },
+      "showBreadcrumb": {
+        "type": "toggle",
+        "label": "Show breadcrumb",
+        "default": true
+      },
+      "mapCenter": {
+        "type": "text",
+        "label": "Map center (lat,lng)",
+        "default": "40.4406,-79.9959",
+        "help": "Comma-separated coordinates, e.g. 40.4406,-79.9959 for Pittsburgh."
+      },
+      "mapZoom": {
+        "type": "number",
+        "label": "Map zoom",
+        "min": 3,
+        "max": 18,
+        "default": 12,
+        "help": "Higher = closer. 12 is roughly metro area, 16 is street level."
+      },
+      "mapTheme": {
+        "type": "select",
+        "label": "Map theme",
+        "default": "dark_all",
+        "options": [
+          { "key": "dark_all", "label": "Dark Matter" },
+          { "key": "dark_nolabels", "label": "Dark Matter (no labels)" },
+          { "key": "voyager", "label": "Voyager (colored)" },
+          { "key": "voyager_nolabels", "label": "Voyager (no labels)" },
+          { "key": "positron", "label": "Positron (light)" },
+          { "key": "positron_nolabels", "label": "Positron (no labels, light)" }
+        ],
+        "help": "CARTO basemap theme. All are free, no API key required."
+      }
+    }
+  }
+}
