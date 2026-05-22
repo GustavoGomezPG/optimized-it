@@ -62,6 +62,12 @@
         "label": "Show bottom heading + body",
         "default": false,
         "help": "Adds a red heading and supporting paragraph below the card grid (e.g. \"Don't see your industry?\")."
+      },
+      "smallText": {
+        "type": "toggle",
+        "label": "Small title text (20px)",
+        "default": false,
+        "help": "Off keeps the default title size. On locks the card title to 20px (useful for longer labels that need to fit tightly)."
       }
     }
   }

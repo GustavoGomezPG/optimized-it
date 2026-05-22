@@ -23,6 +23,14 @@ $show_bottom_text = !empty($attributes['showBottomText']);
 $bottom_heading   = !empty($attributes['bottomHeading']) ? $attributes['bottomHeading'] : 'Don\'t see your industry?';
 $bottom_body      = !empty($attributes['bottomBody'])    ? $attributes['bottomBody']    : '<p>Optimized IT services businesses and industries across the board. Get in touch with our team, we\'ll learn more about your business and industry and work together to craft a solution that works.</p>';
 
+// Title size toggle. Default keeps text-body-md (20px from the
+// Tailwind theme tokens, which already matches the design); the
+// "small" variant pins it to text-[20px] explicitly so a future bump
+// to text-body-md elsewhere in the theme won't accidentally enlarge
+// the card titles here.
+$small_text       = !empty($attributes['smallText']);
+$title_size_class = $small_text ? 'text-[20px]' : 'text-body-md';
+
 if (empty($cards)) {
   $cards = [
     ['icon' => null, 'link' => ['url' => '#', 'text' => 'Manufacturing']],
@@ -81,7 +89,7 @@ $chevron = '<svg class="oit-mini-cards-grid__card-chevron w-3 h-3 shrink-0" view
 
           <span
             data-proto-field="link"
-            class="oit-mini-cards-grid__card-title font-grotesk font-bold text-body-md leading-[1.4]">
+            class="oit-mini-cards-grid__card-title font-grotesk font-bold <?php echo esc_attr($title_size_class); ?> leading-[1.4]">
             <?php echo esc_html($link['text'] ?? ''); ?>
           </span>
 
