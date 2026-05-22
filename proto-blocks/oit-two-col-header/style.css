@@ -21,6 +21,7 @@
 .oit-two-col-header[data-animate="pending"] .oit-two-col-header__icon,
 .oit-two-col-header[data-animate="pending"] .oit-two-col-header__title,
 .oit-two-col-header[data-animate="pending"] .oit-two-col-header__subtitle,
+.oit-two-col-header[data-animate="pending"] .oit-two-col-header__cta,
 .oit-two-col-header[data-animate="pending"] .oit-two-col-header__image-wrap,
 .oit-two-col-header[data-animate="pending"] .oit-page-header__breadcrumb,
 .oit-two-col-header[data-animate="pending"] .oit-page-header__wordmark {

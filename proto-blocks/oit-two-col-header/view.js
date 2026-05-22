@@ -14,6 +14,7 @@
  *   0.40s  Industry icon   opacity 0->1, y +12->0                    0.5s
  *   0.50s  Title words     SplitText words, opacity 0->1, y +20->0   0.55s
  *   0.80s  Subtitle        opacity 0->1, y +12->0                    0.5s
+ *   0.95s  Button (CTA)    opacity 0->1, scale 0.94->1               0.4s
  *
  * Safety nets:
  *   - prefers-reduced-motion   -> flip pre-state to done, no animation
@@ -45,6 +46,7 @@
     var icon      = section.querySelector('.oit-two-col-header__icon');
     var title     = section.querySelector('.oit-two-col-header__title');
     var subtitle  = section.querySelector('.oit-two-col-header__subtitle');
+    var cta       = section.querySelector('.oit-two-col-header__cta');
     var imageWrap = section.querySelector('.oit-two-col-header__image-wrap');
     // Breadcrumb and wordmark markup come from the shared partial; the
     // class names stay oit-page-header__* so existing CSS keeps working.
@@ -127,6 +129,7 @@
     if (crumbs.length) window.gsap.set(crumbs, { y: 8, opacity: 0 });
     if (titleTargets.length) window.gsap.set(titleTargets, { y: 20, opacity: 0 });
     if (subtitle)  window.gsap.set(subtitle,  { y: 12, opacity: 0 });
+    if (cta)       window.gsap.set(cta,       { scale: 0.94, opacity: 0, transformOrigin: '50% 50%' });
 
     // ---- Timeline ----------------------------------------------------------
 
@@ -169,6 +172,7 @@
       }, 0.50);
     }
     if (subtitle) tl.to(subtitle, { opacity: 1, y: 0, duration: 0.5 }, 0.80);
+    if (cta)      tl.to(cta,      { opacity: 1, scale: 1, duration: 0.4 }, 0.95);
   }
 
   /**

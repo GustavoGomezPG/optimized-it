@@ -36,6 +36,11 @@
         "type": "image",
         "label": "Featured Image",
         "sizes": ["medium", "large", "full"]
+      },
+      "button": {
+        "type": "link",
+        "label": "Button (after subtitle)",
+        "tagName": "a"
       }
     },
     "controls": {
@@ -50,6 +55,45 @@
         "label": "Highlight word/phrase in title",
         "default": "",
         "help": "First case-insensitive occurrence in the title is wrapped in a red span."
+      },
+      "showBreadcrumb": {
+        "type": "toggle",
+        "label": "Show breadcrumb",
+        "default": true
+      },
+      "showIcon": {
+        "type": "toggle",
+        "label": "Show industry icon",
+        "default": true,
+        "help": "Off hides the icon (and its placeholder) entirely — useful for variants that lead with the title."
+      },
+      "showButton": {
+        "type": "toggle",
+        "label": "Show button after subtitle",
+        "default": false
+      },
+      "buttonSolid": {
+        "type": "toggle",
+        "label": "Button: solid red (off = outlined)",
+        "default": true
+      },
+      "removeShadow": {
+        "type": "toggle",
+        "label": "Remove image red glow",
+        "default": false,
+        "help": "Off keeps the shadow-red-glow on the featured image (existing behavior). On removes it for a flatter look."
+      },
+      "centerText": {
+        "type": "toggle",
+        "label": "Center text vertically with image",
+        "default": false,
+        "help": "Pair with Show industry icon = off when the left column is shorter than the image, so the text sits centered against the image instead of pinned to the top."
+      },
+      "smallSubtitle": {
+        "type": "toggle",
+        "label": "Subtitle: small font size (16px)",
+        "default": false,
+        "help": "Off keeps the default 16/20 px responsive size. On locks the subtitle to 16px at every breakpoint."
       }
     }
   }
