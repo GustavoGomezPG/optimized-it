@@ -1,0 +1,35 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-cta",
+  "version": "1.0.0",
+  "title": "OIT CTA",
+  "category": "optimizedit",
+  "icon": "megaphone",
+  "description": "Conversion callout bar. Wide dark-red gradient pill with a single-line headline on the left and a solid red CTA button on the right. Sits between sections as a one-line nudge to action.",
+  "keywords": ["cta", "callout", "conversion", "banner", "oit"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true,
+    "align": ["wide", "full"]
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {
+      "headline": {
+        "type": "text",
+        "label": "Headline",
+        "tagName": "h2"
+      },
+      "cta": {
+        "type": "link",
+        "label": "CTA button",
+        "tagName": "a"
+      }
+    },
+    "controls": {}
+  }
+}
