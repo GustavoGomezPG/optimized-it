@@ -32,18 +32,15 @@
         "label": "Icon (used when icon-badge decoration is on)",
         "sizes": ["thumbnail", "medium"]
       },
-      "ctas": {
-        "type": "repeater",
-        "label": "CTA Buttons",
-        "min": 0,
-        "max": 2,
-        "itemLabel": "text",
-        "collapsible": true,
-        "fields": {
-          "text":  { "type": "text", "label": "Text" },
-          "url":   { "type": "text", "label": "URL" },
-          "style": { "type": "text", "label": "Style: primary or secondary" }
-        }
+      "button1": {
+        "type": "link",
+        "label": "Button one",
+        "tagName": "a"
+      },
+      "button2": {
+        "type": "link",
+        "label": "Button two",
+        "tagName": "a"
       }
     },
     "controls": {
@@ -72,6 +69,26 @@
       "showIconBadge": {
         "type": "toggle",
         "label": "Show icon badge instead of circuit",
+        "default": false
+      },
+      "showButton1": {
+        "type": "toggle",
+        "label": "Show button one",
+        "default": false
+      },
+      "button1Solid": {
+        "type": "toggle",
+        "label": "Button one: solid red (off = outlined)",
+        "default": true
+      },
+      "showButton2": {
+        "type": "toggle",
+        "label": "Show button two",
+        "default": false
+      },
+      "button2Solid": {
+        "type": "toggle",
+        "label": "Button two: solid red (off = outlined)",
         "default": false
       }
     }

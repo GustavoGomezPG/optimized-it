@@ -36,12 +36,23 @@ $title    = !empty($attributes['title'])    ? $attributes['title']    : '<p>Sect
 $subtitle = !empty($attributes['subtitle']) ? $attributes['subtitle'] : 'Short supporting line that explains what this page covers.';
 $wordmark = !empty($attributes['wordmark']) ? $attributes['wordmark'] : '';
 $icon     = $attributes['icon'] ?? null;
-$ctas     = $attributes['ctas'] ?? [];
 
 $is_light       = !empty($attributes['isLight']);
 $show_circuit   = $attributes['showCircuit']   ?? true;
 $show_icon      = !empty($attributes['showIconBadge']);
 $highlight_word = trim((string) ($attributes['highlightWord'] ?? ''));
+
+// Two independent toggle-gated buttons. Each lives in its own link
+// field (text + url + target + rel) and is paired with a per-button
+// "solid red" style toggle: on = filled red pill, off = outlined pill.
+// Both buttons default off so a freshly-inserted block has no CTAs.
+$show_button1  = !empty($attributes['showButton1']);
+$show_button2  = !empty($attributes['showButton2']);
+$button1_solid = $attributes['button1Solid'] ?? true;
+$button2_solid = $attributes['button2Solid'] ?? false;
+$button1       = is_array($attributes['button1'] ?? null) ? $attributes['button1'] : [];
+$button2       = is_array($attributes['button2'] ?? null) ? $attributes['button2'] : [];
+$show_buttons  = $show_button1 || $show_button2;
 
 // Highlight pass -- when the editor sets a highlightWord control, find
 // the first case-insensitive occurrence in the title and wrap it in a
@@ -76,7 +87,15 @@ $is_preview = !isset($block) || $block === null;
 // the card surface via the cascade, so it picks up the right idle
 // color automatically.
 $card_classes      = $is_light ? 'bg-white text-black' : 'bg-black text-white';
-$cta_secondary     = $is_light
+
+// Button visuals.
+//   solid:    filled cta-red pill, white text, darker red on hover.
+//   outlined: transparent pill with a red border. Text color follows
+//             the card surface (black on light theme, white on dark)
+//             so it always reads against the underlying card.
+$cta_base       = 'oit-page-header__cta inline-flex items-center gap-3 px-5 py-2.5 rounded-full font-grotesk font-medium text-body-sm leading-[1.3] uppercase whitespace-nowrap no-underline transition-colors';
+$cta_solid      = 'bg-cta-red hover:bg-cta-red-700 text-white border border-brand-red';
+$cta_outlined   = $is_light
   ? 'bg-transparent text-black border-2 border-brand-red hover:bg-brand-red hover:text-white'
   : 'bg-transparent text-white border-2 border-brand-red hover:bg-brand-red';
 
@@ -117,23 +136,39 @@ $chevron = '<svg class="w-[13px] h-3 shrink-0" viewBox="0 0 13 12" fill="current
             <?php echo wp_kses_post(wpautop($subtitle)); ?>
           </div>
 
-          <?php if (!empty($ctas)): ?>
-          <div data-proto-repeater="ctas" class="oit-page-header__ctas flex flex-wrap gap-4 mt-2">
-            <?php foreach ($ctas as $cta):
-              $cta_style   = strtolower($cta['style'] ?? 'primary');
-              $is_primary  = $cta_style !== 'secondary';
-              $cta_base    = 'oit-page-header__cta inline-flex items-center gap-3 px-5 py-2.5 rounded-full font-grotesk font-medium text-body-sm leading-[1.3] uppercase whitespace-nowrap no-underline transition-colors';
-              $cta_skin    = $is_primary
-                ? 'bg-cta-red hover:bg-cta-red-700 text-white border border-brand-red'
-                : $cta_secondary;
+          <?php if ($show_buttons): ?>
+          <div class="oit-page-header__ctas flex flex-wrap gap-4 mt-2">
+
+            <?php if ($show_button1):
+              $b1_skin   = $button1_solid ? $cta_solid : $cta_outlined;
+              $b1_url    = !empty($button1['url']) ? $button1['url'] : '#';
+              $b1_text   = !empty($button1['text']) ? $button1['text'] : 'Button one';
+              $b1_target = !empty($button1['target']) ? ' target="' . esc_attr($button1['target']) . '"' : '';
+              $b1_rel    = !empty($button1['rel'])    ? ' rel="'    . esc_attr($button1['rel'])    . '"' : '';
             ?>
-            <a data-proto-repeater-item
-               href="<?php echo esc_url($cta['url'] ?? '#'); ?>"
-               class="<?php echo esc_attr($cta_base . ' ' . $cta_skin); ?>">
-              <span data-proto-field="text"><?php echo esc_html($cta['text'] ?? ''); ?></span>
+            <a
+              href="<?php echo esc_url($b1_url); ?>"<?php echo $b1_target; echo $b1_rel; ?>
+              class="<?php echo esc_attr($cta_base . ' ' . $b1_skin); ?>">
+              <span data-proto-field="button1"><?php echo esc_html($b1_text); ?></span>
               <?php echo $chevron; ?>
             </a>
-            <?php endforeach; ?>
+            <?php endif; ?>
+
+            <?php if ($show_button2):
+              $b2_skin   = $button2_solid ? $cta_solid : $cta_outlined;
+              $b2_url    = !empty($button2['url']) ? $button2['url'] : '#';
+              $b2_text   = !empty($button2['text']) ? $button2['text'] : 'Button two';
+              $b2_target = !empty($button2['target']) ? ' target="' . esc_attr($button2['target']) . '"' : '';
+              $b2_rel    = !empty($button2['rel'])    ? ' rel="'    . esc_attr($button2['rel'])    . '"' : '';
+            ?>
+            <a
+              href="<?php echo esc_url($b2_url); ?>"<?php echo $b2_target; echo $b2_rel; ?>
+              class="<?php echo esc_attr($cta_base . ' ' . $b2_skin); ?>">
+              <span data-proto-field="button2"><?php echo esc_html($b2_text); ?></span>
+              <?php echo $chevron; ?>
+            </a>
+            <?php endif; ?>
+
           </div>
           <?php endif; ?>
 
