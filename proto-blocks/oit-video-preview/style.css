@@ -1,0 +1,17 @@
+/*
+ * OIT Video Preview -- animation pre-state.
+ *
+ * Visual styling lives inline as Tailwind utilities on the template.
+ * This file owns only the data-animate="pending" pre-state used by
+ * view.js: the trigger is faded until view.js promotes the section to
+ * data-animate="done" (which it does immediately on init).
+ */
+
+.oit-video-preview[data-animate="pending"] .oit-video-preview__trigger {
+  opacity: 0;
+  transition: opacity 600ms ease-out;
+}
+
+.oit-video-preview[data-animate="done"] .oit-video-preview__trigger {
+  opacity: 1;
+}

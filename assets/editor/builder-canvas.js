@@ -1,17 +1,25 @@
 /**
  * Builder Canvas — editor enhancement.
  *
- * When a page is using the "Builder Canvas" template (slug:
- * page-builder), this script does two things:
+ * Triggers on EITHER of the following:
+ *
+ *   - The page is using the "Builder Canvas" template (slug:
+ *     page-builder), OR
+ *   - The post is an `oit_resource` (single resource pages always use
+ *     the builder-canvas behavior so the title can be edited from the
+ *     sidebar while the canvas hosts only blocks).
+ *
+ * When active, the script:
  *
  *   1. Toggles an `oit-builder-canvas` class on the editor chrome body
  *      AND the iframed canvas body. The matching CSS in
  *      builder-canvas.css uses that class to hide WP's default post-
  *      title input so the canvas is reserved for blocks.
  *
- *   2. Registers a "Page Title" panel in the document settings sidebar
- *      with a TextControl bound to the post's title entity, so authors
- *      still have a place to set/edit the title.
+ *   2. Registers a "Page Title" / "Resource Title" panel in the
+ *      document settings sidebar with a TextControl bound to the
+ *      post's title entity, so authors still have a place to set/edit
+ *      the title.
  *
  * The title field stays in the database -- slug, menus, breadcrumbs,
  * SEO plugins and the browser tab title all continue to work normally.
@@ -42,6 +50,7 @@
 	var __ = i18n.__;
 
 	var BUILDER_TEMPLATE = 'page-builder';
+	var BUILDER_POST_TYPES = [ 'oit_resource' ];
 	var BODY_CLASS = 'oit-builder-canvas';
 
 	function setClassOn( node, on ) {
@@ -70,11 +79,13 @@
 			return {
 				title: editor.getEditedPostAttribute( 'title' ) || '',
 				template: editor.getEditedPostAttribute( 'template' ) || '',
+				postType: editor.getCurrentPostType() || '',
 			};
 		}, [] );
 		var editPost = useDispatch( 'core/editor' ).editPost;
 
-		var isBuilder = state.template === BUILDER_TEMPLATE;
+		var isBuilder = state.template === BUILDER_TEMPLATE ||
+			BUILDER_POST_TYPES.indexOf( state.postType ) !== -1;
 
 		useEffect( function () {
 			syncBodies( isBuilder );

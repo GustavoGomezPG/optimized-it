@@ -4,6 +4,7 @@
  */
 
 require_once get_stylesheet_directory() . '/inc/oit-header-partials.php';
+require_once get_stylesheet_directory() . '/inc/oit-resources-cpt.php';
 
 add_action('after_setup_theme', function () {
     register_nav_menus([

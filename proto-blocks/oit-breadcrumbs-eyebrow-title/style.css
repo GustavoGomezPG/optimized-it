@@ -1,0 +1,12 @@
+/*
+ * OIT Breadcrumbs + Eyebrow + Title -- residual / animation styles.
+ *
+ * Visual styling lives inline as Tailwind utilities. This file is
+ * reserved for the data-animate pre-state when view-side reveal is
+ * wired up.
+ */
+
+.oit-bet[data-animate="pending"] .oit-bet__crumbs,
+.oit-bet[data-animate="pending"] .oit-bet__card {
+  opacity: 0;
+}

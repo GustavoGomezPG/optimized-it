@@ -1,0 +1,51 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-text-image",
+  "version": "1.0.0",
+  "title": "OIT Text + Image",
+  "category": "optimizedit",
+  "icon": "align-pull-left",
+  "description": "Two-column content section. Body content (heading + paragraph + optional red sub-heading and bulleted list) on one side, supporting image on the other. Image position is left by default but can be flipped to the right.",
+  "keywords": ["text", "image", "content", "two column", "oit"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true,
+    "align": ["wide", "full"]
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {
+      "heading": {
+        "type": "text",
+        "label": "Heading",
+        "tagName": "h3"
+      },
+      "body": {
+        "type": "inner-blocks",
+        "template": [
+          ["core/paragraph", { "placeholder": "Add a short description…" }]
+        ]
+      },
+      "image": {
+        "type": "image",
+        "label": "Image",
+        "sizes": ["medium", "large", "full"]
+      }
+    },
+    "controls": {
+      "imagePosition": {
+        "type": "select",
+        "label": "Image position",
+        "default": "right",
+        "options": [
+          { "key": "left",  "label": "Left"  },
+          { "key": "right", "label": "Right" }
+        ]
+      }
+    }
+  }
+}

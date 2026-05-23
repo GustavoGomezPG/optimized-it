@@ -1,0 +1,49 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-form",
+  "version": "1.0.0",
+  "title": "OIT Form",
+  "category": "optimizedit",
+  "icon": "feedback",
+  "description": "Renders a Gravity Forms form by ID, wrapped in the brand dark callout container with rounded corners. Pair below the Text + Image section on resource pages to collect leads.",
+  "keywords": ["form", "gravity forms", "lead", "callout", "oit"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true,
+    "align": ["wide", "full"]
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {},
+    "controls": {
+      "formId": {
+        "type": "number",
+        "label": "Gravity Forms ID",
+        "min": 1,
+        "max": 9999,
+        "default": 0,
+        "help": "Numeric ID of the Gravity Form to render. Find it in WP Admin -> Forms."
+      },
+      "showTitle": {
+        "type": "toggle",
+        "label": "Show form title",
+        "default": false
+      },
+      "showDescription": {
+        "type": "toggle",
+        "label": "Show form description",
+        "default": false
+      },
+      "ajax": {
+        "type": "toggle",
+        "label": "AJAX submission",
+        "default": true,
+        "help": "Submit without a full page reload."
+      }
+    }
+  }
+}

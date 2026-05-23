@@ -1,0 +1,47 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-video-preview",
+  "version": "1.0.0",
+  "title": "OIT Video Preview",
+  "category": "optimizedit",
+  "icon": "video-alt3",
+  "description": "Click-to-play video card. Large rounded thumbnail with a centered play button; click opens a fullscreen lightbox with the player. Accepts YouTube, Vimeo, or self-hosted MP4. Thumbnails are auto-fetched from YouTube/Vimeo; MP4 requires a custom thumbnail.",
+  "keywords": ["video", "youtube", "vimeo", "lightbox", "play", "oit"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true,
+    "align": ["wide", "full"]
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {
+      "customThumbnail": {
+        "type": "image",
+        "label": "Custom thumbnail",
+        "sizes": ["medium", "large", "full"]
+      }
+    },
+    "controls": {
+      "source": {
+        "type": "select",
+        "label": "Video source",
+        "default": "youtube",
+        "options": [
+          { "key": "youtube", "label": "YouTube" },
+          { "key": "vimeo",   "label": "Vimeo"   },
+          { "key": "mp4",     "label": "MP4 (self-hosted)" }
+        ]
+      },
+      "videoUrl": {
+        "type": "text",
+        "label": "Video URL or ID",
+        "default": "",
+        "help": "YouTube/Vimeo: paste the full URL or just the video ID. MP4: paste the direct file URL (.mp4)."
+      }
+    }
+  }
+}
