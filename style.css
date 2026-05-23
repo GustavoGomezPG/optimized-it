@@ -253,6 +253,116 @@ html.oit-intro-pending .oit-nav__shell {
   opacity: 0;
 }
 
+/* ------------------------------------------------------------------------
+   .oit-btn -- brand pill button utility.
+
+   Drop on any <a>, <button>, or <input type="submit"> to make it look
+   like the OIT red pill CTA used across the site (oit-cta, oit-form
+   submit, page-header buttons, etc). Lives in the global stylesheet
+   so it's available on the front end AND inside the FSE canvas iframe,
+   and outside the Tailwind compile scope so authors can hand-author it
+   anywhere (HTML widget, classic editor, custom HTML block, etc).
+
+   Usage:
+     <a class="oit-btn" href="/contact">Schedule a consultation</a>
+     <a class="oit-btn oit-btn--chevron" href="#">Explore blog</a>
+     <a class="oit-btn oit-btn--white"   href="#">Download</a>
+     <a class="oit-btn oit-btn--ghost"   href="#">Learn more</a>
+
+   Modifiers stack: oit-btn--white + oit-btn--chevron is fine.
+   ------------------------------------------------------------------- */
+
+.oit-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 12px;
+  padding: 10px 24px;
+  min-height: 0;
+  background: #E00523;          /* cta-red */
+  color: #FFFFFF;
+  border: 1px solid #D1001D;    /* brand-red */
+  border-radius: 90px;
+  font-family: "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  font-weight: 500;
+  font-size: 16px;
+  line-height: 1.3;
+  letter-spacing: 0.02em;
+  text-transform: uppercase;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: background 200ms ease-out, color 200ms ease-out,
+    border-color 200ms ease-out, transform 200ms ease-out;
+}
+
+.oit-btn:hover,
+.oit-btn:focus-visible {
+  background: #C40420;
+  color: #FFFFFF;
+  text-decoration: none;
+  outline: none;
+}
+
+.oit-btn:focus-visible {
+  box-shadow: 0 0 0 3px rgba(224, 5, 35, 0.25);
+}
+
+/* White pill, dark text. */
+.oit-btn--white {
+  background: #FFFFFF;
+  color: #1A0303;
+  border-color: #FFFFFF;
+}
+
+.oit-btn--white:hover,
+.oit-btn--white:focus-visible {
+  background: #F4F4F4;
+  color: #1A0303;
+}
+
+/* Transparent / outlined. */
+.oit-btn--ghost {
+  background: transparent;
+  color: #D1001D;
+  border-color: #D1001D;
+}
+
+.oit-btn--ghost:hover,
+.oit-btn--ghost:focus-visible {
+  background: #D1001D;
+  color: #FFFFFF;
+}
+
+/* Trailing double-chevron painted via a mask-image on ::after.
+   Inherits currentColor so it adopts whichever text color the button
+   variant is using (white on the default red pill, black on the white
+   pill, etc). */
+.oit-btn--chevron::after {
+  content: "";
+  width: 13px;
+  height: 12px;
+  flex-shrink: 0;
+  background-color: currentColor;
+  -webkit-mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 12' fill='currentColor'><path d='M0 1.41L1.36689 0L7.18345 6L1.36689 12L0 10.59L4.43997 6L0 1.41ZM5.81656 1.41L7.18345 0L13 6L7.18345 12L5.81656 10.59L10.2565 6L5.81656 1.41Z'/></svg>");
+  mask-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 12' fill='currentColor'><path d='M0 1.41L1.36689 0L7.18345 6L1.36689 12L0 10.59L4.43997 6L0 1.41ZM5.81656 1.41L7.18345 0L13 6L7.18345 12L5.81656 10.59L10.2565 6L5.81656 1.41Z'/></svg>");
+  -webkit-mask-repeat: no-repeat;
+  mask-repeat: no-repeat;
+  -webkit-mask-position: center;
+  mask-position: center;
+}
+
+/* Smaller variant for tight spaces. */
+.oit-btn--sm {
+  padding: 6px 18px;
+  font-size: 14px;
+}
+
+.oit-btn--sm.oit-btn--chevron::after {
+  width: 11px;
+  height: 10px;
+}
+
 header.wp-block-template-part {
   position: absolute;
   z-index: 999999999;
