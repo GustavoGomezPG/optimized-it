@@ -199,7 +199,7 @@ add_action('wp_enqueue_scripts', function () {
         'gsap'           => ['file' => 'gsap.min.js',          'version' => '3.15.0', 'deps' => []],
         'split-text'     => ['file' => 'SplitText.min.js',     'version' => '3.15.0', 'deps' => ['optimizedit-gsap']],
         'scroll-trigger' => ['file' => 'ScrollTrigger.min.js', 'version' => '3.15.0', 'deps' => ['optimizedit-gsap']],
-        'lottie'         => ['file' => 'lottie.min.js',        'version' => '5.12.2', 'deps' => []],
+        'lottie'         => ['file' => 'lottie_light.min.js',  'version' => '5.13.0', 'deps' => []],
         'lenis'          => ['file' => 'lenis.min.js',         'version' => '1.1.13', 'deps' => []],
         // Theme-owned setup + features (no pinned version -- filemtime alone busts cache).
         'init'           => ['file' => 'oit-init.js',          'version' => '1.0.0',  'deps' => ['optimizedit-lenis']],
