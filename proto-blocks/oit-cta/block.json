@@ -30,6 +30,13 @@
         "tagName": "a"
       }
     },
-    "controls": {}
+    "controls": {
+      "slateVariant": {
+        "type": "toggle",
+        "label": "Slate variant",
+        "default": false,
+        "help": "Use the solid slate background with a white button, instead of the default red gradient with a red button."
+      }
+    }
   }
 }

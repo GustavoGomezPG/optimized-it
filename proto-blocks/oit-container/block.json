@@ -44,6 +44,12 @@
       }
     },
     "controls": {
+      "constrainWidth": {
+        "type": "toggle",
+        "label": "Constrain to container width",
+        "default": false,
+        "help": "When on, the inner content is capped at 1280px (centered) with the standard side padding. Off (default) keeps the container fluid / full width."
+      },
       "useResponsivePadding": {
         "type": "toggle",
         "label": "Override padding top/bottom per breakpoint",

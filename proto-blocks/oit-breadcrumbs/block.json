@@ -1,0 +1,31 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-breadcrumbs",
+  "version": "1.0.0",
+  "title": "OIT Breadcrumbs",
+  "category": "optimizedit",
+  "icon": "arrow-right-alt2",
+  "description": "Standalone breadcrumb trail (Home > ancestors > current page), auto-derived from the current page's hierarchy. The current crumb is brand red; links inherit the surrounding text color. Drop it near the top of a page; place inside a container to control width.",
+  "keywords": ["breadcrumbs", "breadcrumb", "navigation", "trail", "oit"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true,
+    "align": ["wide", "full"]
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {},
+    "controls": {
+      "constrainWidth": {
+        "type": "toggle",
+        "label": "Constrain to container width",
+        "default": false,
+        "help": "When on, the trail is capped to the 1280px content width with the standard side padding. Off (default) lets it inherit the width of whatever wraps it."
+      }
+    }
+  }
+}

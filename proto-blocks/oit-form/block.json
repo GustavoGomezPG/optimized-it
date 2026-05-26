@@ -21,12 +21,10 @@
     "fields": {},
     "controls": {
       "formId": {
-        "type": "number",
-        "label": "Gravity Forms ID",
-        "min": 1,
-        "max": 9999,
-        "default": 0,
-        "help": "Numeric ID of the Gravity Form to render. Find it in WP Admin -> Forms."
+        "type": "select",
+        "label": "Form",
+        "optionsSource": "oit:gravity-forms",
+        "help": "Pick the Gravity Form to render. Forms are managed under WP Admin -> Forms."
       },
       "showTitle": {
         "type": "toggle",
@@ -43,6 +41,12 @@
         "label": "AJAX submission",
         "default": true,
         "help": "Submit without a full page reload."
+      },
+      "gradientBackground": {
+        "type": "toggle",
+        "label": "Red gradient background",
+        "default": false,
+        "help": "Use the diagonal red-to-black brand gradient instead of the solid near-black surface."
       }
     }
   }

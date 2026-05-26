@@ -1,0 +1,74 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-button",
+  "version": "1.0.0",
+  "title": "OIT Button",
+  "category": "optimizedit",
+  "icon": "button",
+  "description": "Standalone brand pill button (the .oit-btn utility) as its own block. Pick the link text + URL, choose a style (solid red, white, or outline), size, optional trailing chevron, and alignment. Use it anywhere a call-to-action button is needed.",
+  "keywords": ["button", "cta", "link", "pill", "oit"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {
+      "button": {
+        "type": "link",
+        "label": "Button (text + link)"
+      }
+    },
+    "controls": {
+      "variant": {
+        "type": "select",
+        "label": "Style",
+        "default": "solid",
+        "options": [
+          { "key": "solid", "label": "Solid red" },
+          { "key": "white", "label": "White" },
+          { "key": "ghost", "label": "Outline" }
+        ]
+      },
+      "textColor": {
+        "type": "select",
+        "label": "Text color",
+        "default": "default",
+        "options": [
+          { "key": "default", "label": "Default (per style)" },
+          { "key": "black", "label": "Black" },
+          { "key": "red", "label": "Red" }
+        ],
+        "help": "Override the label/chevron color. Use Black or Red on light button styles (White / Outline)."
+      },
+      "size": {
+        "type": "select",
+        "label": "Size",
+        "default": "default",
+        "options": [
+          { "key": "default", "label": "Default" },
+          { "key": "small", "label": "Small" }
+        ]
+      },
+      "showChevron": {
+        "type": "toggle",
+        "label": "Trailing chevron",
+        "default": true
+      },
+      "alignment": {
+        "type": "select",
+        "label": "Alignment",
+        "default": "left",
+        "options": [
+          { "key": "left", "label": "Left" },
+          { "key": "center", "label": "Center" },
+          { "key": "right", "label": "Right" }
+        ]
+      }
+    }
+  }
+}

@@ -1,0 +1,38 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-featured-blog",
+  "version": "1.0.0",
+  "title": "OIT Featured Blog",
+  "category": "optimizedit",
+  "icon": "welcome-write-blog",
+  "description": "Spotlights a single blog post in a two-column layout: date, title, excerpt and a 'Keep Reading' pill on the left, the featured image on the right. Shows the latest published post by default; enter a post ID to feature a specific one.",
+  "keywords": ["featured", "blog", "post", "latest", "spotlight", "oit"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true,
+    "align": ["wide", "full"]
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {
+      "buttonLabel": {
+        "type": "text",
+        "label": "Button label",
+        "default": "Keep Reading"
+      }
+    },
+    "controls": {
+      "featuredPost": {
+        "type": "select",
+        "label": "Featured post",
+        "optionsSource": "wp:posts",
+        "sourceArgs": { "post_type": "post", "per_page": 50 },
+        "help": "Leave empty to feature the latest published post automatically. Pick a post from the list to feature it specifically."
+      }
+    }
+  }
+}

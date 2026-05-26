@@ -1,0 +1,50 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-icon-text",
+  "version": "1.0.0",
+  "title": "OIT Icon + Text",
+  "category": "optimizedit",
+  "icon": "info-outline",
+  "description": "A single icon-with-text row (the contact-detail pattern from the location block, as its own block). Pick a built-in brand icon (phone / email / location) or upload a custom one, set the text + optional link (tel:, mailto:, URL), and toggle the brand-red underline.",
+  "keywords": ["icon", "text", "contact", "phone", "email", "address", "oit"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {
+      "item": {
+        "type": "link",
+        "label": "Text + link"
+      },
+      "icon": {
+        "type": "image",
+        "label": "Custom icon (optional)"
+      }
+    },
+    "controls": {
+      "preset": {
+        "type": "select",
+        "label": "Built-in icon",
+        "default": "phone",
+        "options": [
+          { "key": "phone", "label": "Phone" },
+          { "key": "email", "label": "Email" },
+          { "key": "location", "label": "Location" },
+          { "key": "none", "label": "None" }
+        ],
+        "help": "Used unless a custom icon image is set above."
+      },
+      "underline": {
+        "type": "toggle",
+        "label": "Brand-red underline",
+        "default": true
+      }
+    }
+  }
+}

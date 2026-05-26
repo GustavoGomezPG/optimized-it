@@ -25,6 +25,7 @@
  * @var WP_Block|null $block
  */
 
+$constrain_width = !empty($attributes['constrainWidth']);
 $use_responsive = !empty($attributes['useResponsivePadding']);
 $pt_tablet      = (int) ($attributes['paddingTopTablet']     ?? 64);
 $pb_tablet      = (int) ($attributes['paddingBottomTablet']  ?? 64);
@@ -55,7 +56,18 @@ $wrapper_attributes = get_block_wrapper_attributes($wrapper_args);
 ?>
 
 <section <?php echo $wrapper_attributes; ?>>
-  <div class="oit-container__inner" data-proto-inner-blocks>
+  <?php
+    // Default: fluid (no max-width) -- the inner spans the wrapper. When
+    // "Constrain to container width" is on, give the inner a true 1280px
+    // content width: max-w-[1440px] + the theme's standard side padding
+    // (24px mobile / 80px desktop) = 1280px of content on desktop, lining
+    // up with the other OIT sections.
+    $inner_class = 'oit-container__inner';
+    if ($constrain_width) {
+      $inner_class .= ' mx-auto max-w-[1440px] px-6 lg:px-20';
+    }
+  ?>
+  <div class="<?php echo esc_attr($inner_class); ?>" data-proto-inner-blocks>
     <?php
       // Proto-Blocks pipes WP's $content into $attributes['innerBlocksContent']
       // in Engine.php and the template's extract() gives us back

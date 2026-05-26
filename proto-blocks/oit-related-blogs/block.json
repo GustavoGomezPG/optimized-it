@@ -1,0 +1,43 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-related-blogs",
+  "version": "1.0.0",
+  "title": "OIT Related Blogs",
+  "category": "optimizedit",
+  "icon": "admin-post",
+  "description": "Auto-queries recent published blog posts and renders them as vertical cards (featured image, date, category tag chips, title with chevron) under a 'Related Blogs' heading with an optional 'View all blogs' button. Excludes the current post on a single post view. Use near the bottom of the blog template.",
+  "keywords": ["related", "blog", "posts", "cards", "oit"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true,
+    "align": ["wide", "full"]
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {
+      "heading": {
+        "type": "text",
+        "label": "Section heading",
+        "tagName": "h2"
+      },
+      "viewAll": {
+        "type": "link",
+        "label": "View all button"
+      }
+    },
+    "controls": {
+      "limit": {
+        "type": "number",
+        "label": "Max posts",
+        "min": 1,
+        "max": 6,
+        "default": 3,
+        "help": "How many recent posts to show."
+      }
+    }
+  }
+}

@@ -363,6 +363,22 @@ html.oit-intro-pending .oit-nav__shell {
   height: 10px;
 }
 
+/* Text-color overrides (label + chevron, via currentColor). Doubled
+   `.oit-btn` selector so they beat the per-variant color and the
+   :hover/:focus color rules regardless of source order. Intended for
+   the light button styles (--white / --ghost). */
+.oit-btn.oit-btn--text-black,
+.oit-btn.oit-btn--text-black:hover,
+.oit-btn.oit-btn--text-black:focus-visible {
+  color: #1A0303; /* brand-black */
+}
+
+.oit-btn.oit-btn--text-red,
+.oit-btn.oit-btn--text-red:hover,
+.oit-btn.oit-btn--text-red:focus-visible {
+  color: #D1001D; /* brand-red */
+}
+
 header.wp-block-template-part {
   position: absolute;
   z-index: 999999999;
@@ -411,4 +427,67 @@ header.wp-block-template-part {
 :where(.wp-block-group, .wp-block-post-content, main):has(> [class*="wp-block-proto-blocks-"]) {
   gap: 0 !important;
   row-gap: 0 !important;
+}
+
+/* Spacer blocks are an exact, author-set height, so they must NOT also
+   inherit WordPress's flow block-gap margin (`:root :where(.is-layout-flow)
+   > * { margin-block-start: 24px }`). When they do, the gap is added on top
+   of the spacer's own height and double-spaces the layout -- and because
+   that 24px default isn't previewed in the editor, the front end ends up
+   taller than the canvas. The `.is-layout-flow >` prefix gives this real
+   specificity (0,2,0) so it beats WP's (0,1,0) rule without !important.
+   Regular blocks keep the gutter. */
+.is-layout-flow > .wp-block-spacer {
+  margin-block-start: 0;
+  margin-block-end: 0;
+}
+
+/* ------------------------------------------------------------------------
+   Blog post body emphasis.
+
+   In a single blog post's content, bold text (<strong> / <b>) is rendered
+   in the brand red instead of just heavier weight -- a lightweight way for
+   authors to add emphasis pops without a custom block. Scoped to
+   `.single-post` so it only affects standard blog posts (not pages or the
+   oit_resource CPT), and to the post content so it never recolors bold
+   text that lives inside a proto-block section's own UI.
+   ------------------------------------------------------------------- */
+.single-post .wp-block-post-content strong,
+.single-post .wp-block-post-content b {
+  color: #D1001D; /* brand-red */
+}
+
+/* ------------------------------------------------------------------------
+   Core List block inside a proto-block container.
+
+   The scoped Tailwind preflight resets every ol/ul within a
+   `.proto-blocks-scope` wrapper to `list-style:none; margin:0; padding:0`
+   via a zero-specificity `:where()` selector. That strips the markers off
+   the editor's List block when it's nested inside an OIT Container (or any
+   proto-block). Restore standard list styling -- the `.wp-block-list`
+   class targets only the core List block, so proto-block UIs that opt out
+   with `list-none` are untouched.
+   ------------------------------------------------------------------- */
+.proto-blocks-scope ol.wp-block-list,
+.proto-blocks-scope ul.wp-block-list {
+  margin: 0 0 1em;
+  padding-left: 1.5em;
+}
+.proto-blocks-scope ol.wp-block-list { list-style: decimal; }
+.proto-blocks-scope ul.wp-block-list { list-style: disc; }
+.proto-blocks-scope ul.wp-block-list li { margin: 0; }
+
+/* ------------------------------------------------------------------------
+   Ordered list (core List block) -- global treatment: bold numbers and a
+   little breathing room between items. Applies everywhere (in and out of
+   .proto-blocks-scope). `> li` keeps it to each list's own items.
+   ------------------------------------------------------------------- */
+ol.wp-block-list > li::marker {
+  font-weight: 700;
+}
+ol.wp-block-list > li {
+  margin-bottom: 0.75em;
+}
+ol.wp-block-list > li:last-child {
+  margin-bottom: 0;
 }

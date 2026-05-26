@@ -5,6 +5,7 @@
 
 require_once get_stylesheet_directory() . '/inc/oit-header-partials.php';
 require_once get_stylesheet_directory() . '/inc/oit-resources-cpt.php';
+require_once get_stylesheet_directory() . '/inc/oit-post-template.php';
 
 add_action('after_setup_theme', function () {
     register_nav_menus([
@@ -20,6 +21,44 @@ add_action('after_setup_theme', function () {
 
 add_filter('proto_blocks_category_slug', fn() => 'optimizedit');
 add_filter('proto_blocks_category_title', fn() => __('OptimizedIT', 'optimizedit'));
+
+/**
+ * Server-fed options provider: Gravity Forms.
+ *
+ * Lets a Proto-Blocks `select` control populate its options with the
+ * site's Gravity Forms (label = form title, value = form ID) via
+ * `"optionsSource": "oit:gravity-forms"`. Used by the OIT Form block so
+ * authors pick a form by name instead of typing a numeric ID. Returns an
+ * empty list when Gravity Forms is inactive.
+ *
+ * NOTE: Proto-Blocks fires its `proto_blocks_register_options_providers`
+ * action during `plugins_loaded`, which runs BEFORE the theme's
+ * functions.php is loaded -- so hooking that action here would be too
+ * late and the source would never register ("Could not load options").
+ * Instead we grab the plugin's options registry directly on `init`
+ * (after the plugin has booted, and before the editor's REST fetch is
+ * served) and register on it.
+ */
+add_action('init', function () {
+    if (!class_exists('\\ProtoBlocks\\Core\\Plugin')) {
+        return;
+    }
+    $providers = \ProtoBlocks\Core\Plugin::getInstance()->getOptionsProviders();
+    $providers->register('oit:gravity-forms', function (array $args): array {
+        if (!class_exists('GFAPI')) {
+            return [];
+        }
+        $forms = \GFAPI::get_forms(); // active, non-trashed forms
+        return array_map(static function ($form): array {
+            return [
+                'key'   => (string) $form['id'],
+                'label' => ($form['title'] ?? '') !== ''
+                    ? $form['title']
+                    : sprintf(__('Form #%d', 'optimizedit'), (int) $form['id']),
+            ];
+        }, is_array($forms) ? $forms : []);
+    });
+});
 
 /**
  * Site favicon -- prints a single <link rel="icon" type="image/svg+xml">

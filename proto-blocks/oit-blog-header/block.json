@@ -1,0 +1,47 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-blog-header",
+  "version": "1.0.0",
+  "title": "OIT Blog Header",
+  "category": "optimizedit",
+  "icon": "editor-textcolor",
+  "description": "Top-of-page block for single blog posts. Light-grey to white gradient background with a breadcrumb (Home > Blog > current), then a centered post date, the post title as an h1, and a centered row of category tag chips. Everything is auto-driven from the current post. Use as the first block in the post template.",
+  "keywords": ["blog", "header", "breadcrumbs", "title", "tags", "oit"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true,
+    "align": ["wide", "full"]
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {},
+    "controls": {
+      "homeLabel": {
+        "type": "text",
+        "label": "Home crumb label",
+        "default": "Home"
+      },
+      "parentLabel": {
+        "type": "text",
+        "label": "Parent crumb label",
+        "default": "Blog"
+      },
+      "parentUrl": {
+        "type": "text",
+        "label": "Parent crumb URL",
+        "default": "",
+        "help": "Leave empty to use the site's Posts page (or home if none is set)."
+      },
+      "titleOverride": {
+        "type": "text",
+        "label": "Title override",
+        "default": "",
+        "help": "Leave empty to use the post title."
+      }
+    }
+  }
+}

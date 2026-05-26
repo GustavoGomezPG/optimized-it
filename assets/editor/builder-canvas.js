@@ -5,9 +5,11 @@
  *
  *   - The page is using the "Builder Canvas" template (slug:
  *     page-builder), OR
- *   - The post is an `oit_resource` (single resource pages always use
- *     the builder-canvas behavior so the title can be edited from the
- *     sidebar while the canvas hosts only blocks).
+ *   - The post is an `oit_resource` or a standard blog `post` (their
+ *     single templates always use the builder-canvas behavior so the
+ *     title can be edited from the sidebar while the canvas hosts only
+ *     blocks -- the oit-blog-header / oit-breadcrumbs-eyebrow-title
+ *     block renders the visible title on the front end instead).
  *
  * When active, the script:
  *
@@ -50,7 +52,7 @@
 	var __ = i18n.__;
 
 	var BUILDER_TEMPLATE = 'page-builder';
-	var BUILDER_POST_TYPES = [ 'oit_resource' ];
+	var BUILDER_POST_TYPES = [ 'oit_resource', 'post' ];
 	var BODY_CLASS = 'oit-builder-canvas';
 
 	function setClassOn( node, on ) {

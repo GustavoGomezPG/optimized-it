@@ -22,6 +22,16 @@ $cta_text = !empty($cta['text']) ? $cta['text'] : 'SCHEDULE A CONSULTATION';
 $cta_target = !empty($cta['target']) ? ' target="' . esc_attr($cta['target']) . '"' : '';
 $cta_rel = !empty($cta['rel']) ? ' rel="' . esc_attr($cta['rel']) . '"' : '';
 
+// Slate variant: solid slate surface + white button (white bg, red
+// border, black text). Default is the red gradient surface + red button.
+$slate = !empty($attributes['slateVariant']);
+$surface_classes = $slate
+  ? 'bg-slate'
+  : 'bg-linear-to-tl from-black to-brand-red-700';
+$button_classes = $slate
+  ? 'bg-white hover:bg-light-grey text-brand-black border border-brand-red'
+  : 'bg-cta-red hover:bg-cta-red-700 text-white border border-brand-red';
+
 $is_preview = !isset($block) || $block === null;
 
 $wrapper_args = ['class' => 'oit-cta'];
@@ -40,7 +50,7 @@ $chevron = '<svg class="w-[13px] h-3 shrink-0" viewBox="0 0 13 12" fill="current
   <div class="oit-cta__inner max-w-[1440px] mx-auto px-6 lg:px-20 pb-12 lg:pb-20">
 
     <div
-      class="oit-cta__card relative rounded-3xl overflow-hidden shadow-red-glow bg-linear-to-tl from-black to-brand-red-700 p-6 lg:p-12">
+      class="oit-cta__card relative rounded-3xl overflow-hidden shadow-red-glow <?php echo esc_attr($surface_classes); ?> p-6 lg:p-12">
 
       <div class="oit-cta__row flex flex-col gap-5 lg:flex-row lg:items-center lg:justify-between lg:gap-10">
 
@@ -51,7 +61,7 @@ $chevron = '<svg class="w-[13px] h-3 shrink-0" viewBox="0 0 13 12" fill="current
 
         <a href="<?php echo esc_url($cta_url); ?>" <?php echo $cta_target;
            echo $cta_rel; ?>
-          class="oit-cta__button self-start shrink-0 inline-flex items-center gap-3 px-5 py-2.5 rounded-full bg-cta-red hover:bg-cta-red-700 text-white border border-brand-red no-underline font-grotesk font-medium text-body-sm leading-[1.3] uppercase whitespace-nowrap transition-colors lg:self-auto">
+          class="oit-cta__button self-start shrink-0 inline-flex items-center gap-3 px-5 py-2.5 rounded-full <?php echo esc_attr($button_classes); ?> no-underline font-grotesk font-medium text-body-sm leading-[1.3] uppercase whitespace-nowrap transition-colors lg:self-auto">
           <span data-proto-field="cta"><?php echo esc_html($cta_text); ?></span>
           <?php echo $chevron; ?>
         </a>
