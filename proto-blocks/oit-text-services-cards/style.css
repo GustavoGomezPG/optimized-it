@@ -17,10 +17,10 @@
 
 /* Animation pre-state -- hidden up-front so GSAP's fromTo() doesn't
  * flash the final state for one frame before the timeline starts.
- * The state flips to data-animate="done" when ScrollTrigger fires. */
-.oit-text-services-cards[data-animate="pending"] .oit-text-services-cards__heading,
-.oit-text-services-cards[data-animate="pending"] .oit-text-services-cards__body,
-.oit-text-services-cards[data-animate="pending"] .oit-text-services-cards__subhead,
-.oit-text-services-cards[data-animate="pending"] .oit-text-services-cards__card {
+ * The state flips to data-proto-animate="done" when ScrollTrigger fires. */
+.oit-text-services-cards[data-proto-animate]:not([data-proto-animate="done"]) .oit-text-services-cards__heading,
+.oit-text-services-cards[data-proto-animate]:not([data-proto-animate="done"]) .oit-text-services-cards__body,
+.oit-text-services-cards[data-proto-animate]:not([data-proto-animate="done"]) .oit-text-services-cards__subhead,
+.oit-text-services-cards[data-proto-animate]:not([data-proto-animate="done"]) .oit-text-services-cards__card {
   opacity: 0;
 }

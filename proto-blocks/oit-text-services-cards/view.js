@@ -37,7 +37,7 @@
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     function reveal() {
-      section.setAttribute('data-animate', 'done');
+      section.setAttribute('data-proto-animate', 'done');
     }
 
     var heading = section.querySelector('.oit-text-services-cards__heading');
@@ -84,7 +84,7 @@
     }
 
     // ---- Initial states ----------------------------------------------------
-    // Inline opacity 0 wins on specificity against the data-animate="done"
+    // Inline opacity 0 wins on specificity against the data-proto-animate="done"
     // flip, so the subsequent fade actually plays (a no-op 1->1 otherwise).
 
     if (headingTargets.length) window.gsap.set(headingTargets, { y: 20, opacity: 0 });

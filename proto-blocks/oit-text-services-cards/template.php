@@ -40,8 +40,8 @@ if ($highlight !== '') {
     }
 }
 
-// Editor preview detection -- skip the data-animate pre-state in the
-// canvas iframe so the canvas isn't blank before view.js runs.
+// Editor preview detection -- skip the data-proto-animate pre-state in
+// the canvas iframe so the canvas isn't blank before view.js runs.
 $is_preview = !isset($block) || $block === null;
 
 // Background -- matches the showGradient pattern used by
@@ -54,7 +54,7 @@ $bg_class = $show_gradient
 
 $wrapper_args = ['class' => 'oit-text-services-cards relative ' . $bg_class];
 if (!$is_preview) {
-    $wrapper_args['data-animate'] = 'pending';
+    $wrapper_args['data-proto-animate'] = 'manual';
 }
 $wrapper_attributes = get_block_wrapper_attributes($wrapper_args);
 
