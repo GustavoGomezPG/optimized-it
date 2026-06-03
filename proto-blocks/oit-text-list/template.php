@@ -64,7 +64,7 @@ $wrapper_attributes = get_block_wrapper_attributes([
       <?php foreach ($items as $item): ?>
       <li
         data-proto-repeater-item
-        class="oit-text-list__item grow basis-[160px] min-w-0 flex flex-col justify-between gap-3 min-h-[71px] list-none">
+        class="oit-text-list__item grow basis-[160px] min-w-0 max-w-[240px] flex flex-col justify-between gap-3 min-h-[71px] list-none">
         <p
           data-proto-field="title"
           class="oit-text-list__item-title m-0 font-grotesk font-bold text-body-md leading-[1.4] text-black">
