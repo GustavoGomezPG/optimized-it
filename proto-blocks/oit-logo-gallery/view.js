@@ -26,7 +26,7 @@
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     function reveal() {
-      section.setAttribute('data-animate', 'done');
+      section.setAttribute('data-proto-animate', 'done');
     }
 
     var title = section.querySelector('.oit-logo-gallery__title');
@@ -40,7 +40,7 @@
 
     window.gsap.registerPlugin(window.ScrollTrigger);
 
-    // Inline opacity 0 wins specificity over the data-animate="done"
+    // Inline opacity 0 wins specificity over the data-proto-animate="done"
     // flip so the tween has something to fade from. Without these
     // `set` calls the elements would jump to 1 the moment reveal()
     // runs, leaving nothing for the timeline to animate.

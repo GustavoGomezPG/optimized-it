@@ -32,10 +32,10 @@
 }
 
 /* Animation pre-state -- only applied while GSAP is going to take
-   over. data-animate flips to "done" inside the ScrollTrigger onEnter
-   callback in view.js. */
-.oit-logo-gallery[data-animate="pending"] .oit-logo-gallery__title,
-.oit-logo-gallery[data-animate="pending"] .oit-logo-gallery__intro,
-.oit-logo-gallery[data-animate="pending"] .oit-logo-gallery__cell {
+   over. data-proto-animate flips to "done" inside the ScrollTrigger
+   onEnter callback in view.js. */
+.oit-logo-gallery[data-proto-animate]:not([data-proto-animate="done"]) .oit-logo-gallery__title,
+.oit-logo-gallery[data-proto-animate]:not([data-proto-animate="done"]) .oit-logo-gallery__intro,
+.oit-logo-gallery[data-proto-animate]:not([data-proto-animate="done"]) .oit-logo-gallery__cell {
   opacity: 0;
 }
