@@ -45,14 +45,14 @@ if ($highlight !== '') {
     }
 }
 
-// In the editor preview $block is null. The data-animate="pending"
+// In the editor preview $block is null. The data-proto-animate="manual"
 // pre-state would leave everything invisible there because view.js
 // doesn't run; only apply it on the front end.
 $is_preview = !isset($block) || $block === null;
 
 $wrapper_args = ['class' => 'oit-about-hero relative'];
 if (!$is_preview) {
-    $wrapper_args['data-animate'] = 'pending';
+    $wrapper_args['data-proto-animate'] = 'manual';
 }
 $wrapper_attributes = get_block_wrapper_attributes($wrapper_args);
 

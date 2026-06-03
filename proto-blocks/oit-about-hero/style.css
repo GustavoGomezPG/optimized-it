@@ -2,10 +2,10 @@
  * OIT About Hero — non-utility styles.
  *
  * Visual styling lives inline as Tailwind utilities on the template.
- * This file owns only the data-animate="pending" pre-state used by
+ * This file owns only the data-proto-animate (manual) pre-state used by
  * view.js: targets are hidden up-front so GSAP's fromTo() doesn't
  * flash the final state for one frame before the timeline starts.
- * The state flips to data-animate="done" the moment the scroll
+ * The state flips to data-proto-animate="done" the moment the scroll
  * trigger fires.
  *
  * The wordmark and breadcrumb markup is produced by the shared
@@ -18,13 +18,13 @@
 /* Animation pre-state -- only applied while GSAP is going to take over.
  * The wrapper element is the .oit-about-hero section; descendants
  * with these BEM-style hooks are the animation targets. */
-.oit-about-hero[data-animate="pending"] .oit-about-hero__grid,
-.oit-about-hero[data-animate="pending"] .oit-about-hero__title,
-.oit-about-hero[data-animate="pending"] .oit-about-hero__subtitle,
-.oit-about-hero[data-animate="pending"] .oit-about-hero__awards,
-.oit-about-hero[data-animate="pending"] .oit-about-hero__image-wrap,
-.oit-about-hero[data-animate="pending"] .oit-page-header__breadcrumb,
-.oit-about-hero[data-animate="pending"] .oit-page-header__wordmark {
+.oit-about-hero[data-proto-animate]:not([data-proto-animate="done"]) .oit-about-hero__grid,
+.oit-about-hero[data-proto-animate]:not([data-proto-animate="done"]) .oit-about-hero__title,
+.oit-about-hero[data-proto-animate]:not([data-proto-animate="done"]) .oit-about-hero__subtitle,
+.oit-about-hero[data-proto-animate]:not([data-proto-animate="done"]) .oit-about-hero__awards,
+.oit-about-hero[data-proto-animate]:not([data-proto-animate="done"]) .oit-about-hero__image-wrap,
+.oit-about-hero[data-proto-animate]:not([data-proto-animate="done"]) .oit-page-header__breadcrumb,
+.oit-about-hero[data-proto-animate]:not([data-proto-animate="done"]) .oit-page-header__wordmark {
   opacity: 0;
 }
 
