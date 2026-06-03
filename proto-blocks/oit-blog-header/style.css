@@ -1,0 +1,19 @@
+/*
+ * OIT Blog Header -- animation pre-state.
+ *
+ * Visual styling lives inline as Tailwind utilities on the template.
+ * This file owns only the data-proto-animate (auto) reveal: the section
+ * is hidden up-front and flipped to "done" by the Proto-Blocks reveal
+ * runtime when it scrolls into view.
+ */
+
+.oit-blog-header[data-proto-animate="pending"] {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.oit-blog-header[data-proto-animate="done"] {
+  opacity: 1;
+  transform: none;
+  transition: opacity .6s ease, transform .6s ease;
+}
