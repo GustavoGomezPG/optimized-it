@@ -25,7 +25,7 @@
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     function reveal() {
-      section.setAttribute('data-animate', 'done');
+      section.setAttribute('data-proto-animate', 'done');
     }
 
     var card     = section.querySelector('.oit-cta__card');
@@ -39,7 +39,7 @@
 
     window.gsap.registerPlugin(window.ScrollTrigger);
 
-    // Inline opacity 0 wins specificity over the data-animate="done"
+    // Inline opacity 0 wins specificity over the data-proto-animate="done"
     // flip so the tween has something to fade from.
     if (card)     window.gsap.set(card,     { y: 30, scale: 0.98, opacity: 0, transformOrigin: '50% 50%' });
     if (headline) window.gsap.set(headline, { y: 12, opacity: 0 });

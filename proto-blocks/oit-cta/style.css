@@ -2,14 +2,14 @@
  * OIT CTA -- animation pre-state.
  *
  * Visual styling lives inline as Tailwind utilities on the template.
- * This file owns only the data-animate="pending" pre-state used by
+ * This file owns only the data-proto-animate (manual) pre-state used by
  * view.js: targets are hidden up-front so GSAP's tween doesn't flash
  * the final state for one frame before the timeline starts. The state
- * flips to data-animate="done" when ScrollTrigger fires.
+ * flips to data-proto-animate="done" when ScrollTrigger fires.
  */
 
-.oit-cta[data-animate="pending"] .oit-cta__card,
-.oit-cta[data-animate="pending"] .oit-cta__headline,
-.oit-cta[data-animate="pending"] .oit-cta__button {
+.oit-cta[data-proto-animate]:not([data-proto-animate="done"]) .oit-cta__card,
+.oit-cta[data-proto-animate]:not([data-proto-animate="done"]) .oit-cta__headline,
+.oit-cta[data-proto-animate]:not([data-proto-animate="done"]) .oit-cta__button {
   opacity: 0;
 }
