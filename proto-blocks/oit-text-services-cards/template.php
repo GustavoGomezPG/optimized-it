@@ -132,7 +132,7 @@ $view_all_parts = explode(' ', $view_all_lbl, 2);
         <div class="oit-text-services-cards__card-foot flex items-center gap-2 w-full">
           <span
             data-proto-field="link"
-            class="oit-text-services-cards__card-title font-grotesk font-bold text-[20px] leading-[1.4] text-black whitespace-nowrap">
+            class="oit-text-services-cards__card-title font-grotesk font-bold text-[20px] leading-[1.4] text-black">
             <?php echo esc_html($title); ?>
           </span>
           <?php echo $card_chevron; ?>
