@@ -1,3 +1,22 @@
+/* Mobile menu panel open-state.
+ *
+ * The panel expands via the grid-template-rows 0fr -> 1fr trick. The closed
+ * state (`grid-rows-[0fr]`) and the transition come from Tailwind utilities on
+ * the element, but the open state was a Tailwind *arbitrary aria-variant*
+ * (`aria-[hidden=false]:grid-rows-[1fr]`) which the browser compile engine does
+ * NOT reliably emit -- so on a content-hash recompile the open rule vanished and
+ * the menu collapsed to height:0. Declaring it here in plain CSS keeps the menu
+ * working regardless of Tailwind engine/host. view.js toggles aria-hidden.
+ * The `.oit-nav__shell` prefix (an ancestor) raises specificity to (0,3,0) so this
+ * always beats the `.proto-blocks-scope .grid-rows-[0fr]` (0,2,0) closed-state
+ * utility regardless of stylesheet load order. Covers both the mobile menu panel
+ * and its nested submenu accordions (`.oit-nav__panel-sub`, toggled by
+ * `.oit-nav__panel-trigger`), which use the same grid 0fr->1fr open mechanism. */
+.oit-nav__shell .oit-nav__panel[aria-hidden="false"],
+.oit-nav__shell .oit-nav__panel-sub[aria-hidden="false"] {
+  grid-template-rows: 1fr;
+}
+
 .oit-nav__cta::after {
   content: '';
   display: inline-block;
