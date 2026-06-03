@@ -5,19 +5,19 @@
  * Office page header in a two-column layout. Left column carries the
  * shared breadcrumb (when enabled), headline with optional highlight,
  * supporting paragraph, and a stack of contact rows (phone, email,
- * mailing address). Right column is a live Leaflet map tiled by the
- * CARTO basemap network -- no API key required, free, with several
- * pre-baked themes (Dark Matter is the default and matches the dark
- * map look in the design).
+ * mailing address). Right column is a Google Maps embed -- a keyless
+ * iframe, no API key, no Leaflet/CARTO/OSM tiles, no CDN dependency.
  *
- * The map itself is initialized by view.js. The container is rendered
- * server-side with data-* attributes that the JS reads (center, zoom,
- * theme). When JS is absent or Leaflet fails to load, the container
- * still renders -- it just sits empty with the brand-grey fallback.
+ * The author pastes the embed from Google Maps -> Share -> Embed a map
+ * (the whole <iframe> tag or just its src). We extract + validate the
+ * src (must be an https google.com maps URL) and render a clean iframe.
+ * When no embed is pasted, we fall back to a keyless embed generated
+ * from the mapCenter (lat,lng) + mapZoom controls, so existing location
+ * pages keep their maps without re-entry. The iframe is server-rendered
+ * (no JS needed to show the map); view.js only handles the scroll
+ * reveal.
  *
- * Light-theme surface only (per the global no-dark-mode rule). The
- * dark Map theme is purely the right-column tile aesthetic, not a
- * page-level dark mode.
+ * Light-theme surface only (per the global no-dark-mode rule).
  *
  * @var array         $attributes
  * @var string        $content
@@ -33,14 +33,65 @@ $address  = !empty($attributes['address'])  ? $attributes['address']  : '<p>4000
 $highlight       = trim((string) ($attributes['highlightWord'] ?? ''));
 $show_breadcrumb = $attributes['showBreadcrumb'] ?? true;
 
-// Map config -- threaded into the container element as data-* so
-// view.js can read them once. Defaults match the Pittsburgh office.
-$map_center = trim((string) ($attributes['mapCenter'] ?? '40.4406,-79.9959'));
-$map_zoom   = isset($attributes['mapZoom']) ? max(3, min(18, (int) $attributes['mapZoom'])) : 12;
-$map_theme  = (string) ($attributes['mapTheme'] ?? 'dark_all');
-$allowed_themes = ['dark_all', 'dark_nolabels', 'voyager', 'voyager_nolabels', 'positron', 'positron_nolabels'];
-if (!in_array($map_theme, $allowed_themes, true)) {
-  $map_theme = 'dark_all';
+// Map embed resolution.
+//
+// 1) If the author pasted an embed, pull the URL out of it (accept the
+//    whole <iframe ... src="..."> tag or a bare URL) and validate it is
+//    an https Google Maps URL before trusting it as an iframe src.
+// 2) Otherwise build a keyless Google Maps embed from the coordinate
+//    fallback (mapCenter + mapZoom) so existing pages keep their maps.
+$map_embed_raw = trim((string) ($attributes['mapEmbed'] ?? ''));
+$map_center    = trim((string) ($attributes['mapCenter'] ?? '40.4406,-79.9959'));
+$map_zoom      = isset($attributes['mapZoom']) ? max(3, min(18, (int) $attributes['mapZoom'])) : 12;
+
+// Pull a src URL out of pasted embed markup (or take it as-is if the
+// author pasted just the URL).
+$extract_src = static function (string $raw): string {
+  if ($raw === '') {
+    return '';
+  }
+  if (preg_match('/src\s*=\s*["\']([^"\']+)["\']/i', $raw, $m)) {
+    return html_entity_decode($m[1], ENT_QUOTES);
+  }
+  return $raw;
+};
+
+// Only accept https URLs whose host is a Google domain and whose path
+// looks like a maps embed. Anything else is rejected (-> fall back),
+// so a stray paste can never inject an arbitrary iframe src.
+$valid_google_map = static function (string $url): string {
+  $url = trim($url);
+  if ($url === '') {
+    return '';
+  }
+  $p = wp_parse_url($url);
+  if (empty($p['scheme']) || strtolower($p['scheme']) !== 'https' || empty($p['host'])) {
+    return '';
+  }
+  $host = strtolower($p['host']);
+  if (!preg_match('/(^|\.)google\.[a-z.]{2,7}$/', $host)) {
+    return '';
+  }
+  $path = strtolower($p['path'] ?? '');
+  if (strpos($path, 'map') === false) {
+    return '';
+  }
+  return $url;
+};
+
+$map_src = $valid_google_map($extract_src($map_embed_raw));
+
+if ($map_src === '') {
+  // Coordinate fallback -> keyless embed (output=embed needs no key).
+  $coords = array_map('trim', explode(',', $map_center));
+  $lat = $coords[0] ?? '';
+  $lng = $coords[1] ?? '';
+  if (!is_numeric($lat) || !is_numeric($lng)) {
+    $lat = '40.4406';
+    $lng = '-79.9959';
+  }
+  $map_src = 'https://maps.google.com/maps?q=' . $lat . ',' . $lng
+    . '&z=' . $map_zoom . '&output=embed';
 }
 
 // Highlight pass -- same approach as oit-two-col-header.
@@ -138,14 +189,14 @@ $icon_email = '<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-4 shrink-0" 
 
       <div
         class="oit-single-location__map-wrap relative w-full aspect-[608/445] rounded-3xl overflow-clip shadow-red-glow bg-light-grey">
-        <div
+        <iframe
+          src="<?php echo esc_url($map_src); ?>"
           class="oit-single-location__map absolute inset-0 w-full h-full"
-          data-oit-map="1"
-          data-oit-map-center="<?php echo esc_attr($map_center); ?>"
-          data-oit-map-zoom="<?php echo esc_attr((string) $map_zoom); ?>"
-          data-oit-map-theme="<?php echo esc_attr($map_theme); ?>"
+          title="Map showing office location"
           aria-label="Map showing office location"
-          role="region"></div>
+          loading="lazy"
+          referrerpolicy="no-referrer-when-downgrade"
+          allowfullscreen></iframe>
       </div>
 
     </div>

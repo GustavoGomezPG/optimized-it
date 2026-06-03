@@ -6,8 +6,8 @@
   "title": "OIT Single Location",
   "category": "optimizedit",
   "icon": "location-alt",
-  "description": "Office / single-location page header. Auto-derived breadcrumb, headline with highlight, supporting paragraph, phone + email + address rows on the left, live Leaflet map (CARTO basemap, no API key) on the right.",
-  "keywords": ["location", "office", "contact", "map", "leaflet", "oit"],
+  "description": "Office / single-location page header. Auto-derived breadcrumb, headline with highlight, supporting paragraph, phone + email + address rows on the left, Google Maps embed (keyless iframe, no API key) on the right.",
+  "keywords": ["location", "office", "contact", "map", "google", "oit"],
   "supports": {
     "html": false,
     "anchor": true,
@@ -54,11 +54,17 @@
         "label": "Show breadcrumb",
         "default": true
       },
+      "mapEmbed": {
+        "type": "textarea",
+        "label": "Google Maps embed",
+        "default": "",
+        "help": "Paste the embed code from Google Maps -> Share -> Embed a map (the whole <iframe> tag, or just its src URL). Leave empty to auto-generate a map from the coordinates below. No API key needed."
+      },
       "mapCenter": {
         "type": "text",
-        "label": "Map center (lat,lng)",
+        "label": "Map coordinates (lat,lng)",
         "default": "40.4406,-79.9959",
-        "help": "Comma-separated coordinates, e.g. 40.4406,-79.9959 for Pittsburgh."
+        "help": "Fallback used only when no embed is pasted above. Comma-separated, e.g. 40.4406,-79.9959 for Pittsburgh."
       },
       "mapZoom": {
         "type": "number",
@@ -66,21 +72,7 @@
         "min": 3,
         "max": 18,
         "default": 12,
-        "help": "Higher = closer. 12 is roughly metro area, 16 is street level."
-      },
-      "mapTheme": {
-        "type": "select",
-        "label": "Map theme",
-        "default": "dark_all",
-        "options": [
-          { "key": "dark_all", "label": "Dark Matter" },
-          { "key": "dark_nolabels", "label": "Dark Matter (no labels)" },
-          { "key": "voyager", "label": "Voyager (colored)" },
-          { "key": "voyager_nolabels", "label": "Voyager (no labels)" },
-          { "key": "positron", "label": "Positron (light)" },
-          { "key": "positron_nolabels", "label": "Positron (no labels, light)" }
-        ],
-        "help": "CARTO basemap theme. All are free, no API key required."
+        "help": "Fallback zoom for the coordinates above. Higher = closer (12 ~ metro, 16 ~ street level)."
       }
     }
   }
