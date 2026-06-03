@@ -34,7 +34,7 @@
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     function reveal() {
-      section.setAttribute('data-animate', 'done');
+      section.setAttribute('data-proto-animate', 'done');
     }
 
     var card      = section.querySelector('.oit-page-header__card');
@@ -149,7 +149,7 @@
 
     // Every gsap.set below also sets opacity: 0 inline. The CSS
     // pre-state hides these elements before JS runs, but reveal() flips
-    // data-animate to "done" the moment ScrollTrigger fires -- without
+    // data-proto-animate to "done" the moment ScrollTrigger fires -- without
     // an inline opacity 0, the element snaps to visible and the
     // subsequent opacity tween has nothing to fade from (a no-op
     // 1->1). Inline 0 wins on specificity so the fade actually plays.

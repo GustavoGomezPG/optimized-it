@@ -7,10 +7,10 @@
  *   1. The icon-badge 17-stop red->black gradient (too many comma-
  *      separated stops to round-trip through arbitrary-value Tailwind).
  *
- *   2. The data-animate="pending" pre-state used by view.js. Targets
+ *   2. The data-proto-animate (manual) pre-state used by view.js. Targets
  *      are hidden up-front so GSAP's fromTo() doesn't flash the final
  *      state for one frame before the timeline starts. The state flips
- *      to data-animate="done" the moment the scroll trigger fires.
+ *      to data-proto-animate="done" the moment the scroll trigger fires.
  *
  * Wordmark sizing (font-size clamp + negative top margin) used to live
  * here too, but it's emitted by inc/oit-header-partials.php and shared
@@ -62,13 +62,13 @@
 }
 
 /* 2. Animation pre-state — only applied when GSAP is going to take over */
-.oit-page-header[data-animate="pending"] .oit-page-header__card,
-.oit-page-header[data-animate="pending"] .oit-page-header__wordmark,
-.oit-page-header[data-animate="pending"] .oit-page-header__breadcrumb,
-.oit-page-header[data-animate="pending"] .oit-page-header__title,
-.oit-page-header[data-animate="pending"] .oit-page-header__subtitle,
-.oit-page-header[data-animate="pending"] .oit-page-header__cta,
-.oit-page-header[data-animate="pending"] .oit-page-header__icon-badge,
-.oit-page-header[data-animate="pending"] .oit-page-header__decoration {
+.oit-page-header[data-proto-animate]:not([data-proto-animate="done"]) .oit-page-header__card,
+.oit-page-header[data-proto-animate]:not([data-proto-animate="done"]) .oit-page-header__wordmark,
+.oit-page-header[data-proto-animate]:not([data-proto-animate="done"]) .oit-page-header__breadcrumb,
+.oit-page-header[data-proto-animate]:not([data-proto-animate="done"]) .oit-page-header__title,
+.oit-page-header[data-proto-animate]:not([data-proto-animate="done"]) .oit-page-header__subtitle,
+.oit-page-header[data-proto-animate]:not([data-proto-animate="done"]) .oit-page-header__cta,
+.oit-page-header[data-proto-animate]:not([data-proto-animate="done"]) .oit-page-header__icon-badge,
+.oit-page-header[data-proto-animate]:not([data-proto-animate="done"]) .oit-page-header__decoration {
   opacity: 0;
 }

@@ -78,8 +78,8 @@ if ($highlight_word !== '') {
 // block has always produced, so style.css and view.js below keep
 // working without any selector changes.
 //
-// In the editor preview $block is null. The data-animate="pending" pre-
-// state would leave everything invisible there because view.js doesn't
+// In the editor preview $block is null. The data-proto-animate (manual)
+// pre-state would leave everything invisible there because view.js doesn't
 // run; only apply it on the front end.
 $is_preview = !isset($block) || $block === null;
 
@@ -105,7 +105,7 @@ $circuit_lottie_url = get_stylesheet_directory_uri() . '/assets/lottie/circuit.j
 
 $wrapper_args = ['class' => 'oit-page-header relative'];
 if (!$is_preview) {
-  $wrapper_args['data-animate'] = 'pending';
+  $wrapper_args['data-proto-animate'] = 'manual';
 }
 $wrapper_attributes = get_block_wrapper_attributes($wrapper_args);
 
