@@ -4,4 +4,19 @@
  * Visual styling lives inline as Tailwind utilities on the template.
  * Reserved for shadow stacks or other declarations that don't fit
  * cleanly as utilities.
+ *
+ * Also owns the data-proto-animate (auto) reveal: the section is hidden
+ * up-front and flipped to "done" by the Proto-Blocks reveal runtime when
+ * it scrolls into view.
  */
+
+.oit-resources[data-proto-animate="pending"] {
+  opacity: 0;
+  transform: translateY(16px);
+}
+
+.oit-resources[data-proto-animate="done"] {
+  opacity: 1;
+  transform: none;
+  transition: opacity .6s ease, transform .6s ease;
+}

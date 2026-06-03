@@ -91,7 +91,7 @@ if (empty($resources)) {
 
 $wrapper_args = ['class' => 'oit-resources'];
 if (!$is_preview) {
-  $wrapper_args['data-animate'] = 'pending';
+  $wrapper_args['data-proto-animate'] = 'pending';
 }
 $wrapper_attributes = get_block_wrapper_attributes($wrapper_args);
 
