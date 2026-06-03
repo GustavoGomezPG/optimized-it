@@ -197,6 +197,20 @@ $icon_email = '<svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-4 shrink-0" 
           loading="lazy"
           referrerpolicy="no-referrer-when-downgrade"
           allowfullscreen></iframe>
+        <?php
+        // Loading state shown over the embed until the map paints (the
+        // iframe sits blank/white for a beat while Google's map boots).
+        // view.js plays the circuit Lottie here and removes this overlay
+        // on the iframe's load event; a pure-CSS timeout backstop hides
+        // it regardless so it can never get stuck (and works with no JS).
+        // The static circuit.svg (CSS background) is the reduced-motion /
+        // no-Lottie fallback.
+        ?>
+        <div
+          class="oit-single-location__map-loader"
+          data-oit-map-loader
+          data-lottie-url="<?php echo esc_url(get_theme_file_uri('assets/lottie/circuit.json')); ?>"
+          aria-hidden="true"></div>
       </div>
 
     </div>

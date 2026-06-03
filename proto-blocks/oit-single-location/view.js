@@ -111,9 +111,89 @@
     document.querySelectorAll('.oit-single-location').forEach(initReveal);
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', bootReveal);
-  } else {
+  // ---- Map loading state ----------------------------------------------------
+
+  /**
+   * Resolve window.lottie. The lottie-lite build is enqueued globally by the
+   * theme (footer), but load order vs this view script isn't guaranteed, so
+   * poll briefly. Calls back with the lib, or null after ~4s (the static
+   * circuit.svg fallback then stays until the map covers it).
+   */
+  function ensureLottie(cb) {
+    if (window.lottie) { cb(window.lottie); return; }
+    var tries = 0;
+    var timer = setInterval(function () {
+      if (window.lottie) {
+        clearInterval(timer);
+        cb(window.lottie);
+      } else if (++tries > 40) {
+        clearInterval(timer);
+        cb(null);
+      }
+    }, 100);
+  }
+
+  function initMapLoader(wrap) {
+    if (!wrap || wrap.dataset.oitMapLoaderInit === '1') return;
+    wrap.dataset.oitMapLoaderInit = '1';
+
+    var iframe = wrap.querySelector('.oit-single-location__map');
+    var loader = wrap.querySelector('[data-oit-map-loader]');
+    if (!iframe || !loader) return;
+
+    var anim = null;
+    var done = false;
+    var reveal = function () {
+      if (done) return;
+      done = true;
+      wrap.classList.add('is-map-loaded');
+      // Stop the Lottie once the map is in, to free CPU.
+      if (anim) {
+        try { anim.destroy(); } catch (e) { /* noop */ }
+        anim = null;
+      }
+    };
+
+    // The map's load event is the precise signal (fires for cross-origin
+    // iframes too). The CSS animation backstop also hides the loader at 8s,
+    // so a missed/cached load can't leave it stuck.
+    iframe.addEventListener('load', reveal);
+
+    var reduce = window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var url = loader.getAttribute('data-lottie-url');
+
+    if (!reduce && url) {
+      ensureLottie(function (lottie) {
+        if (!lottie || done) return; // map already painted -> skip
+        loader.classList.add('is-animated'); // hide static SVG fallback
+        try {
+          anim = lottie.loadAnimation({
+            container: loader,
+            renderer: 'svg',
+            loop: true,
+            autoplay: true,
+            path: url,
+          });
+        } catch (e) {
+          loader.classList.remove('is-animated'); // restore static fallback
+        }
+      });
+    }
+  }
+
+  function bootMapLoaders() {
+    document.querySelectorAll('.oit-single-location__map-wrap').forEach(initMapLoader);
+  }
+
+  function bootAll() {
     bootReveal();
+    bootMapLoaders();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootAll);
+  } else {
+    bootAll();
   }
 })();

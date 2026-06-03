@@ -32,3 +32,55 @@
   height: 100%;
   border: 0;
 }
+
+/* Map loading overlay.
+ *
+ * Sits ON TOP of the iframe while the Google embed boots (the iframe is
+ * blank/white for a beat). view.js plays the circuit Lottie inside it and
+ * removes it (adds .is-map-loaded) on the iframe's load event.
+ *
+ * Robustness: the `oit-map-loader-timeout` animation hides the overlay
+ * after 8s no matter what, so it can never get stuck -- even with no JS,
+ * a missed load event, or a blocked Lottie. The static circuit.svg
+ * background is the reduced-motion / no-Lottie fallback; view.js drops it
+ * (.is-animated) once the Lottie is running so the two don't overlap. */
+.oit-single-location__map-loader {
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background:
+    center / 120px auto no-repeat
+    url("../../assets/img/circuit.svg"),
+    var(--color-light-grey, #f2f2f2);
+  animation: oit-map-loader-timeout 0.4s ease 8s forwards;
+}
+
+/* The Lottie renders an <svg>/<div> inside the loader -- constrain it. */
+.oit-single-location__map-loader > svg,
+.oit-single-location__map-loader > div {
+  width: 160px;
+  height: 160px;
+}
+
+/* While the Lottie is playing, hide the static SVG fallback background. */
+.oit-single-location__map-loader.is-animated {
+  background-image: none;
+}
+
+/* Map painted -> fade the overlay out immediately (beats the 8s backstop). */
+.oit-single-location__map-wrap.is-map-loaded .oit-single-location__map-loader {
+  opacity: 0;
+  visibility: hidden;
+  animation: none;
+  transition: opacity 0.4s ease;
+}
+
+@keyframes oit-map-loader-timeout {
+  to {
+    opacity: 0;
+    visibility: hidden;
+  }
+}
