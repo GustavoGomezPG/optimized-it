@@ -40,6 +40,7 @@ $icon     = $attributes['icon'] ?? null;
 $is_light       = !empty($attributes['isLight']);
 $show_circuit   = $attributes['showCircuit']   ?? true;
 $show_icon      = !empty($attributes['showIconBadge']);
+$invert_icon    = !empty($attributes['invertIcon']);
 $highlight_word = trim((string) ($attributes['highlightWord'] ?? ''));
 
 // Two independent toggle-gated buttons. Each lives in its own link
@@ -181,7 +182,7 @@ $chevron = '<svg class="w-[13px] h-3 shrink-0" viewBox="0 0 13 12" fill="current
             data-proto-field="icon"
             src="<?php echo esc_url($icon['url']); ?>"
             alt="<?php echo esc_attr($icon['alt'] ?? ''); ?>"
-            class="oit-page-header__icon w-[82px] h-[91px] object-contain" />
+            class="oit-page-header__icon w-[82px] h-[91px] object-contain<?php echo $invert_icon ? ' oit-page-header__icon--invert' : ''; ?>" />
           <?php else: ?>
           <div data-proto-field="icon" class="oit-page-header__icon w-[82px] h-[91px] flex items-center justify-center text-white/70 text-center text-body-xs font-grotesk px-2">
             <span>Pick icon</span>

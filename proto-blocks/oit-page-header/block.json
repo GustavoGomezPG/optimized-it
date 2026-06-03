@@ -71,6 +71,12 @@
         "label": "Show icon badge instead of circuit",
         "default": false
       },
+      "invertIcon": {
+        "type": "toggle",
+        "label": "Invert icon color (white)",
+        "default": false,
+        "help": "Applies a CSS invert filter so a black-stroked icon renders white on the dark badge."
+      },
       "showButton1": {
         "type": "toggle",
         "label": "Show button one",

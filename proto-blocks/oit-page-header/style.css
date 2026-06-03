@@ -28,6 +28,15 @@
   filter: brightness(0);
 }
 
+/* Invert-icon modifier -- lets a black-stroked icon SVG render white on
+ * the dark gradient badge. brightness(0) crushes the artwork to pure
+ * black (transparent stays transparent), then invert(1) flips it to
+ * pure white, so the icon reads regardless of its source stroke color.
+ * Toggled per-instance via the "Invert icon color" control. */
+.oit-page-header__icon--invert {
+  filter: brightness(0) invert(1);
+}
+
 /* 1. Icon-badge gradient — Managed IT variant */
 .oit-page-header__icon-badge--gradient {
   background-image: linear-gradient(
