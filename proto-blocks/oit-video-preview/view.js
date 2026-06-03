@@ -86,7 +86,7 @@
       if (e.key === 'Escape' && !modal.classList.contains('hidden')) close();
     });
 
-    section.setAttribute('data-animate', 'done');
+    section.setAttribute('data-proto-animate', 'done');
   }
 
   function bootstrap() {

@@ -101,7 +101,7 @@ $thumb_alt = !empty($custom_thumb['alt']) ? $custom_thumb['alt'] : 'Video thumbn
 $is_preview = !isset($block) || $block === null;
 $wrapper_args = ['class' => 'oit-video-preview'];
 if (!$is_preview) {
-  $wrapper_args['data-animate'] = 'pending';
+  $wrapper_args['data-proto-animate'] = 'manual';
 }
 $wrapper_attributes = get_block_wrapper_attributes($wrapper_args);
 
