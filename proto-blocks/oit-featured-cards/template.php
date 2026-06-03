@@ -34,6 +34,18 @@ if ($logo_variant) {
   $highlighted_index = 0;
 }
 
+// Editor preview vs. frontend. Proto-Blocks renders the same template in
+// both contexts and (currently) never passes $block, so we detect the
+// editor by the request type it previews through: the block-renderer REST
+// endpoint or admin-ajax. On a normal page view none of these are set.
+//
+// In the editor we keep the chevron as a real <a> so the Proto-Blocks link
+// control stays discoverable/editable; on the frontend we stretch the link
+// across the whole card and make the chevron decorative.
+$is_preview = (defined('REST_REQUEST') && REST_REQUEST)
+           || (function_exists('wp_doing_ajax') && wp_doing_ajax())
+           || (function_exists('wp_is_json_request') && wp_is_json_request());
+
 if (empty($cards)) {
   $cards = [
     ['icon' => null, 'title' => 'Managed IT Services',     'description' => 'We own and manage your technology so you can get back to running your business.', 'link' => ['url' => '#']],
@@ -150,12 +162,28 @@ $wrapper_attributes = get_block_wrapper_attributes([
           </p>
         </div>
 
+        <?php if ($is_preview): ?>
+        <?php // Editor: visible chevron link keeps the Proto-Blocks link control bound + discoverable. ?>
         <a
           href="<?php echo esc_url($card_url ?: '#'); ?>"<?php echo $card_target; echo $card_rel; ?>
           aria-label="<?php echo esc_attr($action_label); ?>"
           class="oit-featured-cards__card-action absolute bottom-6 right-6 lg:bottom-7 lg:right-7 inline-flex items-center justify-center w-10 h-10 rounded-full no-underline transition-[colors,transform] duration-300 hover:scale-110 <?php echo $action_classes; ?>">
           <svg class="w-[14px] h-[16px] shrink-0" viewBox="0 0 14 16" fill="none" aria-hidden="true"><path d="M1 1L7 8L1 15M7 1L13 8L7 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </a>
+        <?php else: ?>
+        <?php // Frontend: stretched overlay makes the whole card clickable; chevron is a decorative cue. ?>
+        <?php if ($card_url): ?>
+        <a
+          href="<?php echo esc_url($card_url); ?>"<?php echo $card_target; echo $card_rel; ?>
+          aria-label="<?php echo esc_attr($action_label); ?>"
+          class="oit-featured-cards__card-link absolute inset-0 z-10 rounded-3xl"></a>
+        <?php endif; ?>
+        <span
+          aria-hidden="true"
+          class="oit-featured-cards__card-action absolute bottom-6 right-6 lg:bottom-7 lg:right-7 inline-flex items-center justify-center w-10 h-10 rounded-full transition-[colors,transform] duration-300 group-hover:scale-110 <?php echo $action_classes; ?>">
+          <svg class="w-[14px] h-[16px] shrink-0" viewBox="0 0 14 16" fill="none" aria-hidden="true"><path d="M1 1L7 8L1 15M7 1L13 8L7 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </span>
+        <?php endif; ?>
 
       </li>
       <?php endif; ?>
