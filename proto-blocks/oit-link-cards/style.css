@@ -2,9 +2,9 @@
  * OIT Link Cards — pre-animation state.
  *
  * Hide each card until GSAP takes over so the staggered fade-in doesn't
- * flash the final state for one frame. The data-animate attribute flips
- * to "done" inside the ScrollTrigger onEnter callback in view.js.
+ * flash the final state for one frame. The data-proto-animate attribute
+ * flips to "done" inside the ScrollTrigger onEnter callback in view.js.
  */
-.oit-link-cards[data-animate="pending"] .oit-link-cards__card {
+.oit-link-cards[data-proto-animate]:not([data-proto-animate="done"]) .oit-link-cards__card {
   opacity: 0;
 }

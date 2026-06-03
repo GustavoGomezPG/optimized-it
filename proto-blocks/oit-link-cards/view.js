@@ -21,7 +21,7 @@
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     function reveal() {
-      section.setAttribute('data-animate', 'done');
+      section.setAttribute('data-proto-animate', 'done');
     }
 
     var cards = section.querySelectorAll('.oit-link-cards__card');
@@ -34,7 +34,7 @@
     window.gsap.registerPlugin(window.ScrollTrigger);
 
     // The CSS pre-state hides the card before JS boots, but onEnter
-    // removes data-animate="pending" before the timeline runs -- without
+    // flips data-proto-animate to "done" before the timeline runs -- without
     // an inline opacity 0 from GSAP, the card briefly snaps to opacity 1
     // and the subsequent tween has nothing to fade from. Setting it here
     // (inline) wins on specificity so the fade actually animates.

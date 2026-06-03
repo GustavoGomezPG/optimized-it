@@ -41,7 +41,7 @@ $is_preview = !isset($block) || $block === null;
 
 $wrapper_args = ['class' => 'oit-link-cards bg-black'];
 if (!$is_preview) {
-  $wrapper_args['data-animate'] = 'pending';
+  $wrapper_args['data-proto-animate'] = 'manual';
 }
 $wrapper_attributes = get_block_wrapper_attributes($wrapper_args);
 
