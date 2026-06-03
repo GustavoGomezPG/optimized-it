@@ -24,7 +24,7 @@
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     function reveal() {
-      section.setAttribute('data-animate', 'done');
+      section.setAttribute('data-proto-animate', 'done');
     }
 
     var title = section.querySelector('.oit-title-columns__title');
@@ -39,9 +39,9 @@
     window.gsap.registerPlugin(window.ScrollTrigger);
 
     // Set both transforms AND opacity inline so the GSAP tween can fade
-    // smoothly when reveal() removes the data-animate="pending" CSS
-    // pre-state. Without inline opacity 0, the elements jump to 1 the
-    // moment data-animate flips, leaving nothing for the timeline to
+    // smoothly when reveal() flips the data-proto-animate CSS
+    // pre-state to "done". Without inline opacity 0, the elements jump to 1
+    // the moment data-proto-animate flips, leaving nothing for the timeline to
     // fade.
     if (title)     window.gsap.set(title, { x: -16, opacity: 0 });
     if (intro)     window.gsap.set(intro, { y: 12, opacity: 0 });

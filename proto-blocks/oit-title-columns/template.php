@@ -72,7 +72,7 @@ if ($stack_layout) {
 }
 $wrapper_args = ['class' => $wrapper_classes];
 if (!$is_preview) {
-  $wrapper_args['data-animate'] = 'pending';
+  $wrapper_args['data-proto-animate'] = 'manual';
 }
 $wrapper_attributes = get_block_wrapper_attributes($wrapper_args);
 

@@ -90,10 +90,10 @@
 }
 
 /* Pre-animation state — hide title + columns before GSAP takes over so
-   the fade-in doesn't flash the final state for one frame. data-animate
+   the fade-in doesn't flash the final state for one frame. data-proto-animate
    flips to "done" inside the ScrollTrigger onEnter callback. */
-.oit-title-columns[data-animate="pending"] .oit-title-columns__title,
-.oit-title-columns[data-animate="pending"] .oit-title-columns__intro,
-.oit-title-columns[data-animate="pending"] .oit-title-columns__col {
+.oit-title-columns[data-proto-animate]:not([data-proto-animate="done"]) .oit-title-columns__title,
+.oit-title-columns[data-proto-animate]:not([data-proto-animate="done"]) .oit-title-columns__intro,
+.oit-title-columns[data-proto-animate]:not([data-proto-animate="done"]) .oit-title-columns__col {
   opacity: 0;
 }
