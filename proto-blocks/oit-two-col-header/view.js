@@ -39,7 +39,7 @@
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     function reveal() {
-      section.setAttribute('data-animate', 'done');
+      section.setAttribute('data-proto-animate', 'done');
     }
 
     var grid      = section.querySelector('.oit-two-col-header__grid');
@@ -115,7 +115,7 @@
     }
 
     // ---- Initial states for everything not covered by the CSS pre-hide.
-    // Inline opacity 0 wins on specificity against the data-animate="done"
+    // Inline opacity 0 wins on specificity against the data-proto-animate="done"
     // flip, so the subsequent fade actually plays (a no-op 1->1 otherwise).
 
     if (grid)      window.gsap.set(grid,      { y: 20, opacity: 0 });
