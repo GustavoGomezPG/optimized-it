@@ -4,7 +4,7 @@
  * Visual styling lives inline as Tailwind utilities on the template.
  * This file owns two things:
  *
- *   1. The data-animate="pending" pre-state used by view.js so the
+ *   1. The data-proto-animate (manual) pre-state used by view.js so the
  *      scroll reveal doesn't flash the final state for one frame
  *      before the timeline starts. view.js flips the attribute to
  *      "done" once ScrollTrigger fires.
@@ -17,12 +17,12 @@
  */
 
 /* Animation pre-state. */
-.oit-single-location[data-animate="pending"] .oit-single-location__grid,
-.oit-single-location[data-animate="pending"] .oit-single-location__title,
-.oit-single-location[data-animate="pending"] .oit-single-location__subtitle,
-.oit-single-location[data-animate="pending"] .oit-single-location__row,
-.oit-single-location[data-animate="pending"] .oit-single-location__map-wrap,
-.oit-single-location[data-animate="pending"] .oit-page-header__breadcrumb {
+.oit-single-location[data-proto-animate]:not([data-proto-animate="done"]) .oit-single-location__grid,
+.oit-single-location[data-proto-animate]:not([data-proto-animate="done"]) .oit-single-location__title,
+.oit-single-location[data-proto-animate]:not([data-proto-animate="done"]) .oit-single-location__subtitle,
+.oit-single-location[data-proto-animate]:not([data-proto-animate="done"]) .oit-single-location__row,
+.oit-single-location[data-proto-animate]:not([data-proto-animate="done"]) .oit-single-location__map-wrap,
+.oit-single-location[data-proto-animate]:not([data-proto-animate="done"]) .oit-page-header__breadcrumb {
   opacity: 0;
 }
 

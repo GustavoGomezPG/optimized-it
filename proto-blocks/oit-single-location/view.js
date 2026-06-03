@@ -154,7 +154,7 @@
       window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     function reveal() {
-      section.setAttribute('data-animate', 'done');
+      section.setAttribute('data-proto-animate', 'done');
     }
 
     var grid     = section.querySelector('.oit-single-location__grid');
