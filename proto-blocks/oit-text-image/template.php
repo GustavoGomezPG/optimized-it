@@ -23,7 +23,7 @@ $image_position = ($attributes['imagePosition'] ?? 'right') === 'left' ? 'left' 
 $is_preview = !isset($block) || $block === null;
 $wrapper_args = ['class' => 'oit-text-image'];
 if (!$is_preview) {
-  $wrapper_args['data-animate'] = 'pending';
+  $wrapper_args['data-proto-animate'] = 'pending';
 }
 $wrapper_attributes = get_block_wrapper_attributes($wrapper_args);
 

@@ -7,13 +7,15 @@
  * weights, so we restore them inside .oit-text-image__body only.
  */
 
-.oit-text-image[data-animate="pending"] {
+.oit-text-image[data-proto-animate="pending"] {
   opacity: 0;
+  transform: translateY(16px);
 }
 
-.oit-text-image[data-animate="done"] {
+.oit-text-image[data-proto-animate="done"] {
   opacity: 1;
-  transition: opacity 500ms ease-out;
+  transform: none;
+  transition: opacity .6s ease, transform .6s ease;
 }
 
 .oit-text-image__body :where(p) {
