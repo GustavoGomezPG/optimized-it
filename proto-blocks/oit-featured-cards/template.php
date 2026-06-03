@@ -34,17 +34,12 @@ if ($logo_variant) {
   $highlighted_index = 0;
 }
 
-// Editor preview vs. frontend. Proto-Blocks renders the same template in
-// both contexts and (currently) never passes $block, so we detect the
-// editor by the request type it previews through: the block-renderer REST
-// endpoint or admin-ajax. On a normal page view none of these are set.
-//
-// In the editor we keep the chevron as a real <a> so the Proto-Blocks link
-// control stays discoverable/editable; on the frontend we stretch the link
-// across the whole card and make the chevron decorative.
-$is_preview = (defined('REST_REQUEST') && REST_REQUEST)
-           || (function_exists('wp_doing_ajax') && wp_doing_ajax())
-           || (function_exists('wp_is_json_request') && wp_is_json_request());
+// Editor preview vs. frontend. The plugin passes $block (a WP_Block on the
+// frontend, null in the editor preview), so we branch on the documented
+// contract. In the editor we keep the chevron as a real <a> so the
+// Proto-Blocks link control stays discoverable/editable; on the frontend we
+// stretch the link across the whole card and make the chevron decorative.
+$is_preview = !isset($block) || $block === null;
 
 if (empty($cards)) {
   $cards = [
