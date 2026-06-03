@@ -6,7 +6,7 @@
  * here is what doesn't translate cleanly to a single utility:
  *
  *   1. The 17-stop linear gradient (no inline equivalent).
- *   2. The data-animate="pending" pre-state that view.js / GSAP rely on
+ *   2. The data-proto-animate (manual) pre-state that view.js / GSAP rely on
  *      to fade the hero in once the intro screen completes (or once the
  *      oit-intro-skip class signals a repeat-session immediate play).
  *   3. The prefers-reduced-motion override for that pre-state.
@@ -49,26 +49,26 @@
  * Animation pre-state
  *
  * Anything that animates in starts hidden so there's no FOUC before
- * GSAP runs. view.js flips data-animate to "done" once it plays the
+ * GSAP runs. view.js flips data-proto-animate to "done" once it plays the
  * timeline (or strips the attribute on no-GSAP / reduced-motion paths).
  *
  * Editor previews never set this attribute (see template.php), so the
  * block always renders fully visible inside the editor canvas.
  * ------------------------------------------------------------- */
-.oit-hero[data-animate="pending"] .oit-hero__eyebrow,
-.oit-hero[data-animate="pending"] .oit-hero__heading,
-.oit-hero[data-animate="pending"] .oit-hero__cta,
-.oit-hero[data-animate="pending"] .oit-hero__media,
-.oit-hero[data-animate="pending"] .oit-hero__decoration {
+.oit-hero[data-proto-animate]:not([data-proto-animate="done"]) .oit-hero__eyebrow,
+.oit-hero[data-proto-animate]:not([data-proto-animate="done"]) .oit-hero__heading,
+.oit-hero[data-proto-animate]:not([data-proto-animate="done"]) .oit-hero__cta,
+.oit-hero[data-proto-animate]:not([data-proto-animate="done"]) .oit-hero__media,
+.oit-hero[data-proto-animate]:not([data-proto-animate="done"]) .oit-hero__decoration {
   opacity: 0;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .oit-hero[data-animate="pending"] .oit-hero__eyebrow,
-  .oit-hero[data-animate="pending"] .oit-hero__heading,
-  .oit-hero[data-animate="pending"] .oit-hero__cta,
-  .oit-hero[data-animate="pending"] .oit-hero__media,
-  .oit-hero[data-animate="pending"] .oit-hero__decoration {
+  .oit-hero[data-proto-animate]:not([data-proto-animate="done"]) .oit-hero__eyebrow,
+  .oit-hero[data-proto-animate]:not([data-proto-animate="done"]) .oit-hero__heading,
+  .oit-hero[data-proto-animate]:not([data-proto-animate="done"]) .oit-hero__cta,
+  .oit-hero[data-proto-animate]:not([data-proto-animate="done"]) .oit-hero__media,
+  .oit-hero[data-proto-animate]:not([data-proto-animate="done"]) .oit-hero__decoration {
     opacity: 1;
   }
 }

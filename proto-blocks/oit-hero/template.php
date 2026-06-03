@@ -9,7 +9,7 @@
  * `useTailwind: true`). The BEM class names are kept as JS hooks for
  * view.js and as anchor points for the few things that can't be inlined:
  *   - the 17-stop linear gradient (.oit-hero--gradient in style.css)
- *   - the data-animate="pending" pre-state used by the GSAP reveal
+ *   - the data-proto-animate (manual) pre-state used by the GSAP reveal
  *
  * @var array         $attributes
  * @var string        $content
@@ -39,7 +39,7 @@ $section_classes = trim(
 
 $wrapper_args = ['class' => $section_classes];
 if (!$is_preview) {
-  $wrapper_args['data-animate'] = 'pending';
+  $wrapper_args['data-proto-animate'] = 'manual';
 }
 $wrapper_attributes = get_block_wrapper_attributes($wrapper_args);
 

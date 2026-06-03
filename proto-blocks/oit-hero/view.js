@@ -32,7 +32,7 @@
     var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
     function reveal() {
-      hero.setAttribute('data-animate', 'done');
+      hero.setAttribute('data-proto-animate', 'done');
     }
 
     var eyebrow = hero.querySelector('.oit-hero__eyebrow');
