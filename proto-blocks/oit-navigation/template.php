@@ -212,9 +212,8 @@ $cta_arrow = '<svg class="w-[10px] h-[10px]" viewBox="0 0 12 13" fill="none" ari
               </div>
               <?php else: ?>
               <a href="<?php echo esc_url($item->url ?? '#'); ?>"
-                class="oit-nav__panel-link no-underline flex items-center justify-between text-white font-grotesk font-medium text-[16px] leading-[1.3] uppercase">
+                class="oit-nav__panel-link no-underline flex items-center text-white font-grotesk font-medium text-[16px] leading-[1.3] uppercase">
                 <span><?php echo esc_html($item->title); ?></span>
-                <svg class="w-[8px] h-[14px]" viewBox="0 0 11 18" fill="none" aria-hidden="true"><path d="M1 1L9 9L1 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
               </a>
               <?php endif; ?>
             </li>
