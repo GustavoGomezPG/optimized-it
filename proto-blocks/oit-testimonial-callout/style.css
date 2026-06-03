@@ -8,7 +8,7 @@
  *      oit-featured-section so the brand pair stays consistent, just
  *      with the colors reversed end-to-end.
  *
- *   2. The data-animate="pending" pre-state. Targets are hidden before
+ *   2. The data-proto-animate (manual) pre-state. Targets are hidden before
  *      GSAP takes over so the fromTo() reveal doesn't flash the final
  *      state for one frame on slower devices.
  */
@@ -37,13 +37,13 @@
   );
 }
 
-.oit-testimonial-callout[data-animate="pending"] .oit-testimonial-callout__card,
-.oit-testimonial-callout[data-animate="pending"] .oit-testimonial-callout__headline,
-.oit-testimonial-callout[data-animate="pending"] .oit-testimonial-callout__step,
-.oit-testimonial-callout[data-animate="pending"] .oit-testimonial-callout__cta,
-.oit-testimonial-callout[data-animate="pending"] .oit-testimonial-callout__quote-frame,
-.oit-testimonial-callout[data-animate="pending"] .oit-testimonial-callout__quote-mark,
-.oit-testimonial-callout[data-animate="pending"] .oit-testimonial-callout__quote,
-.oit-testimonial-callout[data-animate="pending"] .oit-testimonial-callout__attribution {
+.oit-testimonial-callout[data-proto-animate]:not([data-proto-animate="done"]) .oit-testimonial-callout__card,
+.oit-testimonial-callout[data-proto-animate]:not([data-proto-animate="done"]) .oit-testimonial-callout__headline,
+.oit-testimonial-callout[data-proto-animate]:not([data-proto-animate="done"]) .oit-testimonial-callout__step,
+.oit-testimonial-callout[data-proto-animate]:not([data-proto-animate="done"]) .oit-testimonial-callout__cta,
+.oit-testimonial-callout[data-proto-animate]:not([data-proto-animate="done"]) .oit-testimonial-callout__quote-frame,
+.oit-testimonial-callout[data-proto-animate]:not([data-proto-animate="done"]) .oit-testimonial-callout__quote-mark,
+.oit-testimonial-callout[data-proto-animate]:not([data-proto-animate="done"]) .oit-testimonial-callout__quote,
+.oit-testimonial-callout[data-proto-animate]:not([data-proto-animate="done"]) .oit-testimonial-callout__attribution {
   opacity: 0;
 }
