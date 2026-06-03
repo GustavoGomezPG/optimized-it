@@ -1,12 +1,20 @@
 /*
  * OIT Breadcrumbs + Eyebrow + Title -- residual / animation styles.
  *
- * Visual styling lives inline as Tailwind utilities. This file is
- * reserved for the data-animate pre-state when view-side reveal is
- * wired up.
+ * Visual styling lives inline as Tailwind utilities. This file owns the
+ * data-proto-animate (auto) reveal: the crumbs + card are hidden up-front
+ * and flipped to "done" by the Proto-Blocks reveal runtime on scroll-in.
  */
 
-.oit-bet[data-animate="pending"] .oit-bet__crumbs,
-.oit-bet[data-animate="pending"] .oit-bet__card {
+.oit-bet[data-proto-animate="pending"] .oit-bet__crumbs,
+.oit-bet[data-proto-animate="pending"] .oit-bet__card {
   opacity: 0;
+  transform: translateY(16px);
+}
+
+.oit-bet[data-proto-animate="done"] .oit-bet__crumbs,
+.oit-bet[data-proto-animate="done"] .oit-bet__card {
+  opacity: 1;
+  transform: none;
+  transition: opacity .6s ease, transform .6s ease;
 }
