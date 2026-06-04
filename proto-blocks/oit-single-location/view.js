@@ -171,9 +171,15 @@
           anim = lottie.loadAnimation({
             container: loader,
             renderer: 'svg',
-            loop: true,
+            loop: false,
             autoplay: true,
             path: url,
+            rendererSettings: {
+              // Cover the whole card so the circuit fills it edge to edge
+              // (the traces reach the borders) instead of a small centered
+              // graphic.
+              preserveAspectRatio: 'xMidYMid slice',
+            },
           });
         } catch (e) {
           loader.classList.remove('is-animated'); // restore static fallback
