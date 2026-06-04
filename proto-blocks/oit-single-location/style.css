@@ -51,23 +51,37 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  background:
-    center / 120px auto no-repeat
-    url("../../assets/img/circuit.svg"),
-    var(--color-light-grey, #f2f2f2);
+  background: var(--color-light-grey, #f2f2f2);
   animation: oit-map-loader-timeout 0.4s ease 8s forwards;
 }
 
-/* The Lottie renders an <svg>/<div> inside the loader -- constrain it. */
+/* Static circuit fallback (reduced-motion / no-Lottie). Rendered on a
+ * pseudo-element so the light-grey backdrop above stays fully opaque
+ * (hiding the blank iframe) while only the graphic is toned down:
+ * brightness(0) turns the brand-red circuit black, and the low opacity
+ * makes that black read as a soft gray instead of an intense red. */
+.oit-single-location__map-loader::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: center / 120px auto no-repeat url("../../assets/img/circuit.svg");
+  filter: brightness(0);
+  opacity: 0.2;
+}
+
+/* The Lottie renders an <svg>/<div> inside the loader -- size it and tone
+ * it down the same way (black + low opacity = subtle gray). */
 .oit-single-location__map-loader > svg,
 .oit-single-location__map-loader > div {
   width: 160px;
   height: 160px;
+  filter: brightness(0);
+  opacity: 0.2;
 }
 
-/* While the Lottie is playing, hide the static SVG fallback background. */
-.oit-single-location__map-loader.is-animated {
-  background-image: none;
+/* While the Lottie is playing, drop the static fallback so they don't overlap. */
+.oit-single-location__map-loader.is-animated::before {
+  display: none;
 }
 
 /* Map painted -> fade the overlay out immediately (beats the 8s backstop). */
