@@ -18,6 +18,13 @@ $phone_number = $attributes['phoneNumber'] ?? '';
 $address_lines = $attributes['addressLines'] ?? '';
 $copyright_text = $attributes['copyrightText'] ?? '';
 
+// Legal links rendered inline after the copyright, separated by " | ".
+$legal_links = array_values(array_filter([
+  ['label' => 'Privacy Policy',     'url' => $attributes['privacyUrl'] ?? ''],
+  ['label' => 'Terms & Conditions', 'url' => $attributes['termsUrl'] ?? ''],
+  ['label' => 'Sitemap',            'url' => $attributes['sitemapUrl'] ?? ''],
+], static function ($l) { return !empty($l['url']); }));
+
 $social_links = array_values(array_filter([
   ['platform' => 'linkedin', 'url' => $attributes['linkedinUrl'] ?? ''],
   ['platform' => 'facebook', 'url' => $attributes['facebookUrl'] ?? ''],
@@ -247,9 +254,21 @@ $show_newsletter_strip = $show_newsletter && (!empty($newsletter_heading) || !em
             <?php endforeach; ?>
           </div>
           <?php endif; ?>
-          <?php if (!empty($copyright_text)): ?>
+          <?php if (!empty($copyright_text) || !empty($legal_links)): ?>
           <p class="font-dm font-medium text-[14px] leading-[1.5] text-white m-0">
-            <?php echo esc_html($copyright_text); ?>
+            <?php
+            echo esc_html($copyright_text);
+            if (!empty($legal_links)) {
+              $links_html = [];
+              foreach ($legal_links as $l) {
+                $links_html[] = '<a href="' . esc_url($l['url']) . '" class="no-underline text-white hover:text-brand-red transition-colors">' . esc_html($l['label']) . '</a>';
+              }
+              // Period already separates the copyright; pipes only between links,
+              // with a space on both side of each pipe.
+              echo ($copyright_text !== '' ? ' ' : '')
+                . implode(' <span class="opacity-50" aria-hidden="true">|</span> ', $links_html);
+            }
+            ?>
           </p>
           <?php endif; ?>
         </div>

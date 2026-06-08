@@ -76,8 +76,11 @@
       "copyrightText": {
         "type": "textarea",
         "label": "Bottom Line",
-        "default": "Copyright info here, privacy policy, sitemap links"
-      }
+        "default": "© 2026 OptimizedIT. All rights reserved."
+      },
+      "privacyUrl": { "type": "text", "label": "Privacy Policy URL", "help": "Shown as a link after the copyright, separated by |." },
+      "termsUrl": { "type": "text", "label": "Terms & Conditions URL", "help": "Shown as a link after the copyright, separated by |." },
+      "sitemapUrl": { "type": "text", "label": "Sitemap URL", "help": "Shown as a link after the copyright, separated by |." }
     }
   }
 }
