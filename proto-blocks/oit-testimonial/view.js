@@ -118,8 +118,60 @@
     });
   }
 
+  // -- SmileBack review carousel (independent of GSAP) --------------------
+  //
+  // Rotates the stacked review slides. Auto-advances every data-autoplay ms
+  // (skipped under prefers-reduced-motion), pauses on hover/focus, and is
+  // driven by the prev/next arrows + dots. Visibility/active state is a
+  // [data-active] attribute the CSS keys off of, so it degrades to the
+  // first slide shown if this script never runs.
+  function initCarousel(carousel) {
+    if (carousel.dataset.oitCarouselInit === '1') return;
+    carousel.dataset.oitCarouselInit = '1';
+
+    var slides = Array.prototype.slice.call(carousel.querySelectorAll('.oit-testimonial__slide'));
+    if (slides.length < 2) return;
+
+    var dots   = Array.prototype.slice.call(carousel.querySelectorAll('.oit-testimonial__dot'));
+    var arrows = Array.prototype.slice.call(carousel.querySelectorAll('.oit-testimonial__arrow'));
+    var reduce = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var autoplayMs = parseInt(carousel.getAttribute('data-autoplay'), 10) || 0;
+    var current = 0;
+    var timer = null;
+
+    function show(idx) {
+      current = (idx + slides.length) % slides.length;
+      slides.forEach(function (s, i) {
+        if (i === current) { s.setAttribute('data-active', '1'); s.removeAttribute('aria-hidden'); }
+        else { s.removeAttribute('data-active'); s.setAttribute('aria-hidden', 'true'); }
+      });
+      dots.forEach(function (d, i) {
+        if (i === current) d.setAttribute('data-active', '1'); else d.removeAttribute('data-active');
+      });
+    }
+    function stop() { if (timer) { clearInterval(timer); timer = null; } }
+    function start() { if (!reduce && autoplayMs > 0) { stop(); timer = setInterval(function () { show(current + 1); }, autoplayMs); } }
+
+    arrows.forEach(function (btn) {
+      var dir = parseInt(btn.getAttribute('data-dir'), 10) || 1;
+      btn.addEventListener('click', function () { stop(); show(current + dir); start(); });
+    });
+    dots.forEach(function (dot) {
+      dot.addEventListener('click', function () { stop(); show(parseInt(dot.getAttribute('data-index'), 10) || 0); start(); });
+    });
+
+    carousel.addEventListener('mouseenter', stop);
+    carousel.addEventListener('mouseleave', start);
+    carousel.addEventListener('focusin', stop);
+    carousel.addEventListener('focusout', start);
+
+    show(0);
+    start();
+  }
+
   function boot() {
     document.querySelectorAll('.oit-testimonial').forEach(init);
+    document.querySelectorAll('.oit-testimonial__carousel').forEach(initCarousel);
   }
 
   if (document.readyState === 'loading') {

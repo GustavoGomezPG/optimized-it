@@ -30,6 +30,62 @@
       }
     },
     "controls": {
+      "source": {
+        "type": "select",
+        "label": "Review Source",
+        "default": "manual",
+        "options": [
+          { "key": "manual", "label": "Manual (single quote)" },
+          { "key": "smileback", "label": "SmileBack (auto carousel)" }
+        ],
+        "help": "Manual uses the Quote/Attribution above. SmileBack pulls live reviews and rotates through them as a carousel."
+      },
+      "maxReviews": {
+        "type": "number",
+        "label": "Max SmileBack reviews",
+        "default": 12,
+        "min": 1,
+        "max": 30,
+        "help": "How many SmileBack reviews to include in the carousel (after filtering)."
+      },
+      "autoplaySeconds": {
+        "type": "number",
+        "label": "Slide duration (seconds)",
+        "default": 6,
+        "min": 0,
+        "max": 30,
+        "help": "How long each review shows before auto-advancing. Set to 0 to disable autoplay (arrows/dots only)."
+      },
+      "order": {
+        "type": "select",
+        "label": "Review order",
+        "default": "newest",
+        "options": [
+          { "key": "newest", "label": "Newest first" },
+          { "key": "random", "label": "Random" },
+          { "key": "default", "label": "As published (feed order)" }
+        ]
+      },
+      "requireCompany": {
+        "type": "toggle",
+        "label": "Only reviews with a company",
+        "default": false,
+        "help": "Skip reviews that don't include a company name."
+      },
+      "minLength": {
+        "type": "number",
+        "label": "Minimum review length",
+        "default": 0,
+        "min": 0,
+        "max": 500,
+        "help": "Hide reviews shorter than this many characters (0 = no minimum)."
+      },
+      "showScore": {
+        "type": "toggle",
+        "label": "Show CSAT score line",
+        "default": true,
+        "help": "Shows the overall satisfaction score + review count above the card (SmileBack source only)."
+      },
       "showCircuit": {
         "type": "toggle",
         "label": "Show Circuit Decorations",

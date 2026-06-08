@@ -1,0 +1,73 @@
+/*
+ * OIT Single Testimonial -- SmileBack carousel.
+ *
+ * Slides are stacked in a single grid cell so the card height tracks the
+ * tallest review (no height jump when rotating); only the active slide is
+ * visible, the rest crossfade out. Inactive slides keep their box (via
+ * visibility:hidden) so the grid still sizes to the tallest one.
+ * The manual single-quote mode (no .oit-testimonial__slides) is untouched.
+ */
+.oit-testimonial__slides > .oit-testimonial__slide {
+  grid-area: 1 / 1;
+}
+
+.oit-testimonial__slide {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.45s ease;
+}
+
+.oit-testimonial__slide[data-active="1"] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+/* Prev / next arrows */
+.oit-testimonial__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 9999px;
+  border: 1px solid #e6e6e8;
+  background: #fff;
+  color: #1a0303;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s ease, color 0.2s ease, border-color 0.2s ease;
+}
+
+.oit-testimonial__arrow:hover {
+  background: var(--color-brand-red, #d1001d);
+  border-color: var(--color-brand-red, #d1001d);
+  color: #fff;
+}
+
+.oit-testimonial__arrow:focus-visible {
+  outline: 2px solid var(--color-brand-red, #d1001d);
+  outline-offset: 2px;
+}
+
+/* Dots */
+.oit-testimonial__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  border: 0;
+  padding: 0;
+  background: rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.oit-testimonial__dot:hover {
+  background: rgba(0, 0, 0, 0.4);
+}
+
+.oit-testimonial__dot[data-active="1"] {
+  background: var(--color-brand-red, #d1001d);
+  transform: scale(1.25);
+}

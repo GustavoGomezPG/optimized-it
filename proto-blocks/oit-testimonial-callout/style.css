@@ -47,3 +47,70 @@
 .oit-testimonial-callout[data-proto-animate]:not([data-proto-animate="done"]) .oit-testimonial-callout__attribution {
   opacity: 0;
 }
+
+/* SmileBack carousel (rotating reviews in the quote frame).
+ * Slides stacked in one grid cell so the frame height tracks the tallest
+ * review; only the active slide is visible. White-on-red controls to suit
+ * the gradient card. */
+.oit-testimonial-callout__slides > .oit-testimonial-callout__slide {
+  grid-area: 1 / 1;
+}
+
+.oit-testimonial-callout__slide {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 0.45s ease;
+}
+
+.oit-testimonial-callout__slide[data-active="1"] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+}
+
+.oit-testimonial-callout__arrow {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  border-radius: 9999px;
+  border: 1px solid rgba(255, 255, 255, 0.5);
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s ease, border-color 0.2s ease;
+}
+
+.oit-testimonial-callout__arrow:hover {
+  background: rgba(255, 255, 255, 0.15);
+  border-color: #fff;
+}
+
+.oit-testimonial-callout__arrow:focus-visible {
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+.oit-testimonial-callout__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 9999px;
+  border: 0;
+  padding: 0;
+  background: rgba(255, 255, 255, 0.4);
+  cursor: pointer;
+  transition: background 0.2s ease, transform 0.2s ease;
+}
+
+.oit-testimonial-callout__dot:hover {
+  background: rgba(255, 255, 255, 0.7);
+}
+
+.oit-testimonial-callout__dot[data-active="1"] {
+  background: #fff;
+  transform: scale(1.25);
+}
+

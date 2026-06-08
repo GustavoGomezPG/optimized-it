@@ -6,6 +6,7 @@
 require_once get_stylesheet_directory() . '/inc/oit-header-partials.php';
 require_once get_stylesheet_directory() . '/inc/oit-resources-cpt.php';
 require_once get_stylesheet_directory() . '/inc/oit-post-template.php';
+require_once get_stylesheet_directory() . '/inc/oit-smileback.php';
 
 add_action('after_setup_theme', function () {
     register_nav_menus([
