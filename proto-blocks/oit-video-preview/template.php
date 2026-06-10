@@ -88,7 +88,13 @@ if ($source === 'youtube') {
   $thumb_url = $video_id ? $vm_thumb($video_id) : '';
   $embed_url = $video_id ? "https://player.vimeo.com/video/{$video_id}?autoplay=1" : '';
 } else { // mp4
-  $mp4_url   = $video_url ? esc_url_raw($video_url) : '';
+  // Prefer a media-library video (videoFile) over the pasted URL.
+  $video_file = $attributes['videoFile'] ?? null;
+  if (!empty($video_file['url'])) {
+    $mp4_url = esc_url_raw($video_file['url']);
+  } else {
+    $mp4_url = $video_url ? esc_url_raw($video_url) : '';
+  }
 }
 
 // Custom thumbnail always wins.

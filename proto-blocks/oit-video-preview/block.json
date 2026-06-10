@@ -19,6 +19,11 @@
     "useTailwind": true,
     "template": "template.php",
     "fields": {
+      "videoFile": {
+        "type": "video",
+        "label": "Video file (MP4, from Media Library)",
+        "help": "For the 'MP4 (self-hosted)' source. Pick an uploaded video from the media library. Overrides the MP4 URL field below."
+      },
       "customThumbnail": {
         "type": "image",
         "label": "Custom thumbnail",
