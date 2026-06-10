@@ -120,7 +120,6 @@
   .oit-footer__newsletter-form .hsfc-Step__Content {
     flex-direction: row !important;
     flex-wrap: nowrap !important;
-    align-items: center !important;
   }
   .oit-footer__newsletter-form .hsfc-Step__Content > .hsfc-Row {
     flex-direction: row !important;
