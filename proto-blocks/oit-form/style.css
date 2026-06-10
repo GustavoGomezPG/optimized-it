@@ -1,82 +1,45 @@
 /*
- * OIT Form -- Gravity Forms theme override.
+ * OIT Form -- HubSpot (developer/inline embed) brand styling.
  *
- * Gravity Forms 2.7+ ships the "foundation" / "orbital" theme which
- * paints its UI from a long list of CSS custom properties scoped to
- * `.gform_wrapper`. Fighting those with high-specificity selectors is
- * a losing game — overriding the variables themselves is the only
- * reliable path. We also flatten GF's 12-col grid into a vertical
- * stack and re-paint the submit button so it matches the OIT brand
- * pill (red, chevron, uppercase).
- *
- * All overrides are scoped to `.oit-form__card` so other Gravity
- * Forms instances elsewhere on the site keep their default look.
+ * The developer embed renders the form as inline HTML using HubSpot's `.hsfc-*`
+ * classes (no iframe), so we can repaint it to the OIT brand here. Scoped to
+ * `.oit-form__card` (the dark callout). HubSpot ships its own base CSS for the
+ * `.hsfc-*` system, so most rules use !important to win.
  */
 
-/* ---- 1. Variable overrides (foundation theme reads from these) ---- */
-.oit-form__card .gform_wrapper {
-  --gf-color-primary: #e00523;
-  --gf-color-primary-rgb: 224, 5, 35;
-  --gf-color-primary-contrast: #ffffff;
-  --gf-color-secondary: #ffffff;
-  --gf-color-secondary-contrast: #1a0303;
-  --gf-color-out-ctrl-light: rgba(255, 255, 255, 0.2);
-  --gf-color-out-ctrl-dark: #ffffff;
-  --gf-color-in-ctrl: #ffffff;
-  --gf-color-in-ctrl-contrast: #1a0303;
-  --gf-color-in-ctrl-darker: #ffffff;
-  --gf-color-in-ctrl-border: transparent;
-  --gf-color-in-ctrl-border-hover: transparent;
-  --gf-color-in-ctrl-border-focus: rgba(224, 5, 35, 0.6);
-  --gf-color-in-ctrl-border-error: #ffd5d5;
-
-  --gf-radius: 24px;
-  --gf-ctrl-radius: 24px;
-  --gf-ctrl-btn-radius: 90px;
-  --gf-ctrl-btn-padding-x: 24px;
-  --gf-ctrl-btn-padding-y: 10px;
-
-  --gf-font-size-primary: 16px;
-  --gf-font-size-secondary: 14px;
-}
-
-/* Hide the "Indicates a required field" legend GF prints above the
- * form -- the asterisks on each label are enough. */
-.oit-form__card .gform_wrapper .gform_required_legend {
-  display: none !important;
-}
-
-/* ---- 2. Card frame ---- */
-.oit-form__card {
-  background-color: #1a0303 !important;
+/* Form surface: transparent so the dark card shows through. */
+.oit-form__card .hsfc-Form,
+.oit-form__card .hsfc-Step,
+.oit-form__card .hsfc-Step__Content {
+  background: transparent !important;
+  font-family: "DM Sans", sans-serif;
   color: #ffffff;
 }
 
-/* ---- 3. Stack fields vertically (kill the 12-col grid) ---- */
-.oit-form__card .gform_wrapper .gform-body {
-  width: 100%;
+/* Field rows: stacked, with a comfortable gap. */
+.oit-form__card .hsfc-Row {
+  margin: 0 0 20px !important;
+}
+.oit-form__card .hsfc-Row:last-of-type {
+  margin-bottom: 0 !important;
+}
+/* When HubSpot puts two fields on one row, sit them side by side on wider screens. */
+@media (min-width: 640px) {
+  .oit-form__card .hsfc-Row--multi,
+  .oit-form__card .hsfc-Row.hsfc-Row--multiple {
+    display: flex !important;
+    gap: 20px !important;
+  }
+  .oit-form__card .hsfc-Row--multi > *,
+  .oit-form__card .hsfc-Row.hsfc-Row--multiple > * {
+    flex: 1 1 0 !important;
+    min-width: 0 !important;
+  }
 }
 
-.oit-form__card .gform_wrapper .gform_fields {
-  display: flex !important;
-  flex-direction: column !important;
-  gap: 20px !important;
-  grid-template-columns: none !important;
-  grid-template-rows: none !important;
-}
-
-.oit-form__card .gform_wrapper .gfield {
-  grid-column: 1 / -1 !important;
-  width: 100% !important;
-  max-width: 100% !important;
-  margin: 0 !important;
-  padding: 0 !important;
-}
-
-/* ---- 4. Labels (white, bold) ---- */
-.oit-form__card .gform_wrapper .gfield_label,
-.oit-form__card .gform_wrapper legend.gfield_label {
-  display: block !important;
+/* Labels: white, bold. */
+.oit-form__card .hsfc-FieldLabel,
+.oit-form__card .hsfc-FieldLabel * {
   color: #ffffff !important;
   font-family: "Space Grotesk", sans-serif !important;
   font-weight: 700 !important;
@@ -85,161 +48,89 @@
   margin: 0 0 8px !important;
 }
 
-.oit-form__card .gform_wrapper .gfield_required {
-  color: #ffffff !important;
-  margin-left: 4px;
-}
-
-.oit-form__card .gform_wrapper .gfield_description,
-.oit-form__card .gform_wrapper .gform_fileupload_rules {
-  color: rgba(255, 255, 255, 0.7) !important;
-  font-family: "DM Sans", sans-serif;
-  font-size: 14px !important;
-  margin-top: 6px;
-}
-
-/* ---- 5. Inputs (white pills, dark text) ---- */
-.oit-form__card .gform_wrapper input[type="text"],
-.oit-form__card .gform_wrapper input[type="email"],
-.oit-form__card .gform_wrapper input[type="tel"],
-.oit-form__card .gform_wrapper input[type="url"],
-.oit-form__card .gform_wrapper input[type="number"],
-.oit-form__card .gform_wrapper input[type="password"],
-.oit-form__card .gform_wrapper select,
-.oit-form__card .gform_wrapper textarea {
+/* Inputs / selects / textareas: white pills, dark text. */
+.oit-form__card .hsfc-Form input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]),
+.oit-form__card .hsfc-Form select,
+.oit-form__card .hsfc-Form textarea {
+  width: 100% !important;
   background: #ffffff !important;
   color: #1a0303 !important;
   border: 1px solid transparent !important;
   border-radius: 24px !important;
   padding: 11px 20px !important;
   min-height: 45px !important;
-  width: 100% !important;
   font-family: "DM Sans", sans-serif !important;
   font-weight: 500 !important;
   font-size: 16px !important;
   line-height: 1.5 !important;
   box-shadow: none !important;
 }
-
-.oit-form__card .gform_wrapper input::placeholder,
-.oit-form__card .gform_wrapper textarea::placeholder {
-  color: rgba(26, 3, 3, 0.5) !important;
-}
-
-.oit-form__card .gform_wrapper textarea {
+.oit-form__card .hsfc-Form textarea {
   min-height: 120px !important;
   border-radius: 16px !important;
   padding: 14px 20px !important;
   resize: vertical;
 }
-
-.oit-form__card .gform_wrapper input:focus,
-.oit-form__card .gform_wrapper select:focus,
-.oit-form__card .gform_wrapper textarea:focus {
+.oit-form__card .hsfc-Form input::placeholder,
+.oit-form__card .hsfc-Form textarea::placeholder {
+  color: rgba(26, 3, 3, 0.5) !important;
+}
+.oit-form__card .hsfc-Form input:focus,
+.oit-form__card .hsfc-Form select:focus,
+.oit-form__card .hsfc-Form textarea:focus {
   outline: none !important;
   border-color: rgba(224, 5, 35, 0.6) !important;
   box-shadow: 0 0 0 3px rgba(224, 5, 35, 0.18) !important;
 }
 
-/* Checkbox / radio labels stay white. */
-.oit-form__card .gform_wrapper .gfield_checkbox label,
-.oit-form__card .gform_wrapper .gfield_radio label {
-  color: #ffffff !important;
+/* Phone composite field: keep the country-select + input on one line. */
+.oit-form__card .hsfc-PhoneField__PhoneInput,
+.oit-form__card .hsfc-Form .hsfc-PhoneInput {
+  display: flex !important;
+  gap: 8px !important;
 }
 
-/* ---- 6. Submit button (red pill with chevron) ---- */
-.oit-form__card .gform_wrapper .gform_footer {
-  position: relative;
-  margin-top: 24px !important;
-  padding: 0 !important;
-  display: inline-flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.oit-form__card .gform_wrapper .gform_footer input[type="submit"],
-.oit-form__card .gform_wrapper .gform_button,
-.oit-form__card .gform_wrapper input.gform_button.button {
+/* Submit button: brand red pill, uppercase. */
+.oit-form__card .hsfc-Button,
+.oit-form__card .hsfc-Form button[type="submit"] {
   display: inline-flex !important;
   align-items: center !important;
+  justify-content: center !important;
   gap: 12px !important;
+  width: auto !important;
   background: #e00523 !important;
-  background-color: #e00523 !important;
   color: #ffffff !important;
   border: 1px solid #d1001d !important;
   border-radius: 90px !important;
-  padding: 10px 40px 10px 24px !important;
+  padding: 10px 28px !important;
   min-height: 0 !important;
   font-family: "Space Grotesk", sans-serif !important;
   font-weight: 500 !important;
   font-size: 16px !important;
   line-height: 1.3 !important;
   text-transform: uppercase !important;
-  letter-spacing: 0.02em;
+  letter-spacing: 0.02em !important;
   cursor: pointer !important;
   transition: background 0.2s ease !important;
+}
+.oit-form__card .hsfc-Button:hover,
+.oit-form__card .hsfc-Form button[type="submit"]:hover {
+  background: #c40420 !important;
+}
+
+/* Submit row spacing. */
+.oit-form__card .hsfc-NavigationRow {
+  margin-top: 24px !important;
+  padding: 0 !important;
+}
+
+/* Required marker + validation messages. */
+.oit-form__card .hsfc-FieldLabel abbr,
+.oit-form__card .hsfc-FieldLabel [class*="equired"] {
+  color: #ffffff !important;
   text-decoration: none !important;
 }
-
-.oit-form__card .gform_wrapper .gform_footer input[type="submit"]:hover,
-.oit-form__card .gform_wrapper .gform_button:hover {
-  background: #c40420 !important;
-  background-color: #c40420 !important;
-}
-
-/* Chevron painted by view.js as a sibling after the submit input.
- * Absolute-positioned over the input's right edge; pointer-events
- * disabled so the click still falls through to the submit. */
-.oit-form__card .gform_wrapper .gform_footer .oit-form__chevron {
-  position: absolute;
-  right: 18px;
-  top: 50%;
-  transform: translateY(-50%);
-  display: inline-flex;
-  align-items: center;
-  color: #ffffff;
-  pointer-events: none;
-}
-
-.oit-form__card .gform_wrapper .gform_footer .oit-form__chevron svg {
-  width: 13px;
-  height: 12px;
-  display: block;
-}
-
-/* ---- 7. Validation + confirmation ---- */
-.oit-form__card .gform_wrapper .validation_message,
-.oit-form__card .gform_wrapper .gfield_validation_message,
-.oit-form__card .gform_wrapper .gform_validation_errors {
+.oit-form__card .hsfc-Form [class*="Error"],
+.oit-form__card .hsfc-Form [class*="error"] {
   color: #ffd5d5 !important;
-  background: rgba(255, 213, 213, 0.08) !important;
-  border: 1px solid rgba(255, 213, 213, 0.25) !important;
-  border-radius: 12px !important;
-  padding: 12px 16px !important;
-  font-family: "DM Sans", sans-serif;
-  font-size: 14px !important;
-  margin-top: 6px !important;
-}
-
-.oit-form__card .gform_wrapper .gform_validation_errors > h2 {
-  color: #ffd5d5 !important;
-  font-family: "Space Grotesk", sans-serif;
-  font-weight: 700;
-  font-size: 16px;
-  margin: 0 0 4px;
-}
-
-.oit-form__card .gform_confirmation_message {
-  color: #ffffff;
-  font-family: "DM Sans", sans-serif;
-  font-size: 16px;
-  line-height: 1.5;
-}
-
-/* Field-level error state -- red ring on the input itself. */
-.oit-form__card .gform_wrapper .gfield_error input,
-.oit-form__card .gform_wrapper .gfield_error select,
-.oit-form__card .gform_wrapper .gfield_error textarea {
-  border-color: #ffd5d5 !important;
-  box-shadow: 0 0 0 2px rgba(255, 213, 213, 0.35) !important;
 }

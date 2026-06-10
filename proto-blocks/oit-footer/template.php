@@ -148,7 +148,7 @@ $show_newsletter_strip = $show_newsletter && (!empty($newsletter_heading) || !em
         <div class="oit-footer__newsletter-form min-w-0 w-full lg:w-auto">
           <?php if (!empty($newsletter_form_id) && !empty($newsletter_portal_id)): ?>
           <div
-            class="hs-form-frame"
+            class="hs-form-html"
             data-region="<?php echo esc_attr($newsletter_region); ?>"
             data-form-id="<?php echo esc_attr($newsletter_form_id); ?>"
             data-portal-id="<?php echo esc_attr($newsletter_portal_id); ?>"></div>

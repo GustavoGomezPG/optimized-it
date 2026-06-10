@@ -37,7 +37,7 @@ $wrapper_attributes = get_block_wrapper_attributes(['class' => 'oit-form']);
 
       <?php if ($form_id !== '' && $portal_id !== ''): ?>
         <div
-          class="hs-form-frame"
+          class="hs-form-html"
           data-region="<?php echo esc_attr($region); ?>"
           data-form-id="<?php echo esc_attr($form_id); ?>"
           data-portal-id="<?php echo esc_attr($portal_id); ?>"></div>
