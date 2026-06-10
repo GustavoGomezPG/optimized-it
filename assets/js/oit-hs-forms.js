@@ -10,6 +10,32 @@
 (function () {
 	'use strict';
 
+	// True inside the block-editor canvas iframe (WP 6.3+/7.0).
+	function inEditor() {
+		try {
+			return (
+				!!document.body &&
+				document.body.classList.contains('block-editor-iframe__body')
+			);
+		} catch (e) {
+			return false;
+		}
+	}
+
+	// In the editor the form is a visual preview only: make it non-interactive
+	// so clicking it selects the block (instead of the iframe swallowing the
+	// click), and so the inspector/Block Settings are reachable. The form stays
+	// fully interactive on the front end.
+	var editorStyleInjected = false;
+	function ensureEditorPreviewStyle() {
+		if (editorStyleInjected || !inEditor()) return;
+		editorStyleInjected = true;
+		var st = document.createElement('style');
+		st.textContent =
+			'.hs-form-frame, .hs-form-frame * { pointer-events: none !important; }';
+		(document.head || document.documentElement).appendChild(st);
+	}
+
 	function loadPortal(portalId) {
 		if (!portalId) return;
 		var id = 'hsforms-embed-' + portalId;
@@ -24,6 +50,7 @@
 	function scan() {
 		var frames = document.querySelectorAll('.hs-form-frame[data-portal-id]');
 		if (!frames.length) return;
+		ensureEditorPreviewStyle();
 		frames.forEach(function (frame) {
 			loadPortal(frame.getAttribute('data-portal-id'));
 		});
