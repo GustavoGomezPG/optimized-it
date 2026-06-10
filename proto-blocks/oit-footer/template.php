@@ -145,7 +145,7 @@ $show_newsletter_strip = $show_newsletter && (!empty($newsletter_heading) || !em
         </h2>
         <?php endif; ?>
 
-        <div class="oit-footer__newsletter-form min-w-0 w-full lg:w-auto">
+        <div class="oit-footer__newsletter-form min-w-0 w-full lg:flex-1">
           <?php if (!empty($newsletter_form_id) && !empty($newsletter_portal_id)): ?>
           <div
             class="hs-form-html"

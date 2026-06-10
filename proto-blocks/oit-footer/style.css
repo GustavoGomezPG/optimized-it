@@ -69,10 +69,10 @@
   background-color: var(--color-cta-red-700, #B8001D) !important;
 }
 
-/* HubSpot (developer/inline embed) newsletter form on the light slate strip.
-   Compact, dark labels, white input, red pill submit -- sits inline next to
-   the heading. HubSpot ships its own .hsfc-* base CSS, so most rules use
-   !important. */
+/* HubSpot (developer/inline embed) newsletter form on the footer strip.
+   Matches Figma: a single line -- [First] [Last] [Email] [SUBMIT >>] -- with
+   placeholders only (no labels), white pill inputs, red pill submit. HubSpot
+   ships its own .hsfc-* base CSS, so most rules use !important. */
 .oit-footer__newsletter-form .hsfc-Form,
 .oit-footer__newsletter-form .hsfc-Step,
 .oit-footer__newsletter-form .hsfc-Step__Content {
@@ -80,58 +80,96 @@
   font-family: "DM Sans", sans-serif;
 }
 
-/* Lay the field row and the submit button out inline. */
+/* Mobile: stack field row + submit, and stack the fields within the row. */
 .oit-footer__newsletter-form .hsfc-Step__Content {
   display: flex !important;
-  flex-wrap: wrap !important;
-  align-items: flex-end !important;
+  flex-direction: column !important;
+  align-items: stretch !important;
   gap: 12px !important;
 }
-.oit-footer__newsletter-form .hsfc-Row {
+.oit-footer__newsletter-form .hsfc-Step__Content > .hsfc-Row {
+  display: flex !important;
+  flex-direction: column !important;
+  gap: 12px !important;
   margin: 0 !important;
-  flex: 1 1 220px !important;
+  min-width: 0 !important;
 }
-.oit-footer__newsletter-form .hsfc-NavigationRow {
+.oit-footer__newsletter-form .hsfc-Row .hsfc-TextField,
+.oit-footer__newsletter-form .hsfc-Row .hsfc-EmailField,
+.oit-footer__newsletter-form .hsfc-Row .hsfc-PhoneField {
+  flex: 1 1 auto !important;
+  min-width: 0 !important;
   margin: 0 !important;
-  padding: 0 !important;
 }
 
-.oit-footer__newsletter-form .hsfc-FieldLabel,
-.oit-footer__newsletter-form .hsfc-FieldLabel * {
-  color: #1a0303 !important;
-  font-family: "Space Grotesk", sans-serif !important;
-  font-weight: 700 !important;
-  font-size: 13px !important;
-  line-height: 1.4 !important;
-  margin: 0 0 4px !important;
+/* Desktop: everything on one line -- [First][Last][Email] [SUBMIT >>]. */
+@media (min-width: 1024px) {
+  .oit-footer__newsletter-form .hsfc-Step__Content {
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    align-items: center !important;
+  }
+  .oit-footer__newsletter-form .hsfc-Step__Content > .hsfc-Row {
+    flex-direction: row !important;
+    flex-wrap: nowrap !important;
+    flex: 1 1 auto !important;
+  }
+  .oit-footer__newsletter-form .hsfc-Row .hsfc-TextField,
+  .oit-footer__newsletter-form .hsfc-Row .hsfc-EmailField,
+  .oit-footer__newsletter-form .hsfc-Row .hsfc-PhoneField {
+    flex: 1 1 0 !important;
+  }
 }
 
+/* Hide HubSpot's helper rows (a .hsfc-Row whose direct child is a hidden input). */
+.oit-footer__newsletter-form .hsfc-Step__Content > .hsfc-Row:has(> input) {
+  display: none !important;
+}
+
+/* No labels on this strip -- the placeholders carry the fields (matches Figma). */
+.oit-footer__newsletter-form .hsfc-FieldLabel {
+  display: none !important;
+}
+
+/* Inputs: white pills. */
 .oit-footer__newsletter-form .hsfc-Form input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]),
 .oit-footer__newsletter-form .hsfc-Form select {
   width: 100% !important;
   background: #ffffff !important;
   color: #1a0303 !important;
-  border: 1px solid #d9d9e3 !important;
+  border: 0 !important;
   border-radius: 90px !important;
-  padding: 10px 18px !important;
-  min-height: 42px !important;
+  padding: 11px 22px !important;
+  min-height: 44px !important;
   font-family: "DM Sans", sans-serif !important;
   font-size: 15px !important;
   box-shadow: none !important;
 }
+.oit-footer__newsletter-form .hsfc-Form input::placeholder {
+  color: rgba(26, 3, 3, 0.55) !important;
+}
 .oit-footer__newsletter-form .hsfc-Form input:focus {
   outline: none !important;
-  border-color: var(--color-cta-red, #e00523) !important;
+  box-shadow: 0 0 0 3px rgba(224, 5, 35, 0.25) !important;
 }
 
-.oit-footer__newsletter-form .hsfc-Button,
-.oit-footer__newsletter-form .hsfc-Form button[type="submit"] {
+/* Submit row + button: inline, red pill (chevron added in the shared rule below). */
+.oit-footer__newsletter-form .hsfc-NavigationRow,
+.oit-footer__newsletter-form .hsfc-NavigationRow__Buttons {
+  margin: 0 !important;
+  padding: 0 !important;
+  flex: 0 0 auto !important;
+}
+.oit-footer__newsletter-form .hsfc-NavigationRow__Alerts:empty {
+  display: none !important;
+}
+.oit-footer__newsletter-form .hsfc-Button {
   background: var(--color-cta-red, #e00523) !important;
   color: #ffffff !important;
   border: 0 !important;
   border-radius: 90px !important;
-  padding: 11px 26px !important;
-  min-height: 0 !important;
+  padding: 12px 24px !important;
+  min-height: 44px !important;
   font-family: "Space Grotesk", sans-serif !important;
   font-weight: 500 !important;
   font-size: 14px !important;
@@ -141,7 +179,17 @@
   cursor: pointer !important;
   transition: background 0.2s ease !important;
 }
-.oit-footer__newsletter-form .hsfc-Button:hover,
-.oit-footer__newsletter-form .hsfc-Form button[type="submit"]:hover {
+.oit-footer__newsletter-form .hsfc-Button:hover {
   background: var(--color-cta-red-700, #c40420) !important;
+}
+
+/* Double-chevron after the submit label (matches the brand CTA buttons). */
+.oit-footer__newsletter-form .hsfc-Button::after {
+  content: "";
+  display: inline-block;
+  width: 14px;
+  height: 13px;
+  margin-left: 10px;
+  flex: 0 0 auto;
+  background: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 13 12'%3E%3Cpath fill='%23ffffff' d='M0 1.41L1.36689 0L7.18345 6L1.36689 12L0 10.59L4.43997 6L0 1.41ZM5.81656 1.41L7.18345 0L13 6L7.18345 12L5.81656 10.59L10.2565 6L5.81656 1.41Z'/%3E%3C/svg%3E") no-repeat center / contain;
 }
