@@ -47,10 +47,21 @@
         "label": "Newsletter Heading",
         "default": "STAY CONNECTED WITH US"
       },
-      "newsletterShortcode": {
-        "type": "textarea",
-        "label": "Newsletter Form Shortcode",
-        "help": "Paste the shortcode from your newsletter plugin (e.g. [newsletter_form] for The Newsletter Plugin, or [mc4wp_form id=\"123\"] for Mailchimp for WP)."
+      "newsletterFormId": {
+        "type": "text",
+        "label": "Newsletter HubSpot Form ID",
+        "default": "9dde49ad-c1cf-4b10-bf19-33309ba03ef5",
+        "help": "HubSpot form GUID for the footer newsletter signup."
+      },
+      "newsletterPortalId": {
+        "type": "text",
+        "label": "Newsletter Portal ID",
+        "default": "44833289"
+      },
+      "newsletterRegion": {
+        "type": "text",
+        "label": "Newsletter Region",
+        "default": "na1"
       },
       "tagline": {
         "type": "textarea",

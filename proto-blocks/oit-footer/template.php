@@ -12,7 +12,9 @@ $cta_button = $attributes['ctaButton'] ?? ['url' => '#', 'text' => 'SCHEDULE A C
 $menu_location = $attributes['menuLocation'] ?? 'footer';
 $show_newsletter = $attributes['showNewsletter'] ?? true;
 $newsletter_heading = $attributes['newsletterHeading'] ?? 'STAY CONNECTED WITH US';
-$newsletter_shortcode = trim($attributes['newsletterShortcode'] ?? '');
+$newsletter_form_id   = trim($attributes['newsletterFormId'] ?? '9dde49ad-c1cf-4b10-bf19-33309ba03ef5');
+$newsletter_portal_id = trim($attributes['newsletterPortalId'] ?? '44833289');
+$newsletter_region    = trim($attributes['newsletterRegion'] ?? 'na1');
 $tagline = $attributes['tagline'] ?? '';
 $phone_number = $attributes['phoneNumber'] ?? '';
 $address_lines = $attributes['addressLines'] ?? '';
@@ -127,7 +129,7 @@ if (empty($menu_tree)) {
 
 $wrapper_attributes = get_block_wrapper_attributes(['class' => 'relative w-full']);
 
-$show_newsletter_strip = $show_newsletter && (!empty($newsletter_heading) || !empty($newsletter_shortcode));
+$show_newsletter_strip = $show_newsletter && (!empty($newsletter_heading) || !empty($newsletter_form_id));
 ?>
 
 <footer <?php echo $wrapper_attributes; ?>>
@@ -144,11 +146,15 @@ $show_newsletter_strip = $show_newsletter && (!empty($newsletter_heading) || !em
         <?php endif; ?>
 
         <div class="oit-footer__newsletter-form min-w-0 w-full lg:w-auto">
-          <?php if (!empty($newsletter_shortcode)): ?>
-          <?php echo do_shortcode($newsletter_shortcode); ?>
+          <?php if (!empty($newsletter_form_id) && !empty($newsletter_portal_id)): ?>
+          <div
+            class="hs-form-frame"
+            data-region="<?php echo esc_attr($newsletter_region); ?>"
+            data-form-id="<?php echo esc_attr($newsletter_form_id); ?>"
+            data-portal-id="<?php echo esc_attr($newsletter_portal_id); ?>"></div>
           <?php else: ?>
-          <p class="font-dm font-medium text-[14px] leading-[1.5] text-white/60 m-0">
-            <em>Paste your newsletter form shortcode in the block inspector to wire up signups.</em>
+          <p class="font-dm font-medium text-[14px] leading-[1.5] text-black/60 m-0">
+            <em>Enter a Newsletter HubSpot Form ID in the block inspector to wire up signups.</em>
           </p>
           <?php endif; ?>
         </div>
