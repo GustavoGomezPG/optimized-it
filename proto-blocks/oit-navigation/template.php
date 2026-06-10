@@ -88,6 +88,25 @@ $cta_arrow = '<svg class="w-[10px] h-[10px]" viewBox="0 0 12 13" fill="none" ari
 
 // Social icon SVGs are provided by the theme-global helper oit_social_icon()
 // declared in functions.php (also includes Instagram, shared with the footer).
+
+// Build target/rel attributes from a WP menu item, honoring the menu editor's
+// "Open link in a new tab" setting ($item->target) and link relationship ($item->xfn).
+// Fallback (synthetic) items have no target/xfn, so the isset() guards no-op safely.
+$nav_link_attrs = function ($item) {
+  $out    = '';
+  $target = isset($item->target) ? trim($item->target) : '';
+  $rel    = isset($item->xfn) ? trim($item->xfn) : '';
+  if ($target !== '') {
+    $out .= ' target="' . esc_attr($target) . '"';
+    if ($target === '_blank' && strpos($rel, 'noopener') === false) {
+      $rel = trim($rel . ' noopener');
+    }
+  }
+  if ($rel !== '') {
+    $out .= ' rel="' . esc_attr($rel) . '"';
+  }
+  return $out;
+};
 ?>
 
 <div <?php echo $wrapper_attributes; ?>>
@@ -113,7 +132,7 @@ $cta_arrow = '<svg class="w-[10px] h-[10px]" viewBox="0 0 12 13" fill="none" ari
           $has_children = !empty($children);
           ?>
         <li class="oit-nav__item group/item relative<?php echo $has_children ? ' has-submenu' : ''; ?>">
-          <a href="<?php echo esc_url($item->url ?? '#'); ?>"
+          <a href="<?php echo esc_url($item->url ?? '#'); ?>"<?php echo $nav_link_attrs($item); ?>
             class="oit-nav__link group/link no-underline flex items-center gap-2 text-white font-grotesk font-medium text-[16px] leading-[1.3] uppercase hover:text-cta-red transition-colors py-2"
             <?php echo $has_children ? 'aria-haspopup="true" aria-expanded="false"' : ''; ?>>
             <span><?php echo esc_html($item->title); ?></span>
@@ -126,7 +145,7 @@ $cta_arrow = '<svg class="w-[10px] h-[10px]" viewBox="0 0 12 13" fill="none" ari
             <div
               class="oit-nav__submenu bg-black rounded-[16px] py-5 px-6 flex flex-col gap-4 min-w-[220px] shadow-[0_38px_42px_-10px_rgba(224,5,35,0.15)]">
               <?php foreach ($children as $child): ?>
-              <a href="<?php echo esc_url($child->url ?? '#'); ?>"
+              <a href="<?php echo esc_url($child->url ?? '#'); ?>"<?php echo $nav_link_attrs($child); ?>
                 class="oit-nav__sublink relative self-start no-underline text-white font-dm font-medium text-[16px] leading-[1.5] whitespace-nowrap">
                 <?php echo esc_html($child->title); ?>
               </a>
@@ -192,7 +211,7 @@ $cta_arrow = '<svg class="w-[10px] h-[10px]" viewBox="0 0 12 13" fill="none" ari
                     class="oit-nav__panel-sub-list bg-[#0F0202] rounded-[12px] mt-3 px-4 py-8 flex flex-col gap-3 list-none m-0">
                     <?php foreach ($children as $child): ?>
                     <li>
-                      <a href="<?php echo esc_url($child->url ?? '#'); ?>"
+                      <a href="<?php echo esc_url($child->url ?? '#'); ?>"<?php echo $nav_link_attrs($child); ?>
                         class="oit-nav__panel-sublink relative self-start no-underline py-2 inline-block text-white font-dm font-medium text-[14px] leading-[1.5]">
                         <?php echo esc_html($child->title); ?>
                       </a>
@@ -211,7 +230,7 @@ $cta_arrow = '<svg class="w-[10px] h-[10px]" viewBox="0 0 12 13" fill="none" ari
                 </div>
               </div>
               <?php else: ?>
-              <a href="<?php echo esc_url($item->url ?? '#'); ?>"
+              <a href="<?php echo esc_url($item->url ?? '#'); ?>"<?php echo $nav_link_attrs($item); ?>
                 class="oit-nav__panel-link no-underline flex items-center text-white font-grotesk font-medium text-[16px] leading-[1.3] uppercase">
                 <span><?php echo esc_html($item->title); ?></span>
               </a>
