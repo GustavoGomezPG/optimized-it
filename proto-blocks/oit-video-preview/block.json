@@ -32,20 +32,23 @@
       },
       "videoFile": {
         "type": "video",
-        "label": "Video file (MP4, from Media Library)",
+        "label": "Video file (from Media Library)",
         "allowedTypes": ["video"],
-        "help": "For the 'MP4 (self-hosted)' source. Pick an uploaded video from the media library. Overrides the MP4 URL field below."
+        "help": "Pick an uploaded video from the media library.",
+        "conditions": { "visible": { "source": ["mp4"] } }
       },
       "videoUrl": {
         "type": "text",
         "label": "Video URL or ID",
         "default": "",
-        "help": "YouTube/Vimeo: paste the full URL or just the video ID. MP4: paste the direct file URL (.mp4)."
+        "help": "Paste the full URL or just the video ID.",
+        "conditions": { "visible": { "source": ["youtube", "vimeo"] } }
       },
       "customThumbnail": {
         "type": "image",
         "label": "Custom thumbnail",
-        "help": "Optional. Required for the MP4 source (YouTube/Vimeo thumbnails are auto-fetched)."
+        "help": "Required for self-hosted video (YouTube/Vimeo thumbnails are auto-fetched).",
+        "conditions": { "visible": { "source": ["mp4"] } }
       }
     }
   }
