@@ -80,6 +80,19 @@
   font-family: "DM Sans", sans-serif;
 }
 
+/* Tight, even 10px padding (overrides HubSpot's variable-based padding) and no
+   wrapper margins, so the form sits centered in the strip. */
+.oit-footer__newsletter-form .hsfc-Step__Content {
+  padding: 10px !important;
+}
+.oit-footer__newsletter-form .hsfc-Form,
+.oit-footer__newsletter-form .hsfc-Step,
+.oit-footer__newsletter-form .hsfc-FormWrapper,
+.oit-footer__newsletter-form .hsfc-Renderer {
+  padding: 0 !important;
+  margin: 0 !important;
+}
+
 /* Mobile: stack field row + submit, and stack the fields within the row. */
 .oit-footer__newsletter-form .hsfc-Step__Content {
   display: flex !important;
