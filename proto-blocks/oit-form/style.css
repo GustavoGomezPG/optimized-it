@@ -7,6 +7,15 @@
  * `.hsfc-*` system, so most rules use !important to win.
  */
 
+/* Solid dark card surface -- set explicitly so it does NOT depend on the
+   Tailwind `bg-brand-black` token resolving. That token isn't available in
+   every template context (e.g. the oit_resource CPT single template), which
+   left the card transparent and the white form invisible. The red-gradient
+   variant paints an inline background-image over this, so it's unaffected. */
+.oit-form__card {
+  background-color: #1a0303 !important;
+}
+
 /* Form surface: transparent so the dark card shows through. */
 .oit-form__card .hsfc-Form,
 .oit-form__card .hsfc-Step,
