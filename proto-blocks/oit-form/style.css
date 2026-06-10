@@ -58,7 +58,7 @@
 }
 
 /* Inputs / selects / textareas: white pills, dark text. */
-.oit-form__card .hsfc-Form input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]),
+.oit-form__card .hsfc-Form input:not([type="checkbox"]):not([type="radio"]):not([type="submit"]):not([type="button"]):not([type="tel"]),
 .oit-form__card .hsfc-Form select,
 .oit-form__card .hsfc-Form textarea {
   width: 100% !important;
@@ -92,11 +92,61 @@
   box-shadow: 0 0 0 3px rgba(224, 5, 35, 0.18) !important;
 }
 
-/* Phone composite field: keep the country-select + input on one line. */
-.oit-form__card .hsfc-PhoneField__PhoneInput,
-.oit-form__card .hsfc-Form .hsfc-PhoneInput {
+/* Phone field -- one cohesive white pill: the country flag + caret sit on the
+   left (with a subtle divider), the number input is flush to its right, so the
+   selector and the field read as a single control. */
+.oit-form__card .hsfc-PhoneInput {
+  position: relative !important;
   display: flex !important;
-  gap: 8px !important;
+  align-items: center !important;
+  gap: 10px !important;
+  width: 100% !important;
+  background: #ffffff !important;
+  border: 1px solid transparent !important;
+  border-radius: 24px !important;
+  padding: 0 20px !important;
+  min-height: 45px !important;
+}
+.oit-form__card .hsfc-PhoneInput:focus-within {
+  border-color: rgba(224, 5, 35, 0.6) !important;
+  box-shadow: 0 0 0 3px rgba(224, 5, 35, 0.18) !important;
+}
+.oit-form__card .hsfc-PhoneInput__FlagAndCaret {
+  display: flex !important;
+  align-items: center !important;
+  gap: 6px !important;
+  flex: 0 0 auto !important;
+  padding-right: 10px !important;
+  border-right: 1px solid rgba(26, 3, 3, 0.15) !important;
+  cursor: pointer !important;
+}
+.oit-form__card .hsfc-PhoneInput__FlagAndCaret__Caret,
+.oit-form__card .hsfc-PhoneInput__FlagAndCaret__Caret svg {
+  color: #1a0303 !important;
+  fill: #1a0303 !important;
+}
+/* Number input: flush inside the pill (not its own pill). */
+.oit-form__card .hsfc-PhoneInput > input.hsfc-TextInput {
+  flex: 1 1 auto !important;
+  width: auto !important;
+  min-width: 0 !important;
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  padding: 0 !important;
+  min-height: 0 !important;
+  box-shadow: none !important;
+}
+.oit-form__card .hsfc-PhoneInput > input.hsfc-TextInput:focus {
+  box-shadow: none !important;
+  border: 0 !important;
+}
+/* Country dropdown: readable on the dark card. */
+.oit-form__card .hsfc-DropdownOptions {
+  background: #ffffff !important;
+  color: #1a0303 !important;
+  border-radius: 16px !important;
+  z-index: 20 !important;
 }
 
 /* Submit button: brand red pill, uppercase. */
