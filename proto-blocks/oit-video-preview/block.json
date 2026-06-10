@@ -18,18 +18,7 @@
     "version": "1.0",
     "useTailwind": true,
     "template": "template.php",
-    "fields": {
-      "videoFile": {
-        "type": "video",
-        "label": "Video file (MP4, from Media Library)",
-        "help": "For the 'MP4 (self-hosted)' source. Pick an uploaded video from the media library. Overrides the MP4 URL field below."
-      },
-      "customThumbnail": {
-        "type": "image",
-        "label": "Custom thumbnail",
-        "sizes": ["medium", "large", "full"]
-      }
-    },
+    "fields": {},
     "controls": {
       "source": {
         "type": "select",
@@ -41,11 +30,22 @@
           { "key": "mp4",     "label": "MP4 (self-hosted)" }
         ]
       },
+      "videoFile": {
+        "type": "video",
+        "label": "Video file (MP4, from Media Library)",
+        "allowedTypes": ["video"],
+        "help": "For the 'MP4 (self-hosted)' source. Pick an uploaded video from the media library. Overrides the MP4 URL field below."
+      },
       "videoUrl": {
         "type": "text",
         "label": "Video URL or ID",
         "default": "",
         "help": "YouTube/Vimeo: paste the full URL or just the video ID. MP4: paste the direct file URL (.mp4)."
+      },
+      "customThumbnail": {
+        "type": "image",
+        "label": "Custom thumbnail",
+        "help": "Optional. Required for the MP4 source (YouTube/Vimeo thumbnails are auto-fetched)."
       }
     }
   }
