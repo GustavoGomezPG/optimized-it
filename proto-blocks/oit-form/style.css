@@ -123,8 +123,14 @@
   gap: 6px !important;
   flex: 0 0 auto !important;
   padding-right: 10px !important;
-  border-right: 1px solid rgba(26, 3, 3, 0.15) !important;
   cursor: pointer !important;
+  /* HubSpot gives the flag picker its own light box (background + border) --
+     strip it all so the flag sits seamlessly inside the white pill instead of
+     looking like a separate box (most visible on the red gradient card). */
+  background: transparent !important;
+  border: 0 !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
 .oit-form__card .hsfc-PhoneInput__FlagAndCaret__Caret,
 .oit-form__card .hsfc-PhoneInput__FlagAndCaret__Caret svg {
