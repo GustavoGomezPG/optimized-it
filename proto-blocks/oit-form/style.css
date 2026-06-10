@@ -105,7 +105,13 @@
   border: 1px solid transparent !important;
   border-radius: 24px !important;
   padding: 0 20px !important;
+  padding-left: 0 !important;
   min-height: 45px !important;
+}
+/* The flag/caret carries the left inset instead of the pill, so HubSpot's own
+   flag offset doesn't break the layout. */
+.oit-form__card .hsfc-PhoneInput__FlagAndCaret {
+  padding-left: 16px !important;
 }
 .oit-form__card .hsfc-PhoneInput:focus-within {
   border-color: rgba(224, 5, 35, 0.6) !important;
