@@ -2,12 +2,12 @@
   "$schema": "https://schemas.wp.org/trunk/block.json",
   "apiVersion": 3,
   "name": "proto-blocks/oit-form",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "title": "OIT Form",
   "category": "optimizedit",
   "icon": "feedback",
-  "description": "Renders a Gravity Forms form by ID, wrapped in the brand dark callout container with rounded corners. Pair below the Text + Image section on resource pages to collect leads.",
-  "keywords": ["form", "gravity forms", "lead", "callout", "oit"],
+  "description": "Embeds a HubSpot form by ID inside the brand dark callout container, styled to match the OIT design. The HubSpot embed script is loaded once per portal.",
+  "keywords": ["form", "hubspot", "lead", "callout", "oit"],
   "supports": {
     "html": false,
     "anchor": true,
@@ -21,26 +21,20 @@
     "fields": {},
     "controls": {
       "formId": {
-        "type": "select",
-        "label": "Form",
-        "optionsSource": "oit:gravity-forms",
-        "help": "Pick the Gravity Form to render. Forms are managed under WP Admin -> Forms."
+        "type": "text",
+        "label": "HubSpot Form ID",
+        "default": "",
+        "help": "Paste the HubSpot form GUID (found in the form's Share/embed code, e.g. 7cb26a0c-a8cd-4edc-8f5a-21ea5525e0f5)."
       },
-      "showTitle": {
-        "type": "toggle",
-        "label": "Show form title",
-        "default": false
+      "portalId": {
+        "type": "text",
+        "label": "Portal ID",
+        "default": "44833289"
       },
-      "showDescription": {
-        "type": "toggle",
-        "label": "Show form description",
-        "default": false
-      },
-      "ajax": {
-        "type": "toggle",
-        "label": "AJAX submission",
-        "default": true,
-        "help": "Submit without a full page reload."
+      "region": {
+        "type": "text",
+        "label": "Region",
+        "default": "na1"
       },
       "gradientBackground": {
         "type": "toggle",

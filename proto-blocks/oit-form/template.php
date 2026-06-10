@@ -2,21 +2,22 @@
 /**
  * OIT Form
  *
- * Renders a Gravity Forms form inside the brand dark callout box.
- * Configure the form ID + display flags via block controls. If Gravity
- * Forms is not active or the ID is missing/invalid, prints an editor-
- * facing placeholder so authors notice the misconfiguration.
+ * Embeds a HubSpot form (by form GUID + portal id) inside the brand dark
+ * callout box. HubSpot's embed renders into the `.hs-form-frame` div, which
+ * we output identically in the editor and on the front end. The embed script
+ * is loaded by the theme's HubSpot forms loader (inc/oit-hubspot-forms.php),
+ * which runs in BOTH the front end and the editor canvas iframe via
+ * `enqueue_block_assets` -- so the form is visible while editing too.
  *
  * @var array         $attributes
  * @var string        $content
  * @var WP_Block|null $block
  */
 
-$form_id          = (int) ($attributes['formId'] ?? 0);
-$show_title       = !empty($attributes['showTitle']);
-$show_description = !empty($attributes['showDescription']);
-$ajax             = !isset($attributes['ajax']) || !empty($attributes['ajax']);
-$gradient         = !empty($attributes['gradientBackground']);
+$form_id   = trim((string) ($attributes['formId'] ?? ''));
+$portal_id = trim((string) ($attributes['portalId'] ?? '44833289'));
+$region    = trim((string) ($attributes['region'] ?? 'na1'));
+$gradient  = !empty($attributes['gradientBackground']);
 
 // Off (default): solid near-black surface. On: the diagonal brand
 // red-to-black gradient, applied inline since it's a bespoke multi-stop
@@ -32,26 +33,17 @@ $wrapper_attributes = get_block_wrapper_attributes(['class' => 'oit-form']);
 <section <?php echo $wrapper_attributes; ?>>
   <div class="oit-form__inner max-w-[900px] mx-auto">
 
-    <div class="oit-form__card relative rounded-3xl <?php echo esc_attr($card_bg_class); ?> text-white p-6 lg:p-12"<?php echo $card_style ? ' style="' . esc_attr($card_style) . '"' : ''; ?>>
+    <div class="oit-form__card relative rounded-3xl overflow-clip <?php echo esc_attr($card_bg_class); ?> text-white"<?php echo $card_style ? ' style="' . esc_attr($card_style) . '"' : ''; ?>>
 
-      <?php if ($form_id > 0 && function_exists('gravity_form')): ?>
-        <?php
-        gravity_form(
-          $form_id,
-          (bool) $show_title,
-          (bool) $show_description,
-          false,
-          null,
-          (bool) $ajax
-        );
-        ?>
-      <?php elseif ($form_id > 0): ?>
-        <p class="m-0 text-white/80 font-dm text-body-sm">
-          <?php esc_html_e('Gravity Forms is not active. Activate the plugin to render form #', 'optimizedit'); ?><?php echo esc_html((string) $form_id); ?>.
-        </p>
+      <?php if ($form_id !== '' && $portal_id !== ''): ?>
+        <div
+          class="hs-form-frame"
+          data-region="<?php echo esc_attr($region); ?>"
+          data-form-id="<?php echo esc_attr($form_id); ?>"
+          data-portal-id="<?php echo esc_attr($portal_id); ?>"></div>
       <?php else: ?>
         <p class="m-0 text-white/80 font-dm text-body-sm">
-          <?php esc_html_e('Pick a form in the block inspector to render it here.', 'optimizedit'); ?>
+          <?php esc_html_e('Enter a HubSpot Form ID in the block inspector to render the form here.', 'optimizedit'); ?>
         </p>
       <?php endif; ?>
 
