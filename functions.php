@@ -25,6 +25,56 @@ add_filter('proto_blocks_category_slug', fn() => 'optimizedit');
 add_filter('proto_blocks_category_title', fn() => __('OptimizedIT', 'optimizedit'));
 
 /**
+ * Collapse native WordPress archives into the custom blog view.
+ *
+ * The blog index at /blog/ renders its own archive via the oit-blog-archive
+ * block, driven entirely by URL query args (?topic=<category-slug>, ?sort,
+ * ?blog_page). WordPress's built-in archive routes -- /blog/category/<slug>/,
+ * /blog/tag/<slug>/, /author/<name>/ and the date archives -- duplicate that
+ * content at separate URLs. Rather than let those parallel pages exist, we
+ * 301 them onto the canonical view:
+ *
+ *   - Category archives          -> /blog/?topic=<category-slug>  (same set)
+ *   - Tag / author / date archives -> /blog/  (no query-param equivalent)
+ *
+ * Resolution is live (the queried term's own slug), so categories added later
+ * are handled with no further changes. Runs on `template_redirect` -- after
+ * the main query resolves, before a template loads -- and skips admin, feeds,
+ * robots and trackbacks so only real front-end archive hits are redirected.
+ */
+add_action('template_redirect', function () {
+    if (is_admin() || is_feed() || is_robots() || is_trackback()) {
+        return;
+    }
+
+    $blog_url = home_url('/blog/');
+    $target   = '';
+
+    if (is_category()) {
+        $term   = get_queried_object();
+        $target = ($term instanceof WP_Term)
+            ? add_query_arg('topic', $term->slug, $blog_url)
+            : $blog_url;
+
+        // Map WP's /page/N/ to the block's ?blog_page=N so deep links on the
+        // (identical) category set don't all collapse onto page one.
+        $paged = max(1, (int) get_query_var('paged'));
+        if ($paged > 1) {
+            $target = add_query_arg('blog_page', $paged, $target);
+        }
+    } elseif (is_tag() || is_author() || is_date()) {
+        $target = $blog_url;
+    }
+
+    if ($target === '') {
+        return;
+    }
+
+    wp_safe_redirect($target, 301);
+    exit;
+});
+
+/**
  * Server-fed options provider: Gravity Forms.
  *
  * Lets a Proto-Blocks `select` control populate its options with the
