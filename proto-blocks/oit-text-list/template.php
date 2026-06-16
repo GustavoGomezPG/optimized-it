@@ -31,9 +31,10 @@ if (empty($items)) {
 $show_gradient = $attributes['showGradient'] ?? true;
 $bg_class = $show_gradient ? 'bg-gradient-to-b from-light-grey to-white' : 'bg-white';
 
-$accordion_layout   = $attributes['accordionLayout'] ?? false;
-$accordion_single   = $attributes['accordionSingle'] ?? true;
-$accordion_two_col  = $attributes['accordionTwoColumns'] ?? false;
+$accordion_layout     = $attributes['accordionLayout'] ?? false;
+$accordion_single     = $attributes['accordionSingle'] ?? true;
+$accordion_two_col    = $attributes['accordionTwoColumns'] ?? false;
+$accordion_first_open = $attributes['accordionFirstOpen'] ?? true;
 
 // One column (default) stacks rows; two columns lay out 2-up on desktop.
 // items-start keeps each cell top-aligned so an expanded panel doesn't
@@ -74,9 +75,10 @@ $wrapper_attributes = get_block_wrapper_attributes([
     <div
       data-proto-repeater="items"
       data-acc-single="<?php echo $accordion_single ? '1' : '0'; ?>"
+      data-acc-first-open="<?php echo $accordion_first_open ? '1' : '0'; ?>"
       class="oit-text-list__accordion <?php echo $accordion_grid_class; ?> m-0 p-0">
       <?php foreach ($items as $i => $item): ?>
-      <?php $panel_id = $acc_uid . '-' . $i; $is_first = ($i === 0); ?>
+      <?php $panel_id = $acc_uid . '-' . $i; $is_first = ($accordion_first_open && $i === 0); ?>
       <div
         data-proto-repeater-item
         class="oit-text-list__acc-item border-b border-grey">

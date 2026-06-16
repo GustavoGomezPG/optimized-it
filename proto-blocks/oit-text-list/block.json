@@ -65,6 +65,13 @@
         "default": false,
         "help": "Off: title-only flex grid (default). On: one item per row with expandable content."
       },
+      "accordionFirstOpen": {
+        "type": "toggle",
+        "label": "Open first item by default",
+        "default": true,
+        "help": "Off: every panel starts collapsed.",
+        "conditions": { "visible": { "accordionLayout": [true] } }
+      },
       "accordionSingle": {
         "type": "toggle",
         "label": "Open one panel at a time",

@@ -94,6 +94,7 @@
     container.dataset.oitAccInit = '1';
 
     var single = container.getAttribute('data-acc-single') === '1';
+    var firstOpen = container.getAttribute('data-acc-first-open') !== '0';
     var items = Array.prototype.slice.call(
       container.querySelectorAll('.oit-text-list__acc-item')
     );
@@ -138,8 +139,8 @@
       }
     }
 
-    // Initial state: first row open, rest collapsed -- no animation on first paint.
-    items.forEach(function (item, idx) { setOpenState(item, idx === 0, false); });
+    // Initial state: first row open (unless disabled), rest collapsed -- no animation on first paint.
+    items.forEach(function (item, idx) { setOpenState(item, firstOpen && idx === 0, false); });
 
     items.forEach(function (item) {
       triggerOf(item).addEventListener('click', function () {
