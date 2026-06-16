@@ -44,6 +44,10 @@
           "title": {
             "type": "text",
             "label": "Title"
+          },
+          "content": {
+            "type": "wysiwyg",
+            "label": "Content (accordion layout only)"
           }
         }
       }
@@ -54,6 +58,18 @@
         "label": "Show Gradient Background",
         "default": true,
         "help": "Off uses solid white."
+      },
+      "accordionLayout": {
+        "type": "toggle",
+        "label": "Accordion layout",
+        "default": false,
+        "help": "Off: title-only flex grid (default). On: one item per row with expandable content."
+      },
+      "accordionSingle": {
+        "type": "toggle",
+        "label": "Open one panel at a time",
+        "default": true,
+        "conditions": { "visible": { "accordionLayout": [true] } }
       }
     }
   }
