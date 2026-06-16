@@ -170,6 +170,14 @@ div.tnp-field {
   user-select: none;
 }
 
+/* The oversized nowrap wordmark bleeds past the viewport's right edge and
+   triggers horizontal scroll; clip it at the header block root at all sizes.
+   The wordmark stays visible up to the viewport edge; only the off-screen
+   overflow is clipped. */
+.oit-page-header {
+  overflow: hidden;
+}
+
 .oit-page-header__wordmark-text {
   position: relative;
   display: inline-block;
