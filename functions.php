@@ -223,6 +223,21 @@ add_action('enqueue_block_editor_assets', function () {
         filemtime($js_path),
         true
     );
+
+    // Live-sync the auto-derived header blocks (oit-blog-header /
+    // oit-breadcrumbs-eyebrow-title) with the editor's live title + terms so
+    // an unsaved post updates in the canvas as the author types, instead of
+    // showing the server-rendered placeholders.
+    $live_path = get_stylesheet_directory() . '/assets/editor/oit-header-live.js';
+    if (file_exists($live_path)) {
+        wp_enqueue_script(
+            'optimizedit-header-live',
+            get_stylesheet_directory_uri() . '/assets/editor/oit-header-live.js',
+            [ 'wp-data', 'wp-core-data', 'wp-editor' ],
+            filemtime($live_path),
+            true
+        );
+    }
 });
 
 /**
