@@ -36,9 +36,9 @@ $accordion_single     = $attributes['accordionSingle'] ?? true;
 $accordion_two_col    = $attributes['accordionTwoColumns'] ?? false;
 $accordion_first_open = $attributes['accordionFirstOpen'] ?? true;
 
-// One column (default) stacks rows; two columns lay out 2-up on desktop.
-// items-start keeps each cell top-aligned so an expanded panel doesn't
-// stretch its row-neighbour's divider.
+// Container class for the editor preview + one-column frontend (items stay
+// direct children of the repeater here). The two-column FRONTEND uses a
+// separate independent-columns layout below, not this grid.
 $accordion_grid_class = $accordion_two_col
   ? 'grid grid-cols-1 md:grid-cols-2 gap-x-12 items-start max-w-[1100px]'
   : 'flex flex-col max-w-[900px]';
@@ -71,14 +71,18 @@ $wrapper_attributes = get_block_wrapper_attributes([
     </h3>
 
     <?php if ($accordion_layout): ?>
-    <?php $acc_uid = wp_unique_id('oit-acc-'); ?>
-    <div
-      data-proto-repeater="items"
-      data-acc-single="<?php echo $accordion_single ? '1' : '0'; ?>"
-      data-acc-first-open="<?php echo $accordion_first_open ? '1' : '0'; ?>"
-      class="oit-text-list__accordion <?php echo $accordion_grid_class; ?> m-0 p-0">
-      <?php foreach ($items as $i => $item): ?>
-      <?php $panel_id = $acc_uid . '-' . $i; $is_first = ($accordion_first_open && $i === 0); ?>
+    <?php
+    $acc_uid   = wp_unique_id('oit-acc-');
+    // $block is null in the editor preview, a WP_Block on the frontend.
+    $is_editor = ! isset($block) || $block === null;
+
+    // Renders one accordion item (button + panel). Shared by both the
+    // editor/one-column branch (items as direct repeater children) and the
+    // frontend two-column branch (items split across independent columns).
+    $render_acc_item = function ($i, $item) use ($acc_uid, $accordion_first_open) {
+      $panel_id = $acc_uid . '-' . $i;
+      $is_first = ($accordion_first_open && $i === 0);
+      ?>
       <div
         data-proto-repeater-item
         class="oit-text-list__acc-item border-b border-grey">
@@ -112,8 +116,39 @@ $wrapper_attributes = get_block_wrapper_attributes([
           </div>
         </div>
       </div>
-      <?php endforeach; ?>
+      <?php
+    };
+    ?>
+    <?php if ($accordion_two_col && ! $is_editor): ?>
+    <?php
+    // Frontend two-column: two INDEPENDENT flex columns so expanding an item
+    // grows only its own column (the other column never shifts). On mobile the
+    // container stacks (flex-col) so column A's items then column B's preserve
+    // the natural reading order. Repeater editing happens only in the editor
+    // branch below (items are direct children there), so the nesting here is
+    // frontend-only and never seen by the editor's :scope > item query.
+    $acc_half = (int) ceil(count($items) / 2);
+    ?>
+    <div
+      data-acc-single="<?php echo $accordion_single ? '1' : '0'; ?>"
+      data-acc-first-open="<?php echo $accordion_first_open ? '1' : '0'; ?>"
+      class="oit-text-list__accordion flex flex-col md:flex-row gap-x-12 items-start max-w-[1100px] m-0 p-0">
+      <div class="oit-text-list__acc-col flex flex-col flex-1 min-w-0">
+        <?php foreach (array_slice($items, 0, $acc_half, true) as $i => $item) { $render_acc_item($i, $item); } ?>
+      </div>
+      <div class="oit-text-list__acc-col flex flex-col flex-1 min-w-0">
+        <?php foreach (array_slice($items, $acc_half, null, true) as $i => $item) { $render_acc_item($i, $item); } ?>
+      </div>
     </div>
+    <?php else: ?>
+    <div
+      data-proto-repeater="items"
+      data-acc-single="<?php echo $accordion_single ? '1' : '0'; ?>"
+      data-acc-first-open="<?php echo $accordion_first_open ? '1' : '0'; ?>"
+      class="oit-text-list__accordion <?php echo $accordion_grid_class; ?> m-0 p-0">
+      <?php foreach ($items as $i => $item) { $render_acc_item($i, $item); } ?>
+    </div>
+    <?php endif; ?>
     <?php else: ?>
     <ul
       data-proto-repeater="items"
