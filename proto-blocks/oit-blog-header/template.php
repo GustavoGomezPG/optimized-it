@@ -28,7 +28,11 @@ $parent_label  = (string) ($attributes['parentLabel'] ?? 'Blog');
 $parent_url_in = trim((string) ($attributes['parentUrl'] ?? ''));
 $title_over    = trim((string) ($attributes['titleOverride'] ?? ''));
 
-$current_id = is_singular() ? (int) get_queried_object_id() : 0;
+// Front end: the queried post. Editor preview: the edited post (resolved
+// from the preview-render referer) so the title/date/categories are real.
+$current_id = function_exists('oit_resolved_post_id')
+  ? oit_resolved_post_id()
+  : (is_singular() ? (int) get_queried_object_id() : 0);
 
 // Title resolution: explicit override wins, then the post title, then a
 // placeholder so the editor preview reads correctly.

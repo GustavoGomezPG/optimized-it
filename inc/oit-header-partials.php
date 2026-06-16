@@ -24,6 +24,50 @@
  * Sibling blocks reuse the same selectors.
  */
 
+if (!function_exists('oit_preview_post_id')) {
+    /**
+     * Resolve the post being edited during a Proto-Blocks editor preview.
+     *
+     * The editor preview is a `proto_blocks_preview` admin-ajax render that
+     * does NOT receive the post id, so the template otherwise can't tell
+     * which post it is describing. The preview fetch IS fired from the block
+     * editor though, so the request Referer is the editor URL
+     * (post.php?post=ID&action=edit) -- read the id from there. Guarded to
+     * the ajax context and to posts the current user may edit, so it only
+     * affects the live editor preview. Returns 0 otherwise.
+     */
+    function oit_preview_post_id(): int
+    {
+        if (!wp_doing_ajax()) {
+            return 0;
+        }
+        $referer = isset($_SERVER['HTTP_REFERER']) ? (string) $_SERVER['HTTP_REFERER'] : '';
+        if ($referer !== '' && preg_match('~[?&]post=(\d+)~', $referer, $m)) {
+            $id = (int) $m[1];
+            if ($id && current_user_can('edit_post', $id)) {
+                return $id;
+            }
+        }
+        return 0;
+    }
+}
+
+if (!function_exists('oit_resolved_post_id')) {
+    /**
+     * The post id a header/breadcrumb block should describe: the queried
+     * post on the front end, or the edited post during an editor preview
+     * render (so the preview shows the real title/date/terms instead of
+     * placeholders). 0 when neither resolves (e.g. a brand-new draft).
+     */
+    function oit_resolved_post_id(): int
+    {
+        if (is_singular()) {
+            return (int) get_queried_object_id();
+        }
+        return oit_preview_post_id();
+    }
+}
+
 if (!function_exists('oit_render_breadcrumb')) {
     /**
      * Print a Home -> ancestors -> current-page breadcrumb derived from
@@ -46,7 +90,9 @@ if (!function_exists('oit_render_breadcrumb')) {
             ['label' => 'Home', 'url' => home_url('/')],
         ];
 
-        $current_id = get_the_ID();
+        // Front end: the post in the loop. Editor preview: the edited post
+        // (so the trailing crumb shows the real title, not "Current").
+        $current_id = get_the_ID() ?: oit_preview_post_id();
         if ($current_id) {
             $ancestor_ids = array_reverse(get_post_ancestors($current_id));
             foreach ($ancestor_ids as $ancestor_id) {

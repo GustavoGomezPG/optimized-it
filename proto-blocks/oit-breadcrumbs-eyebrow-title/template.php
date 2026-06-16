@@ -28,7 +28,11 @@ $parent_label     = (string) ($attributes['parentLabel'] ?? 'Resource Library');
 $eyebrow_override = trim((string) ($attributes['eyebrowOverride'] ?? ''));
 $title_override   = trim((string) ($attributes['titleOverride'] ?? ''));
 
-$current_id = is_singular('oit_resource') ? (int) get_queried_object_id() : 0;
+// Front end: the queried resource. Editor preview: the edited post
+// (resolved from the preview-render referer) so the eyebrow/title are real.
+$current_id = function_exists('oit_resolved_post_id')
+  ? oit_resolved_post_id()
+  : (is_singular('oit_resource') ? (int) get_queried_object_id() : 0);
 
 // Auto eyebrow from the first assigned Resource Type term. The
 // override always wins when set; otherwise the eyebrow is hidden when
