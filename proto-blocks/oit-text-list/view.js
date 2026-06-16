@@ -19,7 +19,7 @@
 (function () {
   'use strict';
 
-  function init(section) {
+  function initReveal(section) {
     if (section.dataset.oitTextListInit === '1') return;
     section.dataset.oitTextListInit = '1';
 
@@ -33,7 +33,7 @@
     var headline = section.querySelector('.oit-text-list__headline');
     var body     = section.querySelector('.oit-text-list__body');
     var label    = section.querySelector('.oit-text-list__label');
-    var items    = section.querySelectorAll('.oit-text-list__item');
+    var items    = section.querySelectorAll('.oit-text-list__item, .oit-text-list__acc-item');
 
     // Pre-hide everything that animates in. We're using gsap.set rather
     // than CSS so the static (no-JS / reduced-motion) path stays fully
@@ -87,8 +87,78 @@
     }
   }
 
+  function initAccordion(section) {
+    var container = section.querySelector('.oit-text-list__accordion');
+    if (!container) return;
+    if (container.dataset.oitAccInit === '1') return;
+    container.dataset.oitAccInit = '1';
+
+    var single = container.getAttribute('data-acc-single') === '1';
+    var items = Array.prototype.slice.call(
+      container.querySelectorAll('.oit-text-list__acc-item')
+    );
+    var reduce = window.matchMedia &&
+      window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    var canAnimate = !!window.gsap && !reduce;
+    var ACC_OPEN_DURATION = 0.4;
+    var ACC_CLOSE_DURATION = 0.35;
+    var ACC_EASE = 'power3.out';
+
+    function triggerOf(item) { return item.querySelector('.oit-text-list__acc-trigger'); }
+    function panelOf(item)   { return item.querySelector('.oit-text-list__acc-panel'); }
+    function titleOf(item)   { return item.querySelector('.oit-text-list__acc-title'); }
+    function chevOf(item)    { return item.querySelector('.oit-text-list__acc-chevron'); }
+    function isOpen(item)    { return triggerOf(item).getAttribute('aria-expanded') === 'true'; }
+
+    function setOpenState(item, open, animate) {
+      var panel = panelOf(item), trigger = triggerOf(item),
+          title = titleOf(item), chev = chevOf(item);
+      trigger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      title.classList.toggle('text-brand-red', open);
+      title.classList.toggle('text-black', !open);
+      chev.classList.toggle('rotate-180', open);
+
+      if (!canAnimate || !animate) {
+        panel.style.height = open ? 'auto' : '0px';
+        return;
+      }
+      window.gsap.killTweensOf(panel);
+      if (open) {
+        window.gsap.set(panel, { height: 'auto' });
+        var target = panel.offsetHeight;
+        window.gsap.fromTo(panel,
+          { height: 0 },
+          { height: target, duration: ACC_OPEN_DURATION, ease: ACC_EASE, overwrite: 'auto',
+            onComplete: function () { panel.style.height = 'auto'; } });
+      } else {
+        var current = panel.offsetHeight;
+        window.gsap.fromTo(panel,
+          { height: current },
+          { height: 0, duration: ACC_CLOSE_DURATION, ease: ACC_EASE, overwrite: 'auto' });
+      }
+    }
+
+    // Initial state: first row open, rest collapsed -- no animation on first paint.
+    items.forEach(function (item, idx) { setOpenState(item, idx === 0, false); });
+
+    items.forEach(function (item) {
+      triggerOf(item).addEventListener('click', function () {
+        if (isOpen(item)) { setOpenState(item, false, true); return; }
+        if (single) {
+          items.forEach(function (other) {
+            if (other !== item && isOpen(other)) { setOpenState(other, false, true); }
+          });
+        }
+        setOpenState(item, true, true);
+      });
+    });
+  }
+
   function boot() {
-    document.querySelectorAll('.oit-text-list').forEach(init);
+    document.querySelectorAll('.oit-text-list').forEach(function (section) {
+      initReveal(section);
+      initAccordion(section);
+    });
   }
 
   if (document.readyState === 'loading') {
