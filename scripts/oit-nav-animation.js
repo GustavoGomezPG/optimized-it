@@ -55,10 +55,20 @@
 
     var tl = window.gsap.timeline({ defaults: { ease: 'power3.out' } });
 
+    // Phone bar above the pill -- reveal it together with the shell so it
+    // doesn't pop in (it was held at opacity:0 by the intro-pending CSS).
+    tl.fromTo(
+      '.oit-nav__topbar',
+      { opacity: 0, y: -8 },
+      { opacity: 1, y: 0, duration: 0.5 },
+      0
+    );
+
     tl.fromTo(
       '.oit-nav__shell',
       { opacity: 0, y: -16 },
-      { opacity: 1, y: 0, duration: 0.55 }
+      { opacity: 1, y: 0, duration: 0.55 },
+      0
     );
 
     tl.fromTo(

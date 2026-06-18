@@ -72,7 +72,7 @@ $chevron = '<svg class="w-[13px] h-3 shrink-0 text-brand-black" viewBox="0 0 13 
 ?>
 
 <section <?php echo $wrapper_attributes; ?>>
-  <div class="oit-bet__bg relative pt-[160px]" style="background-image: linear-gradient(180deg, rgb(217, 217, 217) 0%, rgb(255, 255, 255) 100%);">
+  <div class="oit-bet__bg relative pt-[160px] lg:pt-[calc(160px_+_var(--oit-header-offset))]" style="background-image: linear-gradient(180deg, rgb(217, 217, 217) 0%, rgb(255, 255, 255) 100%);">
 
     <div class="oit-bet__inner max-w-[1440px] mx-auto px-6 lg:px-20">
 

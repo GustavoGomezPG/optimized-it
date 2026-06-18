@@ -67,7 +67,7 @@ $circuit_lottie_url = get_stylesheet_directory_uri() . '/assets/lottie/circuit.j
   </div>
   <?php endif; ?>
 
-  <div class="oit-hero__inner relative max-w-[1440px] mx-auto pt-[140px] px-6 pb-0 lg:h-full lg:pt-20 lg:px-20 lg:pb-0">
+  <div class="oit-hero__inner relative max-w-[1440px] mx-auto pt-[140px] px-6 pb-0 lg:h-full lg:pt-[calc(5rem_+_var(--oit-header-offset))] lg:px-20 lg:pb-0">
 
     <div class="oit-hero__grid relative z-10 grid grid-cols-1 gap-8 items-center lg:grid-cols-[490px_1fr] lg:gap-12 lg:items-stretch lg:h-full lg:min-h-0">
 

@@ -26,6 +26,34 @@ $show_phone = $attributes['showPhone'] ?? true;
 $show_social = $attributes['showSocial'] ?? true;
 $sticky = !empty($attributes['sticky']);
 
+$show_phone_bar  = $attributes['showPhoneBar'] ?? true;
+$phone_bar_theme = in_array(($attributes['phoneBarTheme'] ?? 'auto'), ['auto', 'light', 'dark'], true)
+  ? ($attributes['phoneBarTheme'] ?? 'auto')
+  : 'auto';
+$is_preview = !isset($block) || $block === null;
+
+// Phone-bar color treatment. Auto = white text on the homepage (the dark
+// hero) and dark text on standard white pages. The header is ONE global
+// template part shared by every page, so the home/standard difference can't
+// be a per-instance setting -- it's resolved per request via is_front_page().
+if ($phone_bar_theme === 'light') {
+  $phone_bar_light = true;
+} elseif ($phone_bar_theme === 'dark') {
+  $phone_bar_light = false;
+} else {
+  $phone_bar_light = (!$is_preview && function_exists('is_front_page') && is_front_page());
+}
+
+$show_social_bar = $attributes['showSocialBar'] ?? true;
+
+$phone_tel          = preg_replace('/[^0-9+]/', '', (string) $phone_number);
+$show_phone_in_bar  = $show_phone_bar && trim((string) $phone_number) !== '';
+$show_social_in_bar = $show_social_bar && !empty($social_links);
+$bar_visible        = $show_phone_in_bar || $show_social_in_bar;
+// Social icons + phone are grouped together on the right so they don't compete
+// with the logo on the left.
+$bar_text = $phone_bar_light ? 'text-white' : 'text-black';
+
 $nav_id = 'oit-nav-' . wp_unique_id();
 
 $menu_tree = [];
@@ -79,12 +107,19 @@ if (empty($menu_tree)) {
   }
 }
 
-$wrapper_class = ($sticky ? 'sticky top-0' : 'relative') . ' z-50 w-full px-4 py-4';
+// Extra top room on desktop so the phone bar has somewhere to sit above the
+// pill; mobile keeps the tighter top padding since the bar is desktop-only.
+$top_pad = $bar_visible ? 'pt-4 lg:pt-7' : 'pt-4';
+$wrapper_class = ($sticky ? 'sticky top-0' : 'relative') . ' z-50 w-full px-4 pb-4 ' . $top_pad;
 $wrapper_attributes = get_block_wrapper_attributes(['class' => $wrapper_class]);
 
 $chevron_down = '<svg class="oit-chevron w-[14px] h-[9px] transition-transform" viewBox="0 0 18 11" fill="none" aria-hidden="true"><path d="M1 1L9 9L17 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 $chevron_right = '<svg class="w-[8px] h-[14px]" viewBox="0 0 11 18" fill="none" aria-hidden="true"><path d="M1 1L9 9L1 17" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
 $cta_arrow = '<svg class="w-[10px] h-[10px]" viewBox="0 0 12 13" fill="none" aria-hidden="true"><path d="M1 6.5H11M11 6.5L6 1.5M11 6.5L6 11.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
+
+// Handset icon, shared by the desktop phone bar and the mobile menu. Color
+// is set by the parent (fill="currentColor"), so each context tints it.
+$phone_icon = '<svg class="w-[18px] h-[17px]" viewBox="0 0 18 17" fill="currentColor" aria-hidden="true"><path d="M16.1 12.4v2.1c0 1-.8 1.8-1.8 1.7-3.6-.4-7-1.7-9.8-3.9-2.6-2-4.7-4.8-6-7.8-.6-1.4-.6-3 .1-4.4.3-.6.9-1 1.6-1H2c.8 0 1.5.6 1.6 1.4.1.7.3 1.4.6 2 .3.7.1 1.5-.4 2L2.8 5.6c1.4 2.6 3.5 4.7 6.1 6.1l1-1c.5-.5 1.3-.7 2-.4.6.3 1.3.5 2 .6.8.1 1.4.8 1.4 1.6Z" /></svg>';
 
 // Social icon SVGs are provided by the theme-global helper oit_social_icon()
 // declared in functions.php (also includes Instagram, shared with the footer).
@@ -110,6 +145,36 @@ $nav_link_attrs = function ($item) {
 ?>
 
 <div <?php echo $wrapper_attributes; ?>>
+
+  <?php if ($bar_visible): ?>
+  <div class="oit-nav__topbar hidden lg:flex items-center justify-end gap-6 max-w-[1360px] mx-auto px-6 py-1 mb-3">
+
+    <?php if ($show_social_in_bar): ?>
+    <div class="oit-nav__topbar-social flex items-center gap-3">
+      <?php foreach ($social_links as $social):
+        $platform = $social['platform'] ?? '';
+        $url      = $social['url'] ?? '#';
+        ?>
+      <a href="<?php echo esc_url($url); ?>" target="_blank" rel="noopener noreferrer"
+        class="oit-nav__topbar-social-link no-underline transition-colors hover:text-cta-red <?php echo $bar_text; ?>"
+        aria-label="<?php echo esc_attr(ucfirst($platform)); ?>">
+        <?php echo oit_social_icon($platform); ?>
+      </a>
+      <?php endforeach; ?>
+    </div>
+    <?php endif; ?>
+
+    <?php if ($show_phone_in_bar): ?>
+    <a href="tel:<?php echo esc_attr($phone_tel); ?>"
+      class="oit-nav__topbar-phone no-underline inline-flex items-center gap-2 font-grotesk font-medium text-[15px] leading-[1.3] transition-colors hover:text-cta-red <?php echo $bar_text; ?>">
+      <span class="oit-nav__topbar-icon text-brand-red shrink-0"><?php echo $phone_icon; ?></span>
+      <span><?php echo esc_html(trim((string) $phone_number)); ?></span>
+    </a>
+    <?php endif; ?>
+
+  </div>
+  <?php endif; ?>
+
   <div
     class="oit-nav__shell bg-black text-white rounded-[24px] max-w-[1360px] mx-auto shadow-red-glow">
     <nav id="<?php echo esc_attr($nav_id); ?>" class="oit-nav flex items-center justify-between gap-6 px-6 py-4 lg:py-5"
@@ -248,12 +313,9 @@ $nav_link_attrs = function ($item) {
           <?php if (($show_phone && !empty($phone_number)) || ($show_social && !empty($social_links))): ?>
           <div class="flex flex-col gap-4 pt-2">
             <?php if ($show_phone && !empty($phone_number)): ?>
-            <a href="tel:<?php echo esc_attr(preg_replace('/[^0-9+]/', '', $phone_number)); ?>"
+            <a href="tel:<?php echo esc_attr($phone_tel); ?>"
               class="oit-nav__panel-phone no-underline flex items-center gap-2 text-white font-dm font-medium text-[14px]">
-              <svg class="w-[18px] h-[17px] text-brand-red" viewBox="0 0 18 17" fill="currentColor" aria-hidden="true">
-                <path
-                  d="M16.1 12.4v2.1c0 1-.8 1.8-1.8 1.7-3.6-.4-7-1.7-9.8-3.9-2.6-2-4.7-4.8-6-7.8-.6-1.4-.6-3 .1-4.4.3-.6.9-1 1.6-1H2c.8 0 1.5.6 1.6 1.4.1.7.3 1.4.6 2 .3.7.1 1.5-.4 2L2.8 5.6c1.4 2.6 3.5 4.7 6.1 6.1l1-1c.5-.5 1.3-.7 2-.4.6.3 1.3.5 2 .6.8.1 1.4.8 1.4 1.6Z" />
-              </svg>
+              <span class="text-brand-red shrink-0"><?php echo $phone_icon; ?></span>
               <span><?php echo esc_html($phone_number); ?></span>
             </a>
             <?php endif; ?>

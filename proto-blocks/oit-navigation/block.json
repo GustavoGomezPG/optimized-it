@@ -51,12 +51,29 @@
       "phoneNumber": {
         "type": "text",
         "label": "Phone Number",
-        "help": "Displayed in the mobile menu. Example: 888.308.6689"
+        "help": "Shown in the desktop phone bar above the nav and in the mobile menu. Example: 888.308.6689"
       },
       "showPhone": {
         "type": "toggle",
         "label": "Show Phone in Mobile Menu",
         "default": true
+      },
+      "showPhoneBar": {
+        "type": "toggle",
+        "label": "Show Phone Bar Above Nav (desktop)",
+        "default": true,
+        "help": "Adds a slim bar above the nav on desktop with the handset icon + Phone Number. Mobile keeps the phone in the slide-out menu."
+      },
+      "phoneBarTheme": {
+        "type": "select",
+        "label": "Phone Bar Color",
+        "default": "auto",
+        "options": [
+          { "key": "auto", "label": "Auto (light on home, dark elsewhere)" },
+          { "key": "light", "label": "Light (white text)" },
+          { "key": "dark", "label": "Dark (black text)" }
+        ],
+        "help": "Auto = white text on the homepage (dark hero) and dark text on standard white pages. Override if a landing page also uses a dark background."
       },
       "linkedinUrl": {
         "type": "text",
@@ -82,6 +99,12 @@
         "type": "toggle",
         "label": "Show Social Icons in Mobile Menu",
         "default": true
+      },
+      "showSocialBar": {
+        "type": "toggle",
+        "label": "Show Social Icons in Phone Bar (desktop)",
+        "default": true,
+        "help": "Adds the social icons to the left side of the desktop bar above the nav. Uses the Social URLs above."
       },
       "sticky": {
         "type": "toggle",
