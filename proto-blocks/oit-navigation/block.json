@@ -53,6 +53,12 @@
         "label": "Phone Number",
         "help": "Shown in the desktop phone bar above the nav and in the mobile menu. Example: 888.308.6689"
       },
+      "supportText": {
+        "type": "text",
+        "label": "Support Label",
+        "default": "Get Support:",
+        "help": "Text shown before the phone number in the desktop phone bar (e.g. \"Get Support:\"). Leave blank to show the number only."
+      },
       "showPhone": {
         "type": "toggle",
         "label": "Show Phone in Mobile Menu",
