@@ -72,7 +72,9 @@
   animation-direction: reverse;
 }
 
-.oit-logo-marquee.is-pausable:hover .oit-logo-marquee__track {
+/* Pause only when the cursor is over the logo stripe itself, not the whole
+   block (so hovering the eyebrow/title above doesn't stop the scroll). */
+.oit-logo-marquee.is-pausable .oit-logo-marquee__viewport:hover .oit-logo-marquee__track {
   animation-play-state: paused;
 }
 
