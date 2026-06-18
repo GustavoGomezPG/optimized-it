@@ -1,0 +1,94 @@
+{
+  "$schema": "https://schemas.wp.org/trunk/block.json",
+  "apiVersion": 3,
+  "name": "proto-blocks/oit-logo-marquee",
+  "version": "1.0.0",
+  "title": "OIT Logo Marquee",
+  "category": "optimizedit",
+  "icon": "controls-repeat",
+  "description": "Partners carousel. Optional eyebrow + headline above a single continuously-scrolling row of logos. Soft gradient fade on the left/right edges, pause-on-hover, and an adjustable scroll speed. Logos render in full color and each can optionally link out.",
+  "keywords": ["logos", "partners", "marquee", "carousel", "ticker", "trusted", "oit"],
+  "supports": {
+    "html": false,
+    "anchor": true,
+    "customClassName": true,
+    "align": ["wide", "full"]
+  },
+  "protoBlocks": {
+    "version": "1.0",
+    "useTailwind": true,
+    "template": "template.php",
+    "fields": {
+      "eyebrow": {
+        "type": "text",
+        "label": "Eyebrow",
+        "tagName": "p"
+      },
+      "title": {
+        "type": "text",
+        "label": "Title",
+        "tagName": "h2"
+      },
+      "logos": {
+        "type": "repeater",
+        "label": "Logos",
+        "min": 1,
+        "max": 40,
+        "itemLabel": "link",
+        "collapsible": true,
+        "fields": {
+          "image": {
+            "type": "image",
+            "label": "Logo image",
+            "sizes": ["thumbnail", "medium"]
+          },
+          "link": {
+            "type": "link",
+            "label": "Optional link"
+          }
+        }
+      }
+    },
+    "controls": {
+      "speed": {
+        "type": "select",
+        "label": "Scroll speed",
+        "default": "medium",
+        "options": [
+          { "key": "slow", "label": "Slow" },
+          { "key": "medium", "label": "Medium" },
+          { "key": "fast", "label": "Fast" }
+        ],
+        "help": "How fast the logo row travels."
+      },
+      "direction": {
+        "type": "select",
+        "label": "Direction",
+        "default": "left",
+        "options": [
+          { "key": "left", "label": "Left" },
+          { "key": "right", "label": "Right" }
+        ]
+      },
+      "pauseOnHover": {
+        "type": "toggle",
+        "label": "Pause on hover",
+        "default": true
+      },
+      "edgeFade": {
+        "type": "toggle",
+        "label": "Fade edges",
+        "default": true,
+        "help": "Soft gradient mask so logos fade in/out at the left and right edges."
+      },
+      "logoHeight": {
+        "type": "number",
+        "label": "Logo height (px)",
+        "min": 24,
+        "max": 120,
+        "default": 48,
+        "help": "Each logo is capped at this height with object-contain so mixed aspect ratios share a baseline."
+      }
+    }
+  }
+}

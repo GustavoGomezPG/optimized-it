@@ -1,0 +1,132 @@
+/*
+ * OIT Logo Marquee -- seamless scrolling logo strip.
+ *
+ * The horizontal travel is a single CSS keyframe (`translateX(-50%)`)
+ * on the track. view.js first fills the track with clones until it
+ * overflows the viewport, then duplicates the whole filled strip so the
+ * left half and right half are identical -- which is exactly what makes
+ * -50% loop with no visible jump.
+ *
+ * Spacing between logos lives on each cell as horizontal padding rather
+ * than a flex `gap`, so the space across the seam (last cell of half 1
+ * -> first cell of half 2) equals the spacing everywhere else. A flex
+ * `gap` would drop at that boundary and the loop would stutter.
+ *
+ * Animation is gated on `data-marquee-state="running"`, which view.js
+ * sets only after the seamless track is built. Before that (and when JS
+ * is unavailable) the strip is static -- no single-group flash.
+ */
+
+.oit-logo-marquee {
+  --oit-marquee-logo-h: 48px;
+  --oit-marquee-gap: 40px;
+}
+
+@media (min-width: 1024px) {
+  .oit-logo-marquee {
+    --oit-marquee-gap: 72px;
+  }
+}
+
+.oit-logo-marquee__track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+/* The repeater group is laid out inline; multiple groups sit edge to
+   edge inside the track once view.js has cloned them. */
+.oit-logo-marquee__group {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.oit-logo-marquee__cell {
+  /* Half the gap on each side => uniform full-gap spacing between every
+     neighbouring pair, including across the duplicated seam. */
+  padding-inline: calc(var(--oit-marquee-gap) / 2);
+}
+
+.oit-logo-marquee__logo {
+  height: var(--oit-marquee-logo-h, 48px);
+  max-height: var(--oit-marquee-logo-h, 48px);
+}
+
+/* --- Motion ------------------------------------------------------- */
+
+@keyframes oit-marquee-scroll {
+  from { transform: translateX(0); }
+  to   { transform: translateX(-50%); }
+}
+
+.oit-logo-marquee[data-marquee-state="running"] .oit-logo-marquee__track {
+  animation-name: oit-marquee-scroll;
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+  /* animation-duration is set inline by view.js from the chosen speed. */
+}
+
+/* "Right" reverses the same keyframe so it stays seamless. */
+.oit-logo-marquee.is-reverse[data-marquee-state="running"] .oit-logo-marquee__track {
+  animation-direction: reverse;
+}
+
+.oit-logo-marquee.is-pausable:hover .oit-logo-marquee__track {
+  animation-play-state: paused;
+}
+
+/* --- Edge fade ---------------------------------------------------- */
+
+.oit-logo-marquee.is-faded .oit-logo-marquee__viewport {
+  -webkit-mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    90deg,
+    transparent 0,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+}
+
+/* --- Editor preview ----------------------------------------------- */
+
+/* In the editor there is no view.js, so keep every logo visible and
+   editable: wrap the strip, drop the mask, and never animate. */
+.oit-logo-marquee.is-preview .oit-logo-marquee__viewport {
+  overflow: visible;
+  -webkit-mask-image: none;
+  mask-image: none;
+}
+
+.oit-logo-marquee.is-preview .oit-logo-marquee__track {
+  width: auto;
+  animation: none;
+}
+
+.oit-logo-marquee.is-preview .oit-logo-marquee__group {
+  flex-wrap: wrap;
+  justify-content: center;
+  row-gap: 24px;
+}
+
+.oit-logo-marquee__logo--placeholder {
+  width: auto;
+  min-width: 96px;
+  border: 1px dashed rgba(0, 0, 0, 0.18);
+  border-radius: 8px;
+}
+
+/* --- Reduced motion ----------------------------------------------- */
+
+@media (prefers-reduced-motion: reduce) {
+  .oit-logo-marquee .oit-logo-marquee__track {
+    animation: none !important;
+  }
+}
