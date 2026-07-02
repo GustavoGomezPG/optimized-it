@@ -101,8 +101,11 @@ $sort_labels = ['newest' => 'Newest', 'oldest' => 'Oldest', 'az' => 'A – Z'];
         <?php if ($show_filter): ?>
         <details class="oit-blog-archive__dropdown group relative">
           <summary class="oit-blog-archive__toggle flex items-center justify-between gap-3 w-[200px] px-5 py-2.5 rounded-full border-2 border-cta-red font-grotesk font-medium uppercase text-[16px] leading-[1.3] text-brand-black cursor-pointer list-none select-none [&::-webkit-details-marker]:hidden">
-            <span><?php echo esc_html($active_topic_name !== '' ? $active_topic_name : 'Filter by topic'); ?></span>
-            <span class="group-open:rotate-180"><?php echo $caret; ?></span>
+            <?php // min-w-0 + truncate keep long topic names (e.g. "Business
+                  // Continuity & Infrastructure") on one line with an ellipsis
+                  // instead of wrapping inside the fixed-width pill. ?>
+            <span class="min-w-0 truncate"><?php echo esc_html($active_topic_name !== '' ? $active_topic_name : 'Filter by topic'); ?></span>
+            <span class="shrink-0 group-open:rotate-180"><?php echo $caret; ?></span>
           </summary>
           <?php // data-lenis-prevent: Lenis owns wheel/touch events page-wide, so without
                 // it the height-capped dropdown can't scroll internally -- the page scrolls instead. ?>
