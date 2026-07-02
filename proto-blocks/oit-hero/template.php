@@ -34,10 +34,11 @@ $is_preview = !isset($block) || $block === null;
 
 // No max-height cap on mobile: the hero grows to fit the full image so the
 // bottom of the photo (the laptop) is never clipped by overflow-clip. Desktop
-// keeps its fixed 640px frame.
+// is a fixed 670px frame -- 640px was the original design, +30px accounts for
+// the "Get Support" phone bar that was later added above the nav.
 $section_classes = trim(
   "oit-hero {$bg_class} relative isolate overflow-clip text-white "
-  . "lg:h-[640px] lg:max-h-[640px]"
+  . "lg:h-[670px] lg:max-h-[670px]"
 );
 
 $wrapper_args = ['class' => $section_classes];
