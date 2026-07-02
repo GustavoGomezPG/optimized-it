@@ -104,7 +104,9 @@ $sort_labels = ['newest' => 'Newest', 'oldest' => 'Oldest', 'az' => 'A – Z'];
             <span><?php echo esc_html($active_topic_name !== '' ? $active_topic_name : 'Filter by topic'); ?></span>
             <span class="group-open:rotate-180"><?php echo $caret; ?></span>
           </summary>
-          <div class="oit-blog-archive__menu absolute z-20 mt-2 right-0 min-w-[220px] max-h-[320px] overflow-auto rounded-2xl bg-white border border-light-grey shadow-red-glow p-2">
+          <?php // data-lenis-prevent: Lenis owns wheel/touch events page-wide, so without
+                // it the height-capped dropdown can't scroll internally -- the page scrolls instead. ?>
+          <div class="oit-blog-archive__menu absolute z-20 mt-2 right-0 min-w-[220px] max-h-[320px] overflow-auto rounded-2xl bg-white border border-light-grey shadow-red-glow p-2" data-lenis-prevent>
             <a href="<?php echo $build([], ['topic']); ?>"
                class="block px-4 py-2 rounded-xl font-grotesk text-[15px] text-brand-black hover:bg-light-grey <?php echo $active_topic === '' ? 'text-brand-red' : ''; ?>">All topics</a>
             <?php foreach ($categories as $cat): ?>
