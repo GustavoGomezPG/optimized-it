@@ -14,6 +14,19 @@
       toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
       toggle.setAttribute('aria-label', open ? 'Close menu' : 'Open menu');
       panel.setAttribute('aria-hidden', open ? 'false' : 'true');
+      // Full-viewport overlay: lock page scroll while open so the content
+      // behind the menu can't scroll (the panel scrolls internally instead).
+      // The CSS class sets overflow:hidden as a fallback, but this site drives
+      // scrolling with Lenis (window.oitLenis), which bypasses overflow -- so
+      // pause/resume Lenis too, or the page still scrolls behind the menu.
+      document.documentElement.classList.toggle('oit-nav-locked', open);
+      if (window.oitLenis) {
+        if (open) {
+          window.oitLenis.stop();
+        } else {
+          window.oitLenis.start();
+        }
+      }
     }
 
     if (toggle && panel) {

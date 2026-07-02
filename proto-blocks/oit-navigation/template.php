@@ -239,9 +239,9 @@ $nav_link_attrs = function ($item) {
       </div>
     </nav>
 
-    <div id="<?php echo esc_attr($nav_id); ?>-panel" class="oit-nav__panel lg:hidden grid grid-rows-[0fr] aria-[hidden=false]:grid-rows-[1fr] transition-[grid-template-rows] duration-300 ease-out" aria-hidden="true">
-      <div class="oit-nav__panel-inner min-h-0 overflow-hidden">
-        <div class="oit-nav__panel-card px-6 pb-6 pt-16 flex flex-col gap-5">
+    <div id="<?php echo esc_attr($nav_id); ?>-panel" class="oit-nav__panel lg:hidden" aria-hidden="true">
+      <div class="oit-nav__panel-inner min-h-full">
+        <div class="oit-nav__panel-card px-6 pb-10 pt-28 flex flex-col gap-5">
           <ul class="oit-nav__panel-list flex flex-col gap-8 list-none m-0 p-0">
             <?php foreach ($menu_tree as $entry):
               $item = $entry['item'];

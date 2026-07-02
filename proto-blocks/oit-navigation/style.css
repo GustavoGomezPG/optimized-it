@@ -1,18 +1,70 @@
-/* Mobile menu panel open-state.
+/* Mobile menu: full-viewport overlay.
  *
- * The panel expands via the grid-template-rows 0fr -> 1fr trick. The closed
- * state (`grid-rows-[0fr]`) and the transition come from Tailwind utilities on
- * the element, but the open state was a Tailwind *arbitrary aria-variant*
- * (`aria-[hidden=false]:grid-rows-[1fr]`) which the browser compile engine does
- * NOT reliably emit -- so on a content-hash recompile the open rule vanished and
- * the menu collapsed to height:0. Declaring it here in plain CSS keeps the menu
- * working regardless of Tailwind engine/host. view.js toggles aria-hidden.
- * The `.oit-nav__shell` prefix (an ancestor) raises specificity to (0,3,0) so this
- * always beats the `.proto-blocks-scope .grid-rows-[0fr]` (0,2,0) closed-state
- * utility regardless of stylesheet load order. Covers both the mobile menu panel
- * and its nested submenu accordions (`.oit-nav__panel-sub`, toggled by
- * `.oit-nav__panel-trigger`), which use the same grid 0fr->1fr open mechanism. */
-.oit-nav__shell .oit-nav__panel[aria-hidden="false"],
+ * Per the Figma intent the open menu is a full-screen panel you must close
+ * before interacting with the page again (see also the body scroll-lock in
+ * view.js). It is declared in plain CSS rather than Tailwind arbitrary
+ * aria-variants because the browser compile engine (used on WP Engine) does
+ * NOT reliably emit those -- the same reason the previous grid open-state
+ * lived here. view.js toggles aria-hidden on the panel.
+ *
+ * Closed: fixed and covering the viewport but faded out and non-interactive.
+ * Open (`aria-hidden="false"`): faded in and interactive; scrolls internally
+ * if the menu is taller than the screen. `lg:hidden` on the element removes it
+ * entirely on desktop, so this never affects the desktop nav. */
+.oit-nav__panel {
+  position: fixed;
+  inset: 0;
+  z-index: 40;
+  background-color: var(--color-black, #1A0303);
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  transition: opacity 300ms ease, visibility 0s linear 300ms;
+}
+
+.oit-nav__panel[aria-hidden="false"] {
+  opacity: 1;
+  visibility: visible;
+  pointer-events: auto;
+  transition: opacity 300ms ease;
+}
+
+/* The nav bar (logo + CLOSE toggle) stays above the overlay so the menu can
+ * be dismissed. Both live inside .oit-nav__shell; the bar's higher z-index
+ * wins within that stacking context. */
+.oit-nav__shell .oit-nav {
+  position: relative;
+  z-index: 50;
+}
+
+/* Lock page scroll while the mobile menu is open (class set by view.js on
+ * <html>), so the content behind the overlay can't scroll. */
+.oit-nav-locked {
+  overflow: hidden;
+}
+
+/* While the menu is open, pin the nav bar to the top of the viewport so the
+ * logo + CLOSE toggle stay visible over the full-screen overlay regardless of
+ * how far the page was scrolled when it opened (the header is not sticky).
+ * z-index 60 keeps it above the overlay (z-40). Only ever active on mobile,
+ * since the overlay/lock never engage at lg+. The selector is intentionally
+ * high-specificity (html + both wrapper classes = (0,3,1)) so it beats the
+ * scoped Tailwind `.proto-blocks-scope.relative` / `.z-50` utilities on the
+ * same element, which otherwise win the (0,2,0) tie by load order. */
+html.oit-nav-locked .wp-block-proto-blocks-oit-navigation.proto-blocks-scope {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 60;
+}
+
+/* Nested submenu accordions still use the grid-template-rows 0fr -> 1fr trick;
+ * keep their open-state in plain CSS for the same engine-reliability reason.
+ * The `.oit-nav__shell` prefix (0,3,0) beats the `.proto-blocks-scope
+ * .grid-rows-[0fr]` (0,2,0) closed-state utility regardless of load order. */
 .oit-nav__shell .oit-nav__panel-sub[aria-hidden="false"] {
   grid-template-rows: 1fr;
 }

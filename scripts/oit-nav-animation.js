@@ -64,10 +64,15 @@
       0
     );
 
+    // clearProps strips the inline transform GSAP leaves behind once the
+    // tween finishes. Any transform on the shell makes it the containing
+    // block for position:fixed descendants -- the mobile menu overlay
+    // (.oit-nav__panel, fixed inset-0) would resolve against the shell
+    // instead of the viewport and open invisibly on first load.
     tl.fromTo(
       '.oit-nav__shell',
       { opacity: 0, y: -16 },
-      { opacity: 1, y: 0, duration: 0.55 },
+      { opacity: 1, y: 0, duration: 0.55, clearProps: 'transform' },
       0
     );
 
