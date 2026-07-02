@@ -108,10 +108,11 @@ if (empty($menu_tree)) {
   }
 }
 
-// Extra top room on desktop so the phone bar has somewhere to sit above the
-// pill; mobile keeps the tighter top padding since the bar is desktop-only.
-$top_pad = $bar_visible ? 'pt-4 lg:pt-7' : 'pt-4';
-$wrapper_class = ($sticky ? 'sticky top-0' : 'relative') . ' z-50 w-full px-4 pb-4 ' . $top_pad;
+// Uniform top padding at every width. (Previously the phone-bar variant added
+// lg:pt-7 for extra desktop room, but that wrapper-level responsive utility
+// only began applying after a Scoper change and made the header taller than
+// the approved design -- removed to keep the original header height.)
+$wrapper_class = ($sticky ? 'sticky top-0' : 'relative') . ' z-50 w-full px-4 pb-4 pt-4';
 $wrapper_attributes = get_block_wrapper_attributes(['class' => $wrapper_class]);
 
 $chevron_down = '<svg class="oit-chevron w-[14px] h-[9px] transition-transform" viewBox="0 0 18 11" fill="none" aria-hidden="true"><path d="M1 1L9 9L17 1" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>';
