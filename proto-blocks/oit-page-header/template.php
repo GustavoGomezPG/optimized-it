@@ -116,10 +116,13 @@ $chevron = '<svg class="w-[13px] h-3 shrink-0" viewBox="0 0 13 12" fill="current
 ?>
 
 <section <?php echo $wrapper_attributes; ?>>
-  <?php // pt-0: the nav wrapper's pb-4 plus the theme's flow gap already leave
-        // ~32px between the menu pill and the header card -- about half the
-        // original pt-10 distance, per client feedback (BugHerd #56). ?>
-  <div class="oit-page-header__inner relative max-w-[1440px] mx-auto px-6 lg:px-20 pt-0 pb-0">
+  <?php // Tuned so the visual gap between the menu pill and the card is ~50px
+        // at every width (client feedback, BugHerd #56 -- pt-10's ~72px was
+        // too much, ~32px too tight). The header overlays the content flow,
+        // and the desktop-only phone bar shifts the pill down, so the padding
+        // needed differs per breakpoint: mobile flow starts 32px below the
+        // pill (+18 = 50), desktop only 3px below it (+47 = 50). ?>
+  <div class="oit-page-header__inner relative max-w-[1440px] mx-auto px-6 lg:px-20 pt-[18px] lg:pt-[47px] pb-0">
 
     <article class="oit-page-header__card relative z-10 <?php echo esc_attr($card_classes); ?> rounded-3xl <?php echo $show_icon ? '' : 'overflow-clip'; ?> shadow-red-glow">
       <div class="oit-page-header__pad relative p-6 lg:p-10 lg:pr-[260px] min-h-[234px]">
