@@ -32,9 +32,12 @@ $bg_class = $show_gradient ? 'oit-hero--gradient' : 'bg-black';
 // applying the pre-hide attribute would leave the hero permanently blank.
 $is_preview = !isset($block) || $block === null;
 
+// No max-height cap on mobile: the hero grows to fit the full image so the
+// bottom of the photo (the laptop) is never clipped by overflow-clip. Desktop
+// keeps its fixed 640px frame.
 $section_classes = trim(
   "oit-hero {$bg_class} relative isolate overflow-clip text-white "
-  . "max-h-[80vh] lg:h-[640px] lg:max-h-[640px]"
+  . "lg:h-[640px] lg:max-h-[640px]"
 );
 
 $wrapper_args = ['class' => $section_classes];
@@ -98,7 +101,7 @@ $circuit_lottie_url = get_stylesheet_directory_uri() . '/assets/lottie/circuit.j
           data-proto-field="image"
           src="<?php echo esc_url($image['url']); ?>"
           alt="<?php echo esc_attr($image['alt'] ?? ''); ?>"
-          class="oit-hero__image block w-full h-auto rounded-3xl aspect-[3/2] object-contain object-bottom bg-transparent lg:rounded-none lg:aspect-square lg:w-auto lg:h-full lg:max-w-full" />
+          class="oit-hero__image block w-auto h-auto max-h-[50vh] max-w-full mx-auto rounded-3xl object-contain object-bottom bg-transparent lg:max-h-none lg:mx-0 lg:rounded-none lg:aspect-square lg:w-auto lg:h-full lg:max-w-full" />
         <?php else: ?>
         <div data-proto-field="image"
              class="oit-hero__image oit-hero__image--placeholder flex items-center justify-center font-grotesk text-body-xs text-grey w-full h-auto rounded-3xl aspect-[3/2] lg:rounded-none lg:aspect-square lg:w-full lg:h-full lg:bg-white/5 lg:border lg:border-dashed lg:border-white/20">
