@@ -208,14 +208,16 @@ $show_newsletter_strip = $show_newsletter && (!empty($newsletter_heading) || !em
         </div>
 
         <nav class="oit-footer__menus" aria-label="Footer navigation">
-          <div class="flex flex-wrap items-start gap-6">
+          <?php // Mobile: strict two-column grid (50/50) so tap targets line up and an
+                // odd menu sits alone on its own row; desktop keeps the wrapping flex row. ?>
+          <div class="grid grid-cols-2 items-start gap-6 lg:flex lg:flex-wrap">
             <?php foreach ($menu_tree as $entry):
               $item = $entry['item'];
               $children = $entry['children'];
               ?>
-            <div class="flex flex-col gap-2.5 shrink-0">
+            <div class="flex flex-col gap-2.5 min-w-0 lg:shrink-0">
               <h3
-                class="font-grotesk font-medium text-[16px] leading-[1.4] uppercase text-white whitespace-nowrap m-0">
+                class="font-grotesk font-medium text-[16px] leading-[1.4] uppercase text-white lg:whitespace-nowrap m-0">
                 <?php if (!empty($item->url) && $item->url !== '#'): ?>
                 <a href="<?php echo esc_url($item->url); ?>"
                   class="no-underline text-white hover:text-brand-red transition-colors">
@@ -230,7 +232,7 @@ $show_newsletter_strip = $show_newsletter && (!empty($newsletter_heading) || !em
                 <?php foreach ($children as $child): ?>
                 <li>
                   <a href="<?php echo esc_url($child->url ?? '#'); ?>"
-                    class="oit-footer__link no-underline font-dm font-medium text-[16px] leading-[1.5] text-white whitespace-nowrap hover:text-brand-red transition-colors">
+                    class="oit-footer__link no-underline font-dm font-medium text-[16px] leading-[1.5] text-white lg:whitespace-nowrap hover:text-brand-red transition-colors">
                     <?php echo esc_html($child->title); ?>
                   </a>
                 </li>
