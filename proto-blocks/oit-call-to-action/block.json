@@ -45,6 +45,12 @@
         "label": "Solid red button",
         "default": false,
         "help": "Off: outlined pill (black text, red border, fills on hover). On: filled red pill with white text."
+      },
+      "ctaDesktopOnly": {
+        "type": "toggle",
+        "label": "Hide button on mobile",
+        "default": false,
+        "help": "Hides the CTA below the desktop breakpoint. Pair with the mobile-only Bottom CTA on the cards block that follows, so the button appears after the card list on mobile instead."
       }
     }
   }

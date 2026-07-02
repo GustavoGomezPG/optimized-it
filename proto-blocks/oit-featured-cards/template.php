@@ -29,6 +29,13 @@ $cards = $attributes['cards'] ?? [];
 $highlighted_index = isset($attributes['highlightedIndex']) ? (int) $attributes['highlightedIndex'] : 6;
 $logo_variant      = !empty($attributes['logoVariant']);
 
+// Mobile-only CTA rendered after the grid. Pair with "Hide button on
+// mobile" on the oit-call-to-action intro above: desktop keeps the button
+// top-right in the intro, mobile shows it below the card list instead.
+// In the editor preview it stays visible at any width so it can be edited.
+$show_bottom_cta = !empty($attributes['showBottomCta']);
+$bottom_cta      = $attributes['bottomCta'] ?? ['url' => '#', 'text' => 'EXPLORE ALL'];
+
 // Logo variant overrides the highlight concept -- every card is uniform.
 if ($logo_variant) {
   $highlighted_index = 0;
@@ -187,6 +194,19 @@ $wrapper_attributes = get_block_wrapper_attributes([
 
       <?php endforeach; ?>
     </ul>
+
+    <?php if ($show_bottom_cta): ?>
+    <div class="oit-featured-cards__bottom-cta mt-9 <?php echo $is_preview ? '' : 'lg:hidden'; ?>">
+      <a
+        href="<?php echo esc_url($bottom_cta['url'] ?? '#'); ?>"
+        <?php echo !empty($bottom_cta['target']) ? 'target="' . esc_attr($bottom_cta['target']) . '"' : ''; ?>
+        <?php echo !empty($bottom_cta['rel']) ? 'rel="' . esc_attr($bottom_cta['rel']) . '"' : ''; ?>
+        class="inline-flex items-center gap-3 px-5 py-2.5 rounded-full border-2 border-cta-red no-underline font-grotesk font-medium text-body-sm leading-[1.3] uppercase whitespace-nowrap transition-colors text-black hover:bg-cta-red hover:text-white">
+        <span data-proto-field="bottomCta"><?php echo esc_html($bottom_cta['text'] ?? 'EXPLORE ALL'); ?></span>
+        <svg class="w-3 h-3 shrink-0" viewBox="0 0 14 16" fill="none" aria-hidden="true"><path d="M1 1L7 8L1 15M7 1L13 8L7 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <?php endif; ?>
 
   </div>
 </section>

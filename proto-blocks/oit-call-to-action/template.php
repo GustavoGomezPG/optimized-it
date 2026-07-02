@@ -18,6 +18,13 @@ $cta          = $attributes['cta']      ?? ['url' => '#', 'text' => 'EXPLORE OUR
 $show_cta     = $attributes['showCta']     ?? true;
 $solid_button = !empty($attributes['solidButton']);
 
+// Desktop-only CTA: hides the button below lg. Pair with the "bottom CTA"
+// on the following cards block (oit-featured-cards / oit-mini-cards-grid),
+// which is mobile-only -- together they move the button below the card
+// list on mobile while keeping it top-right in this intro on desktop.
+$cta_desktop_only = !empty($attributes['ctaDesktopOnly']);
+$cta_visibility   = $cta_desktop_only ? 'hidden lg:inline-flex' : 'inline-flex';
+
 // If the body field is empty (whitespace-only after stripping tags),
 // drop the headline->body gap so the headline doesn't hang in space
 // above an empty div. The body element still renders so the
@@ -60,7 +67,7 @@ $wrapper_attributes = get_block_wrapper_attributes([
         href="<?php echo esc_url($cta['url'] ?? '#'); ?>"
         <?php echo !empty($cta['target']) ? 'target="' . esc_attr($cta['target']) . '"' : ''; ?>
         <?php echo !empty($cta['rel']) ? 'rel="' . esc_attr($cta['rel']) . '"' : ''; ?>
-        class="oit-call-to-action__cta self-start shrink-0 inline-flex items-center gap-3 px-5 py-2.5 rounded-full border-2 border-cta-red no-underline font-grotesk font-medium text-body-sm leading-[1.3] uppercase whitespace-nowrap transition-colors lg:self-end <?php echo esc_attr($cta_color_classes); ?>">
+        class="oit-call-to-action__cta self-start shrink-0 <?php echo esc_attr($cta_visibility); ?> items-center gap-3 px-5 py-2.5 rounded-full border-2 border-cta-red no-underline font-grotesk font-medium text-body-sm leading-[1.3] uppercase whitespace-nowrap transition-colors lg:self-end <?php echo esc_attr($cta_color_classes); ?>">
         <span data-proto-field="cta"><?php echo esc_html($cta['text'] ?? 'EXPLORE OUR SOLUTIONS'); ?></span>
         <svg class="w-3 h-3 shrink-0" viewBox="0 0 14 16" fill="none" aria-hidden="true"><path d="M1 1L7 8L1 15M7 1L13 8L7 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
       </a>

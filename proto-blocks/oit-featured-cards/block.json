@@ -45,9 +45,19 @@
             "label": "Link"
           }
         }
+      },
+      "bottomCta": {
+        "type": "link",
+        "label": "Bottom CTA (mobile)"
       }
     },
     "controls": {
+      "showBottomCta": {
+        "type": "toggle",
+        "label": "Show bottom CTA on mobile",
+        "default": false,
+        "help": "Renders an outlined CTA button after the grid, visible only below the desktop breakpoint. Pair with 'Hide button on mobile' on the intro block above."
+      },
       "highlightedIndex": {
         "type": "number",
         "label": "Highlighted Card Index",

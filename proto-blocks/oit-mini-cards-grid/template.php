@@ -20,6 +20,15 @@ $cards = $attributes['cards'] ?? [];
 $highlighted_index = isset($attributes['highlightedIndex']) ? (int) $attributes['highlightedIndex'] : 8;
 
 $show_bottom_text = !empty($attributes['showBottomText']);
+
+// Mobile-only CTA rendered after the grid. Pair with "Hide button on
+// mobile" on the oit-call-to-action intro above: desktop keeps the button
+// top-right in the intro, mobile shows it below the card list instead.
+// In the editor preview it stays visible at any width so it can be edited.
+$show_bottom_cta = !empty($attributes['showBottomCta']);
+$bottom_cta      = $attributes['bottomCta'] ?? ['url' => '#', 'text' => 'EXPLORE ALL'];
+$is_preview      = !isset($block) || $block === null;
+$bottom_cta_visibility = $is_preview ? 'inline-flex' : 'inline-flex lg:hidden';
 $bottom_heading   = !empty($attributes['bottomHeading']) ? $attributes['bottomHeading'] : 'Don\'t see your industry?';
 $bottom_body      = !empty($attributes['bottomBody'])    ? $attributes['bottomBody']    : '<p>Optimized IT services businesses and industries across the board. Get in touch with our team, we\'ll learn more about your business and industry and work together to craft a solution that works.</p>';
 
@@ -98,6 +107,19 @@ $chevron = '<svg class="oit-mini-cards-grid__card-chevron w-3 h-3 shrink-0" view
       </li>
       <?php endforeach; ?>
     </ul>
+
+    <?php if ($show_bottom_cta): ?>
+    <div class="oit-mini-cards-grid__bottom-cta mb-12 last:mb-0 <?php echo $is_preview ? '' : 'lg:hidden'; ?>">
+      <a
+        href="<?php echo esc_url($bottom_cta['url'] ?? '#'); ?>"
+        <?php echo !empty($bottom_cta['target']) ? 'target="' . esc_attr($bottom_cta['target']) . '"' : ''; ?>
+        <?php echo !empty($bottom_cta['rel']) ? 'rel="' . esc_attr($bottom_cta['rel']) . '"' : ''; ?>
+        class="<?php echo esc_attr($bottom_cta_visibility); ?> items-center gap-3 px-5 py-2.5 rounded-full border-2 border-cta-red no-underline font-grotesk font-medium text-body-sm leading-[1.3] uppercase whitespace-nowrap transition-colors text-black hover:bg-cta-red hover:text-white">
+        <span data-proto-field="bottomCta"><?php echo esc_html($bottom_cta['text'] ?? 'EXPLORE ALL'); ?></span>
+        <svg class="w-3 h-3 shrink-0" viewBox="0 0 14 16" fill="none" aria-hidden="true"><path d="M1 1L7 8L1 15M7 1L13 8L7 15" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </a>
+    </div>
+    <?php endif; ?>
 
     <?php if ($show_bottom_text): ?>
     <div class="oit-mini-cards-grid__bottom flex flex-col gap-4 max-w-[900px]">

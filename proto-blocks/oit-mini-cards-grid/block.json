@@ -7,12 +7,21 @@
   "category": "optimizedit",
   "icon": "screenoptions",
   "description": "Compact grid of clickable industry / category pill-cards. Each card is icon + bold title + chevron, on a soft drop shadow. One card can be flagged as the red highlight variant.",
-  "keywords": ["cards", "grid", "industries", "links", "oit"],
+  "keywords": [
+    "cards",
+    "grid",
+    "industries",
+    "links",
+    "oit"
+  ],
   "supports": {
     "html": false,
     "anchor": true,
     "customClassName": true,
-    "align": ["wide", "full"]
+    "align": [
+      "wide",
+      "full"
+    ]
   },
   "protoBlocks": {
     "version": "1.0",
@@ -30,7 +39,10 @@
           "icon": {
             "type": "image",
             "label": "Icon",
-            "sizes": ["thumbnail", "medium"]
+            "sizes": [
+              "thumbnail",
+              "medium"
+            ]
           },
           "link": {
             "type": "link",
@@ -46,9 +58,19 @@
       "bottomBody": {
         "type": "wysiwyg",
         "label": "Bottom body"
+      },
+      "bottomCta": {
+        "type": "link",
+        "label": "Bottom CTA (mobile)"
       }
     },
     "controls": {
+      "showBottomCta": {
+        "type": "toggle",
+        "label": "Show bottom CTA on mobile",
+        "default": false,
+        "help": "Renders an outlined CTA button after the grid, visible only below the desktop breakpoint. Pair with 'Hide button on mobile' on the intro block above."
+      },
       "highlightedIndex": {
         "type": "number",
         "label": "Highlighted Card Index",
