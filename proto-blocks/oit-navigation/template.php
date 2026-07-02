@@ -239,9 +239,13 @@ $nav_link_attrs = function ($item) {
       </div>
     </nav>
 
-    <div id="<?php echo esc_attr($nav_id); ?>-panel" class="oit-nav__panel lg:hidden" aria-hidden="true">
+    <?php // data-lenis-prevent: Lenis eats wheel/touch events globally (even while
+          // stopped for the scroll lock), which blocks the overlay's own
+          // overflow-y scrolling when open accordions make it taller than the
+          // viewport. The attribute tells Lenis to leave events on this element alone. ?>
+    <div id="<?php echo esc_attr($nav_id); ?>-panel" class="oit-nav__panel lg:hidden" aria-hidden="true" data-lenis-prevent>
       <div class="oit-nav__panel-inner min-h-full">
-        <div class="oit-nav__panel-card px-6 pb-10 pt-28 flex flex-col gap-5">
+        <div class="oit-nav__panel-card px-6 pb-16 pt-28 flex flex-col gap-5">
           <ul class="oit-nav__panel-list flex flex-col gap-8 list-none m-0 p-0">
             <?php foreach ($menu_tree as $entry):
               $item = $entry['item'];
