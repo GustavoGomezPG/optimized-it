@@ -1,12 +1,8 @@
 name: Deploy to WP Engine Production
 
 on:
-  # Production auto-deploy is DISABLED for now -- this workflow only runs
-  # when triggered manually from the Actions tab ("Run workflow").
-  # To re-enable deploying on every push to main, restore:
-  #   push:
-  #     branches: [main]
-  workflow_dispatch:
+  push:
+    branches: [main]
 
 jobs:
   deploy:
