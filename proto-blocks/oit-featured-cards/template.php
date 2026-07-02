@@ -125,12 +125,14 @@ $wrapper_attributes = get_block_wrapper_attributes([
           ? 'bg-white text-brand-red'
           : 'bg-brand-red text-white group-hover:bg-white group-hover:text-brand-red';
 
-        // Icon is invert-1 (black -> white) on the highlight card and on
-        // hover for default cards, so a single black-on-white icon asset
-        // works for both states. transition-[filter] smooths the swap.
+        // Icon renders solid white on the red state (always on the locked
+        // highlight card, on hover for default cards). brightness-0 flattens
+        // the icon's own colors to black first, then invert flips it to pure
+        // white -- so multi-color icons (e.g. a green checkmark) don't survive
+        // a plain invert. transition-[filter] smooths the swap.
         $icon_classes = $is_highlight
-          ? 'invert'
-          : 'group-hover:invert';
+          ? 'brightness-0 invert'
+          : 'group-hover:brightness-0 group-hover:invert';
       ?>
       <li data-proto-repeater-item
           class="oit-featured-cards__card oit-featured-cards__card<?php echo $is_highlight ? '--highlight' : '--default'; ?> group relative flex flex-col gap-4 p-7 lg:p-9 min-h-[255px] rounded-3xl border-2 list-none overflow-clip transition-colors duration-300 <?php echo $card_classes; ?>">
